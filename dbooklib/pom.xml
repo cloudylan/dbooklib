@@ -19,7 +19,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<start-class>cloudylan.dbooklibDbookApplication</start-class>
+		<start-class>cloudylan.dbooklib.DbookApplication</start-class>
 	</properties>
 
 	<dependencies>

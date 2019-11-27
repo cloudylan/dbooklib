@@ -6,8 +6,8 @@ public class BookFile {
 
 	public BookFile(String fileName) {
 		super();
-		this.name = fileName.substring(0, fileName.indexOf('.'));
-		String formatString = fileName.substring(fileName.indexOf('.') + 1);
+		this.name = fileName.substring(0, fileName.lastIndexOf('.'));
+		String formatString = fileName.substring(fileName.lastIndexOf('.') + 1);
 
 		if (formatString.equalsIgnoreCase("mobi")) {
 			this.format = BookFormatType.MOBI;
