@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, Books!</title>
+
+    <style>
+        .dlib-logo {
+            font-size: xx-large;
+        }
+        
+        .dlib-header-search {
+            /*darkseagreen;
+            align-items: center;
+            align-content: center;*/
+        }
+        
+        .dlib-header-tab {
+            text-align: center;
+            align-self: center;
+        }
+        
+        .dlib-header-filter {
+            margin-top: 0.5em;
+            text-align: center;
+        }
+        
+        .dlib-main {
+            /*height: 85vh;*/
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
+        
+        .dlib-main-list {
+            /*chartreuse;*/
+        }
+        
+        .dlib-main-detial {
+            background-color: darkgoldenrod;
+        }
+        
+        .dlib-footer {
+            background-color: dimgray
+        }
+        
+        .dlib-main-buffer-left {
+            background-color: white;
+        }
+        
+        .dlib-main-page-button-group {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand" href="#">Hello Books</a>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light dlib-header-tab">
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">All<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Literature</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Science</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Compute</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Comics</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="dlib-header-filter">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Read</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Read</a>
+                    <a class="dropdown-item" href="#">Not Read</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All the Time</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">This Year</a>
+                    <a class="dropdown-item" href="#">Last Year</a>
+                    <a class="dropdown-item" href="#">Before Last Year</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">All the Time</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Quality</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Good</a>
+                    <a class="dropdown-item" href="#">Avarage</a>
+                    <a class="dropdown-item" href="#">Bad</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">All Quality</a>
+                </div>
+            </div>
+
+        </nav>
+        <div class="dlib-main row">
+            <div class="dlib-main-buffer-left col-2"></div>
+            <div class="dlib-main-list col-7">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+            </div>
+            <div class="dlib-main-detail col">Details</div>
+        </div>
+        <div class="btn-toolbar dlib-main-page-button-group" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2 mx-auto" role="group" aria-label="First group ">
+                <button type="button" class="btn btn-outline-success">1</button>
+                <button type="button" class="btn btn-outline-success">2</button>
+                <button type="button" class="btn btn-outline-success">3</button>
+                <button type="button" class="btn btn-outline-success">4</button>
+                <button type="button" class="btn btn-outline-success">5</button>
+                <button type="button" class="btn btn-outline-success">6</button>
+                <button type="button" class="btn btn-outline-success">7</button>
+                <button type="button" class="btn btn-outline-success">8</button>
+            </div>
+        </div>
+        <footer class="zone dlib-footer ">Footer</footer>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+</html>
