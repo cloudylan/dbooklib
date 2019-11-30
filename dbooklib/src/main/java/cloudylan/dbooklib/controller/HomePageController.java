@@ -13,6 +13,7 @@ import cloudylan.dbooklib.model.BookFile;
 import cloudylan.dbooklib.service.BookListService;
 
 @Controller
+@RequestMapping("/library")
 public class HomePageController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
@@ -20,12 +21,17 @@ public class HomePageController {
 	@Autowired
 	private BookListService bookListService;
 
-	@RequestMapping(value = "/")
-	public String home(Model mode) {
+	@RequestMapping(value = "/index")
+	public String test(Model mode) {
 		List<BookFile> bookFiles = this.bookListService.getBookFileList();
 		LOGGER.debug(bookFiles.toString());
 
 		mode.addAttribute("booklist", bookFiles);
 		return "index";
+	}
+	
+	@RequestMapping(value = "/")
+	public String home(Model mode) {
+		return "home";
 	}
 }

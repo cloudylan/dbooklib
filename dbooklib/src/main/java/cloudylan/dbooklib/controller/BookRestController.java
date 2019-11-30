@@ -17,6 +17,7 @@ import cloudylan.dbooklib.model.BookFile;
 import cloudylan.dbooklib.service.BookListService;
 
 @RestController
+@RequestMapping("/library/rest")
 public class BookRestController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookRestController.class);
@@ -24,7 +25,7 @@ public class BookRestController {
 	@Autowired
 	private BookListService bookListService;
 
-	@RequestMapping(value = "/rest")
+	@RequestMapping(value = "/hello")
 	public ResponseEntity<String> getHomePage() {
 		return new ResponseEntity<String>("Hello Book.", HttpStatus.OK);
 	}
