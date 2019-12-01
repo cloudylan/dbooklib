@@ -2,6 +2,7 @@ package cloudylan.dbooklib.controller;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cloudylan.dbooklib.db.mongo.BooksProvider;
 import cloudylan.dbooklib.domain.book.BookResponse;
 import cloudylan.dbooklib.model.BookFile;
 import cloudylan.dbooklib.service.BookListService;
@@ -24,6 +26,9 @@ public class BookRestController {
 
 	@Autowired
 	private BookListService bookListService;
+	
+	@Autowired
+	private BooksProvider bookProvider;
 
 	@RequestMapping(value = "/hello")
 	public ResponseEntity<String> getHomePage() {
@@ -39,6 +44,13 @@ public class BookRestController {
 		response.setBookFiles(bookFiles);
 
 		return new ResponseEntity(response, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<BookResponse> getAllBooks()
+	{
+		List<Document> retVal = this.bookProvider.getAllBooks();
+		
+		return new ResponseEntity(retVal, HttpStatus.OK);
 	}
 
 }

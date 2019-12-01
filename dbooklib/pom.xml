@@ -46,6 +46,13 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.21.0</version>
 		</dependency>
+
+		<!-- MongoDB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.11.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
