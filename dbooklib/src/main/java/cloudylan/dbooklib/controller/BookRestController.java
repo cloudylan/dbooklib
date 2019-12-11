@@ -26,31 +26,35 @@ public class BookRestController {
 
 	@Autowired
 	private BookListService bookListService;
-	
+
 	@Autowired
 	private BooksProvider bookProvider;
 
-	@RequestMapping(value = "/hello")
-	public ResponseEntity<String> getHomePage() {
-		return new ResponseEntity<String>("Hello Book.", HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/books", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<BookResponse> getBookList() {
+	public ResponseEntity<BookResponse> getALl() {
 		List<BookFile> bookFiles = this.bookListService.getBookFileList();
 		LOGGER.debug(bookFiles.toString());
 		BookResponse response = new BookResponse();
 		response.setBookFiles(bookFiles);
 
-		return new ResponseEntity(response, HttpStatus.OK);
+		return new ResponseEntity<BookResponse>(response, HttpStatus.OK);
 	}
 	
-	public ResponseEntity<BookResponse> getAllBooks()
-	{
-		List<Document> retVal = this.bookProvider.getAllBooks();
-		
-		return new ResponseEntity(retVal, HttpStatus.OK);
+	@RequestMapping(value = "/books", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<List<Document>> getBookList() {
+		List<Document> retVal = this.bookProvider.getAllMyBooks();
+
+		return new ResponseEntity<List<Document>>(retVal, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Document> getBooks() {
+		List<Document> retVal = this.bookProvider.getDetail();
+
+		return new ResponseEntity<Document>(retVal.get(0), HttpStatus.OK);
 	}
 
 }

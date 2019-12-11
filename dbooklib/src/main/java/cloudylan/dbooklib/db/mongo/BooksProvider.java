@@ -19,7 +19,7 @@ public class BooksProvider {
 
 	final static String CONN_MONGO_STR = "mongodb://127.0.0.1:27017/librarydb";
 
-	public List<Document> getAllBooks() {
+	public List<Document> getDetail() {
 
 		ConnectionString connString = new ConnectionString(CONN_MONGO_STR);
 		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).retryWrites(true)
@@ -28,6 +28,26 @@ public class BooksProvider {
 		MongoDatabase database = mongoClient.getDatabase("librarydb");
 
 		FindIterable<Document> bookDocs = database.getCollection("book").find();
+		MongoCursor<Document> bookIterator = bookDocs.iterator();
+
+		List<Document> docs = new ArrayList<Document>();
+		while (bookIterator.hasNext()) {
+			docs.add(bookIterator.next());
+		}
+
+		return docs;
+
+	}
+	
+	public List<Document> getAllMyBooks() {
+
+		ConnectionString connString = new ConnectionString(CONN_MONGO_STR);
+		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).retryWrites(true)
+				.build();
+		MongoClient mongoClient = MongoClients.create(settings);
+		MongoDatabase database = mongoClient.getDatabase("librarydb");
+
+		FindIterable<Document> bookDocs = database.getCollection("user_read_info").find().limit(10);
 		MongoCursor<Document> bookIterator = bookDocs.iterator();
 
 		List<Document> docs = new ArrayList<Document>();

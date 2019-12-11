@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://localhost:8090/css/bootstrap.min.css">
 
     <title>Hello, Books!</title>
 
@@ -140,8 +140,8 @@
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部</button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">今年</a>
-                    <a class="dropdown-item" href="#">去年</a>
-                    <a class="dropdown-item" href="#">一年前</a>
+                    <a class="dropdown-item" href="#">2018</a>
+                    <a class="dropdown-item" href="#">2017</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">全部</a>
                 </div>
@@ -161,63 +161,27 @@
         <div class="dlib-main row">
             <div class="dlib-main-buffer-left col-2"></div>
             <div class="dlib-main-list col-6">
-                <ul class="list-group list-group-flush">
+                <ul id="dlib-main-book-list" class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">丝绸之路</div>
-                        <div class="d-inline dlib-main-list-author">彼得 弗兰科潘</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-inline dlib-main-list-name">Cras justo odio</div>
-                        <div class="d-inline dlib-main-list-author">Dylan Wu</div>
+                        <a class="d-inline dlib-main-list-name" href="#">丝绸之路</a>
+                        <a class="d-inline dlib-main-list-author">彼得 弗兰科潘</a>
                     </li>
                 </ul>
             </div>
             <div class="dlib-main-detail col-3">
                 <div class="card" style="width: 20rem;">
-                    <img src="http://localhost:8090/pics/silkroad.jpg" class="card-img-top" alt="...">
+                    <img src="" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title dlib-main-detial-name">丝绸之路</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="card-title dlib-main-detial-name"></h5>
+                        <p class="card-text"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">彼得 弗兰科潘</li>
-                        <li class="list-group-item">&#9734;&#9734;&#9734;&#9734;&#9734;</li>
-                        <li class="list-group-item">2018</li>
+                        <li class="list-group-item card-author"></li>
+                        <li class="list-group-item card-star">&#9734;&#9734;&#9734;&#9734;&#9734;</li>
+                        <li class="list-group-item card-year"></li>
                     </ul>
                     <div class="card-body">
-                        <a href="#" class="card-link">去往>></a>
+                        <a href="#" class="card-forward-link">去往>></a>
                     </div>
                 </div>
             </div>
@@ -238,9 +202,64 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM " crossorigin="anonymous "></script>
+    <script src="http://localhost:8090/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost:8090/js/popper.min.js"></script>
+    <script src="http://localhost:8090/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8090/js/dbooklib.js"></script>
+    <script type="text/javascript">
+
+    $(function(){
+
+        var books = function(){
+            var url = "http://localhost:8090/library/rest/books";
+            $.ajax(url, {
+                dataType:"html",
+                method:"GET",
+                headers:{"Content-Type": "application/json"},
+                success: function(response){
+                    var resJson = JSON.parse(response)
+
+                    $.each(resJson , function(index, value){
+                        var $item = $('<li class="list-group-item"></li>')
+                        // var $name = $('<a class="d-inline dlib-main-list-name" href="#"></a>')
+                        var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({'href':'#'})
+                        $name.html(value.name)
+                        var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({'href':'#'})
+                        $type.html(value.type)
+                        $item.append($name)
+                        $item.append($type)
+                        $("#dlib-main-book-list").append($item)
+                    })
+                }
+            });
+        }();
+
+
+        $("#dlib-main-book-list a").on("click", function(){
+            var url = "http://localhost:8090/library/rest/detail"
+            $.ajax(url, {
+                dataType: "html",
+                method: "GET",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                success: function(response){
+                    $content = JSON.parse(response);
+                    var $card = $(".card");
+                    $card.find("h5.dlib-main-detial-name").html($content.book);
+                    $("p.card-text").html($content.description);
+                    $("li.card-author").html($content.author);
+                    $("li.card-year").html($content.publisherYear);
+                    $("img.card-img-top").attr({"src":"http://localhost:8090/pics/silkroad.jpg"});
+                },
+                error: function(request, errType, errMsg){
+                    alert(errType);
+                }
+            });
+            
+        });
+    });
+    </script>
 </body>
 
 </html>

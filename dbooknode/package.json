@@ -1,0 +1,18 @@
+{
+  "name": "dbooknode",
+  "version": "1.0.0",
+  "description": "dbook labrary node app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dbooklib"
+  ],
+  "author": "Dylan Wu",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^2.3.2",
+    "mongodb": "^3.3.5"
+  }
+}

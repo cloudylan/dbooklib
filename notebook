@@ -1,0 +1,10 @@
+TODO List:
+
+1. html local url replecement.
+4. mongoDB user / password.
+
+
+db.book.update({}, {$rename:{"publisherYear": "publishYear"}}, false, true)
+
+
+db.getCollection('private_enterprise').update({},{$rename:{"证券代码":'code'}},false,true)

@@ -1,0 +1,12 @@
+    {
+        "type": "文学",
+        "name": "海伯利安",
+        "year": "2019",
+        "source": "图书馆",
+        "user": "Dylan",
+        "read": true,
+        "isbn": ""
+    }
+
+
+db.user_read_info.insertOne({ category: “文学”,name: "海伯利安",year: "2019",source: "图书馆",user: "Dylan",read: true })
