@@ -15,7 +15,6 @@ public class DbooklibApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DbooklibApplication.class, args);
-		
 	}
 
 }

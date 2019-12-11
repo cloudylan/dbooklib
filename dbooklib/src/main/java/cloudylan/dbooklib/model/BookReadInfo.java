@@ -9,5 +9,4 @@ public class BookReadInfo {
 	private String readType;
 	private String date;
 	
-	
 }

@@ -16,18 +16,12 @@ import com.mongodb.client.MongoDatabase;
 
 @Component
 public class BooksProvider {
-
-	final static String CONN_MONGO_STR = "mongodb://127.0.0.1:27017/librarydb";
+	
+	private final static MongoDatabase MONGODB = buildDatabase();
 
 	public List<Document> getDetail() {
 
-		ConnectionString connString = new ConnectionString(CONN_MONGO_STR);
-		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).retryWrites(true)
-				.build();
-		MongoClient mongoClient = MongoClients.create(settings);
-		MongoDatabase database = mongoClient.getDatabase("librarydb");
-
-		FindIterable<Document> bookDocs = database.getCollection("book").find();
+		FindIterable<Document> bookDocs = MONGODB.getCollection(MongoData.BOOK.value()).find();
 		MongoCursor<Document> bookIterator = bookDocs.iterator();
 
 		List<Document> docs = new ArrayList<Document>();
@@ -39,15 +33,10 @@ public class BooksProvider {
 
 	}
 	
-	public List<Document> getAllMyBooks() {
+	public List<Document> getAllMyBooks(int pageNo) {
 
-		ConnectionString connString = new ConnectionString(CONN_MONGO_STR);
-		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).retryWrites(true)
-				.build();
-		MongoClient mongoClient = MongoClients.create(settings);
-		MongoDatabase database = mongoClient.getDatabase("librarydb");
-
-		FindIterable<Document> bookDocs = database.getCollection("user_read_info").find().limit(10);
+		final int numPerPage = Integer.valueOf(MongoData.BOOKS_PER_PAGE.value());
+		FindIterable<Document> bookDocs = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).find().skip(pageNo * numPerPage).limit(numPerPage);
 		MongoCursor<Document> bookIterator = bookDocs.iterator();
 
 		List<Document> docs = new ArrayList<Document>();
@@ -57,5 +46,15 @@ public class BooksProvider {
 
 		return docs;
 
+	}
+	
+	private static MongoDatabase buildDatabase()
+	{
+		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString(MongoData.CONNECTION_STR.value())).retryWrites(true)
+				.build();
+		MongoClient mongoClient = MongoClients.create(settings);
+		MongoDatabase database = mongoClient.getDatabase(MongoData.DB.value());
+		
+		return database;
 	}
 }

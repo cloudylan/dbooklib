@@ -22,10 +22,6 @@ public class BookListService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookListService.class);
 
-	public static void main(String[] args) {
-//		LOGGER.info(new BookListService().getBookFileList().toString());
-
-	}
 
 	public List<String> getBookList() {
 		File folder = new File(FOLDER);
