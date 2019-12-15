@@ -15,105 +15,102 @@
         .body {
             font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         }
-        
+
         .dlib-logo {
-            /* font-size: xx-large; */
-            /* background-repeat:no-repeat;
-            background-image:url("http://localhost:8090/pics/sailor.jpg"); */
-            height:40px;
-            width:40px;
+            height: 40px;
+            width: 40px;
         }
-        
+
         .dlib-header-search {
             /*align-items: center;
             align-content: center;*/
             width: 200em;
         }
-        
+
         .dlib-header-tab {
             /* position: relative;
             right:20%;  */
             text-align: center;
             align-self: center;
         }
-        
+
         .dlib-header-filter {
             margin-top: 0.5em;
             /* position:relative;
             left:19%;  */
             text-align: center;
         }
-        
+
         .dlib-main {
             /*height: 85vh;*/
             margin-top: 2em;
             margin-bottom: 2em;
         }
-        
+
         .dlib-main-list {
             /*chartreuse;*/
             overflow: auto;
             white-space: nowrap;
         }
-        
+
         .dlib-main-detial-name {
             color: dodgerblue;
         }
-        
+
         .dlib-footer {
             background-color: dimgray
         }
-        
+
         .dlib-main-buffer-left {
             background-color: white;
         }
-        
+
         .dlib-main-page-button-group {
             margin-bottom: 1em;
         }
-        
+
         .dlib-header-search-buffer {
             width: 15%;
         }
-        
+
         .dlib-main-list-name {
             font-size: large;
             color: dodgerblue;
             font-weight: 500;
         }
-        
+
         .dlib-main-list-author {
             font-size: small;
             font-weight: 400;
-            position:absolute;
-            right:20%;
+            position: absolute;
+            right: 20%;
         }
 
         .dlib-main-list-isread {
             font-size: small;
             font-weight: 400;
-            position:absolute;
-            right:5%;
+            position: absolute;
+            right: 5%;
         }
-        
+
         .dlib-header-search-button {
             background: url(search.png)
         }
     </style>
     <script type="text/javascript">
-    	host = window.location.host;
+        host = window.location.host;
     </script>
 </head>
 
 <body>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="dlib-header-search collapse navbar-collapse flex-fill" id="navbarTogglerDemo01">
-                <!-- <button class="navbar-brand dlib-logo" href="/"></button> -->
-                <img class="dlib-logo" src="http://localhost:8090/pics/sailor.jpg" alt="Hello Books!"/>
+                <img class="dlib-logo" src="http://localhost:8090/pics/sailor.jpg" alt="Hello Books!" />
                 <div class="dlib-header-search-buffer"></div>
                 <form class="form-inline my-0 my-lg-0">
                     <input class="form-control mr-sm-1 input-lg" type="search" placeholder="Search" aria-label="Search">
@@ -123,50 +120,53 @@
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto dlib-header-tab">
+                <ul id='dlib-nav-category-group' class="navbar-nav mr-auto mt-2 mt-lg-0 mx-auto dlib-header-tab">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">全部<span class="sr-only">(current)</span></a>
+                        <a id='dlib-nav-category-all' class="nav-link" href="#">全部</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">历史</a>
+                        <a id='dlib-nav-category-history' class="nav-link" href="#">历史</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">文学</a>
+                        <a id='dlib-nav-category-literature' class="nav-link" href="#">文学</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">科普</a>
+                        <a id='dlib-nav-category-popularization' class="nav-link" href="#">科普</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">计算机</a>
+                        <a id='dlib-nav-category-computer' class="nav-link" href="#">计算机</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">漫画</a>
+                        <a id='dlib-nav-category-cartoon' class="nav-link" href="#">漫画</a>
                     </li>
                 </ul>
             </div>
         </nav>
         <nav class="dlib-header-filter">
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">未读</button>
+            <div id="dlib-header-filter-isread-group" class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">未读</button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">已读</a>
-                    <a class="dropdown-item" href="#">未读</a>
+                    <a id="dlib-header-filter-isread-group-read" class="dropdown-item" href="#">已读</a>
+                    <a id="dlib-header-filter-isread-group-unread" class="dropdown-item" href="#">未读</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">全部</a>
+                    <a id="dlib-header-filter-isread-group-all" class="dropdown-item" href="#" active>全部</a>
+                </div>
+            </div>
+            <div id="dlib-header-filter-year-group" class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">全部</button>
+                <div class="dropdown-menu">
+                    <a id="dlib-header-filter-year-group-2019" class="dropdown-item" href="#">2019</a>
+                    <a id="dlib-header-filter-year-group-2018" class="dropdown-item" href="#">2018</a>
+                    <a id="dlib-header-filter-year-group-2017" class="dropdown-item" href="#">2017</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="dlib-header-filter-year-group-all" class="dropdown-item" href="#">全部</a>
                 </div>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部</button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">今年</a>
-                    <a class="dropdown-item" href="#">2018</a>
-                    <a class="dropdown-item" href="#">2017</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">全部</a>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">全部</button>
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">全部</button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">好书</a>
                     <a class="dropdown-item" href="#">一般</a>
@@ -182,13 +182,10 @@
             <div class="dlib-main-list col-6">
                 <ul id="dlib-main-book-list" class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <a class="d-inline dlib-main-list-name" href="#">丝绸之路</a>
-                        <a class="d-inline dlib-main-list-author">彼得 弗兰科潘</a>
-                        <div class="d-inline dlib-main-list-isread">2018</div>
                     </li>
                 </ul>
             </div>
-            <div class="dlib-main-detail col-3">
+            <div id="dlib-main-detail" class="dlib-main-detail col-3" hidden>
                 <div class="card" style="width: 20rem;">
                     <img src="" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -216,13 +213,10 @@
                 <button id="page_6" type="button" class="btn btn-outline-success">6</button>
                 <button id="page_7" type="button" class="btn btn-outline-success">7</button>
                 <button id="page_8" type="button" class="btn btn-outline-success">8</button>
-                <button id="page_9" type="button" class="btn btn-outline-success">9</button>
-                <button id="page_10" type="button" class="btn btn-outline-success">10</button>
             </div>
         </div>
-        <footer class="zone dlib-footer ">Footer</footer>
+        <footer class="zone dlib-footer" hidden>Footer</footer>
     </div>
-
 
     <script src="http://localhost:8090/js/jquery-3.4.1.js"></script>
     <script src="http://localhost:8090/js/popper.min.js"></script>
@@ -230,78 +224,6 @@
     <script src="http://localhost:8090/js/dbooklib.js"></script>
     <script type="text/javascript">
 
-    $(function(){
-
-        var bindDetail = () => {
-            var url = "http://localhost:8090/library/rest/detail"
-            $.ajax(url, {
-                dataType: "html",
-                method: "GET",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                success: function(response){
-                    $content = JSON.parse(response);
-                    var $card = $(".card");
-                    $card.find("h5.dlib-main-detial-name").html($content.book);
-                    $("p.card-text").html($content.description);
-                    $("li.card-author").html($content.author);
-                    $("li.card-year").html($content.publisherYear);
-                    $("img.card-img-top").attr({"src":"http://localhost:8090/pics/silkroad.jpg"});
-                },
-                error: function(request, errType, errMsg){
-                    alert(errType);
-                }
-            })
-        };
-
-        var getBooks = (event) => {
-            var url = 'http://localhost:8090/library/rest/books'
-            if (event != undefined)
-            {
-                url = url + '?page=' + event.data.pageNo;
-            }
-
-            $.ajax(url, {
-                dataType:"html",
-                method:"GET",
-                headers:{"Content-Type": "application/json"},
-                success: function(response){
-                    var resJson = JSON.parse(response)
-                    $("#dlib-main-book-list li").remove()
-
-                    $.each(resJson , function(index, value){
-                        var $item = $('<li class="list-group-item"></li>')
-                        var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({'href':'#'})
-                        $name.html(value.name)
-                        var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({'href':'#'})
-                        $type.html(value.type)
-                        var $isread = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-isread')
-                        if (value.year != 'TODO')
-                        {
-                            $isread.html(value.year)
-                        }
-
-                        $item.append($name)
-                        $item.append($type)
-                        $item.append($isread)
-
-                        $name.on('click', bindDetail)
-                        $("#dlib-main-book-list").append($item)
-                    })
-                }
-            });
-        }
-
-        var books = getBooks(event);
-
-        $("#dlib-main-book-list a").on("click", bindDetail);
-        for(var index=1;index <=10;index++)
-        {
-            $("#page_"+index).on("click", {pageNo:index},getBooks);
-        }
-
-    });
     </script>
 </body>
 
