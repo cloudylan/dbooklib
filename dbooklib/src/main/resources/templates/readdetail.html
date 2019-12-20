@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://localhost:8090/css/bootstrap.min.css">
+    <title>阅读信息</title>
+    <style>
+        .body {
+            font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        }
+
+        .dlib-read-container {
+            /* background-color: lightblue; */
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .dlib-read-main {
+            margin-top: 2em;
+        }
+
+        .dlib-read-main-left {
+            width: 30%;
+            height: 600px;
+        }
+
+        .dlib-read-main-middle {
+            /* background-color: rgb(161, 161, 79); */
+        }
+
+        .dlib-read-main-right {
+            /* background-color: chartreuse; */
+        }
+
+        .dlib-read-main-submit {
+            margin-top: 3em;
+        }
+
+        .dlib-read-main-item {
+            margin-top: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dlib-read-container">
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="http://localhost:8090/library/">
+                <img src="http://localhost:8090/pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
+                    alt="">阅读信息
+            </a>
+        </nav>
+        <div class="dlib-read-main row">
+            <div class="dlib-read-main-left col-sm-3"></div>
+            <div class="dlib-read-main-middle col-sm-6">
+                <div>
+                    <div class="form-group dlib-read-main-item">
+                        <label for="inputName">书名</label>
+                        <input type="text" class="form-control is-invalid" id="inputName" th:value="${readInfo!=null?readInfo.name:''}">
+                    </div>
+                    <div class="form-row dlib-read-main-item">
+                        <div class="form-group col-md-5">
+                            <label for="inputAuthor">作者</label>
+                            <input type="text" class="form-control" id="inputAuthor" th:value="${readInfo!=null?readInfo.author:''}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputCategory">分类</label>
+                            <select id="inputCategory" class="form-control">
+                                <option selected>文学</option>
+                                <option>科普</option>
+                                <option>历史</option>
+                                <option>计算机</option>
+                                <option>漫画</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputSource">格式</label>
+                            <select id="inputSource" class="form-control">
+                                <option selected>Kindle</option>
+                                <option>图书馆</option>
+                                <option>纸质</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row dlib-read-main-item">
+                        <div class="form-group col-md-2">
+                            <label for="inputDate">日期</label>
+                            <input type="text" class="form-control" id="inputDate" th:value="${readInfo!=null?readInfo.date:''}">
+                        </div>
+                        <div class="form-group col-md-10">
+                            <label for="inputDescription">描述</label>
+                            <input type="text" class="form-control" id="inputDescription"
+                                th:value="${readInfo!=null?readInfo.description:''}">
+                        </div>
+                    </div>
+                    <div class="form-group dlib-read-main-item">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="readCheck">
+                            <label class="form-check-label" for="readCheck">
+                                已读
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group dlib-read-main-item">
+                        <div id='dlib-result-lbl' class="alert" role="alert"></div>
+                        <button id="save" class="btn btn-primary dlib-read-main-submit">保存</button>
+                        <div id="read-info-id" th:value="${readInfo!=null?readInfo.id:''}"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="dlib-read-main-right col-sm-3"></div>
+        </div>
+    </div>
+
+    <script src="http://localhost:8090/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost:8090/js/popper.min.js"></script>
+    <script src="http://localhost:8090/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            meta = {
+                host: 'http://localhost:8090'
+            }
+
+            var checkYearInput = () => {
+                if ($('#readCheck').is(':checked') && $('#inputDate').val() == '') {
+                    $('#inputDate').addClass('is-invalid')
+                    return false
+                }
+                else if (!$('#readCheck').is(':checked')) {
+                    $('#inputDate').removeClass('is-invalid')
+                    return true
+                }
+                return true
+            }
+
+            var checkNameEmpty = () => {
+                if ($('#inputName').val() != '') {
+                    $('#inputName').removeClass('is-invalid')
+                    return true
+                }
+                else {
+                    $('#inputName').addClass('is-invalid')
+                    return false
+                }
+            }
+
+            var checkDateEmpty = () => {
+                if ($('#inputDate').val() != '') {
+                    $('#inputDate').removeClass('is-invalid')
+                }
+                else if ($('#readCheck').is(':checked')) {
+                    $('#inputDate').addClass('is-invalid')
+                }
+            }
+
+            const save = () => {
+                var isValid = checkNameEmpty()
+                isValid = isValid && checkYearInput()
+
+                if (!isValid)
+                {
+                    return
+                }
+
+                var url = meta.host + '/library/rest/read/save'
+                var toSave = {
+                    id: $('#read-info-id').attr('value'),
+                    isRead: $('#readCheck').is(':checked'),
+                    name: $('#inputName').val(),
+                    author: $('#inputAuthor').val(),
+                    category: $('#inputCategory').val(),
+                    date: $('#inputDate').val(),
+                    source: $('#inputSource').val(),
+                    description: $('#inputDescription').val()
+                }
+
+                $.ajax(url, {
+                    dataType: 'html',
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: JSON.stringify(toSave),
+                    success: function (response) {
+                        $content = JSON.parse(response)
+                        $('#read-info-id').val($content._id)
+                        $('#dlib-result-lbl').html('保存成功').removeClass('alert-danger').addClass('alert-success')
+                    },
+                    error: function (err) {
+                        $('#dlib-result-lbl').html('保存失败').removeClass('alert-success').addClass('alert-danger')
+                    }
+                })
+            }
+
+            $('#readCheck').on('change', checkYearInput);
+            $('#inputName').on('input', checkNameEmpty)
+            $('#inputDate').on('input', checkDateEmpty)
+            $('#save').on('click', save)
+            checkNameEmpty()
+            checkYearInput()
+
+        });
+    </script>
+</body>
+
+</html>

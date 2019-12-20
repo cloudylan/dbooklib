@@ -47,6 +47,8 @@ $(function () {
                     var $item = $('<li class="list-group-item"></li>')
                     var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
                     $name.html(value.name)
+                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({'href': meta.host+'/library/read/'+value._id})
+                    $detailLink.html('详细')
                     var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
                     $type.html(value.type)
                     var $isread = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-isread')
@@ -55,6 +57,7 @@ $(function () {
                     }
 
                     $item.append($name)
+                    $item.append($detailLink)
                     $item.append($type)
                     $item.append($isread)
 
@@ -123,7 +126,12 @@ $(function () {
         $("#dlib-nav-category-group li.nav-item").removeClass('active')
     }
 
-    var books = getBooksPost(localMem);
+    var openNewWindow = () => {
+        newWin = window.open('_blank')
+        newWin.location = meta.host + '/library/read/new'
+    }
+
+    getBooksPost(localMem);
 
     $("#dlib-header-filter-isread-group-read").on("click", { label: '已读', isRead: true }, onClickIsRead);
     $("#dlib-header-filter-isread-group-unread").on("click", { label: '未读', isRead: false }, onClickIsRead);
@@ -140,6 +148,8 @@ $(function () {
     $("#dlib-nav-category-popularization").on("click", { category: '论述' }, onClickCategory);
     $("#dlib-nav-category-computer").on("click", { category: '计算机' }, onClickCategory);
     $("#dlib-nav-category-cartoon").on("click", { category: '漫画' }, onClickCategory);
+
+    $('#dlib-header-filter-add-new').on('click', openNewWindow);
 
     $("#dlib-main-book-list a").on("click", bindDetail);
     for (var index = 1; index <= 10; index++) {

@@ -1,7 +1,7 @@
 package cloudylan.dbooklib.model;
 
 public class BookReadInfo {
-	private int id;
+	private String id;
 	private String name;
 	private String author;
 	private String isbn;
@@ -9,17 +9,19 @@ public class BookReadInfo {
 	private String category;
 	private String date;
 	private Integer pageNo;
-	
-	public BookReadInfo()
-	{
+	private String source;
+	private String description;
+	private String toSearch;
+
+	public BookReadInfo() {
 		super();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -79,17 +81,39 @@ public class BookReadInfo {
 		this.pageNo = page;
 	}
 
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getToSearch() {
+		return toSearch;
+	}
+
+	public void setToSearch(String toSearch) {
+		this.toSearch = toSearch;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("BookReadInfo [id=").append(id).append(", name=").append(name).append(", author=").append(author)
 				.append(", isbn=").append(isbn).append(", isRead=").append(isRead).append(", category=")
-				.append(category).append(", date=").append(date).append(", pageNo=").append(pageNo).append("]");
+				.append(category).append(", date=").append(date).append(", pageNo=").append(pageNo).append(", source=")
+				.append(source).append(", description=").append(description).append(", toSearch=").append(toSearch)
+				.append("]");
 		return builder.toString();
 	}
 
-	
-	
-	
-	
 }
