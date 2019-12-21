@@ -73,21 +73,21 @@
                         <div class="form-group col-md-4">
                             <label for="inputCategory">分类</label>
                             <select id="inputCategory" class="form-control">
-                                <option selected>文学</option>
-                                <option>科普</option>
-                                <option>历史</option>
-                                <option>计算机</option>
-                                <option>漫画</option>
-                                <option>其他</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='文学':false}">文学</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='科普':false}">历史</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='科普':false}">科普</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='计算机':false}">计算机</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='漫画':false}">漫画</option>
+                                <option th:selected="${readInfo!=null?readInfo.category=='其他':false}">其他</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputSource">格式</label>
                             <select id="inputSource" class="form-control">
-                                <option selected>Kindle</option>
-                                <option>图书馆</option>
-                                <option>纸质</option>
-                                <option>其他</option>
+                                <option th:selected="${readInfo!=null?readInfo.source=='Kindle':false}">Kindle</option>
+                                <option th:selected="${readInfo!=null?readInfo.source=='图书馆':false}">图书馆</option>
+                                <option th:selected="${readInfo!=null?readInfo.source=='纸质':false}">纸质</option>
+                                <option th:selected="${readInfo!=null?readInfo.source=='其他':false}">其他</option>
                             </select>
                         </div>
                     </div>
@@ -104,18 +104,15 @@
                     </div>
                     <div class="form-group dlib-read-main-item">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="readCheck">
+                            <input class="form-check-input" type="checkbox" id="readCheck" th:checked="${readInfo!=null?(readInfo.isRead?'checked':''):''}">
                             <label class="form-check-label" for="readCheck">
                                 已读
                             </label>
                         </div>
-                    </div>
-                    <div class="form-group dlib-read-main-item">
-                        <div id='dlib-result-lbl' class="alert" role="alert"></div>
                         <button id="save" class="btn btn-primary dlib-read-main-submit">保存</button>
+                        <div id='dlib-result-lbl' class="alert" role="alert"></div>
                         <div id="read-info-id" th:value="${readInfo!=null?readInfo.id:''}"></div>
                     </div>
-                    
                 </div>
             </div>
             <div class="dlib-read-main-right col-sm-3"></div>

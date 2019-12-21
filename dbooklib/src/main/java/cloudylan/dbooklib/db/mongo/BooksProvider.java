@@ -99,7 +99,7 @@ public class BooksProvider {
 		LOGGER.info("Performing read info creating.");
 		Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
-				.append("description", info.getDescription()).append("isTest", true);
+				.append("description", info.getDescription());
 
 		MONGODB.getCollection(MongoData.USER_READ_INFO.value()).insertOne(toInsert);
 		return toInsert;
@@ -109,7 +109,7 @@ public class BooksProvider {
 		LOGGER.info("Performing read info updating.");
 		Document toUpdate = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
-				.append("description", info.getDescription()).append("isTest", true);
+				.append("description", info.getDescription());
 		UpdateResult ur = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
 				.replaceOne(eq("_id", new ObjectId(info.getId())), toUpdate);
 

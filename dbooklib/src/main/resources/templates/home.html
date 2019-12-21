@@ -22,33 +22,25 @@
         }
 
         .dlib-header-search {
-            /*align-items: center;
-            align-content: center;*/
             width: 200em;
         }
 
         .dlib-header-tab {
-            /* position: relative;
-            right:20%;  */
             text-align: center;
             align-self: center;
         }
 
         .dlib-header-filter {
             margin-top: 0.5em;
-            /* position:relative;
-            left:19%;  */
             text-align: center;
         }
 
         .dlib-main {
-            /*height: 85vh;*/
             margin-top: 2em;
             margin-bottom: 2em;
         }
 
         .dlib-main-list {
-            /*chartreuse;*/
             overflow: auto;
             white-space: nowrap;
         }
@@ -79,9 +71,10 @@
             font-weight: 500;
         }
 
-        .dlib-main-list-dlink{
-            font-size:smaller;
-            color:lightslategray
+        .dlib-main-list-dlink {
+            margin-left: 0.4em;
+            font-size: xx-small;
+            color: lightslategray
         }
 
         .dlib-main-list-author {
@@ -101,6 +94,13 @@
         .dlib-header-search-button {
             background: url(search.png)
         }
+
+        .dlib-main-list-name-test {
+            font-size: large;
+            color:brown;
+            font-weight: 500;
+        }
+
     </style>
     <script type="text/javascript">
         host = window.location.host;
@@ -117,10 +117,11 @@
             <div class="dlib-header-search collapse navbar-collapse flex-fill" id="navbarTogglerDemo01">
                 <img class="dlib-logo" src="http://localhost:8090/pics/sailor.jpg" alt="Hello Books!" />
                 <div class="dlib-header-search-buffer"></div>
-                <form class="form-inline my-0 my-lg-0">
-                    <input class="form-control mr-sm-1 input-lg" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
-                </form>
+                <div class="form-inline my-0 my-lg-0">
+                    <input id="dlib-header-search-input" class="form-control mr-sm-1 input-lg" type="search"
+                        placeholder="Search" aria-label="Search">
+                    <button id="dlib-header-search-btn" class="btn btn-outline-success my-2 my-sm-0">搜索</button>
+                </div>
             </div>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -150,7 +151,7 @@
         <nav class="dlib-header-filter">
             <div id="dlib-header-filter-isread-group" class="btn-group">
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">未读</button>
+                    aria-haspopup="true" aria-expanded="false">已读</button>
                 <div class="dropdown-menu">
                     <a id="dlib-header-filter-isread-group-read" class="dropdown-item" href="#">已读</a>
                     <a id="dlib-header-filter-isread-group-unread" class="dropdown-item" href="#">未读</a>
@@ -220,7 +221,6 @@
     <script src="http://localhost:8090/js/bootstrap.min.js"></script>
     <script src="http://localhost:8090/js/dbooklib.js"></script>
     <script type="text/javascript">
-
     </script>
 </body>
 

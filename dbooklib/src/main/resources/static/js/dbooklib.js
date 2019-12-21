@@ -47,6 +47,10 @@ $(function () {
                     var $item = $('<li class="list-group-item"></li>')
                     var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
                     $name.html(value.name)
+                    if (value.isTest)
+                    {
+                        $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-test')
+                    }
                     var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({'href': meta.host+'/library/read/'+value._id})
                     $detailLink.html('详细')
                     var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
@@ -66,8 +70,6 @@ $(function () {
                 })
             }
         });
-
-
     }
 
     var onClickIsRead = (event) => {
@@ -126,12 +128,26 @@ $(function () {
         $("#dlib-nav-category-group li.nav-item").removeClass('active')
     }
 
+    var onBookSearch = () => {
+        console.log('search from search box.')
+        var toSearchVal = $("#dlib-header-search-input").val()
+        var request = {'toSearch': toSearchVal}
+        getBooksPost(request)
+    }
+
     var openNewWindow = () => {
         newWin = window.open('_blank')
         newWin.location = meta.host + '/library/read/new'
     }
 
+    var openReadDetail = (id) => {
+        newWin = window.open('_blank')
+        newWin.location = meta.host + '/library/read/'+id
+    }
+
     getBooksPost(localMem);
+
+    $('#dlib-header-search-btn').on('click', onBookSearch)
 
     $("#dlib-header-filter-isread-group-read").on("click", { label: '已读', isRead: true }, onClickIsRead);
     $("#dlib-header-filter-isread-group-unread").on("click", { label: '未读', isRead: false }, onClickIsRead);

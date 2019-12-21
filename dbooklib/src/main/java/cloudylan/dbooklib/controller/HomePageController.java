@@ -37,13 +37,29 @@ public class HomePageController {
 
 		return "index";
 	}
+	
+	@RequestMapping(value = "/analysis/{action}")
+	public String analysis(@PathVariable String action)
+	{
+		LOGGER.debug(new StringBuffer("Analysis Starts for ").append(action).toString());
+		
+		if ("author".equals(action))
+		{}
+		else if ("year".equals(action))
+		{}
+		else if("category".equals(action)){
+		}
+		return "home";
+	}
 
 	@RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
 	public String getReadInfo(@PathVariable String id, Model model) {
+
 		LOGGER.info(new StringBuffer("Request Read Info for: ").append(id).toString());
 
 		Document doc = this.bookProvider.getReadInfo(id);
 		BookReadInfo bi = new BookReadInfo();
+
 		if (doc != null) {
 			bi.setId(doc.getString("_id"));
 			bi.setName(doc.getString("name"));
@@ -51,7 +67,7 @@ public class HomePageController {
 			bi.setCategory(doc.getString("type"));
 			bi.setAuthor(doc.getString("author"));
 			bi.setIsRead(doc.getBoolean("isRead", false));
-			bi.setSource(doc.getString("source") == null ? "纸质" : doc.getString("source"));
+			bi.setSource((doc.getString("source") == null || "".equals(doc.getString("source"))) ? "纸质" : doc.getString("source"));
 			bi.setDescription(doc.getString("description"));
 		}
 		model.addAttribute("readInfo", bi);

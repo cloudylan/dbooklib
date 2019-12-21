@@ -1,6 +1,7 @@
 package cloudylan.dbooklib.model;
 
 public class BookReadInfo {
+
 	private String id;
 	private String name;
 	private String author;
