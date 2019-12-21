@@ -4,11 +4,11 @@ $(function () {
     }
 
     meta = {
-        host:'http://localhost:8090'
+        host: 'http://localhost:8090'
     }
 
     var bindDetail = () => {
-        var url = meta.host+'/library/rest/detail'
+        var url = meta.host + '/library/rest/detail'
         $.ajax(url, {
             dataType: "html",
             method: "GET",
@@ -32,7 +32,7 @@ $(function () {
     };
 
     var getBooksPost = (input) => {
-        var url = meta.host+'/library/rest/books'
+        var url = meta.host + '/library/rest/books'
 
         $.ajax(url, {
             dataType: "html",
@@ -47,11 +47,10 @@ $(function () {
                     var $item = $('<li class="list-group-item"></li>')
                     var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
                     $name.html(value.name)
-                    if (value.isTest)
-                    {
+                    if (value.isTest) {
                         $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-test')
                     }
-                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({'href': meta.host+'/library/read/'+value._id})
+                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({ 'href': meta.host + '/library/read/' + value._id })
                     $detailLink.html('详细')
                     var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
                     $type.html(value.type)
@@ -131,7 +130,8 @@ $(function () {
     var onBookSearch = () => {
         console.log('search from search box.')
         var toSearchVal = $("#dlib-header-search-input").val()
-        var request = {'toSearch': toSearchVal}
+        var request = { 'toSearch': toSearchVal }
+        $("#dlib-header-filter-isread-group button").html('全部')
         getBooksPost(request)
     }
 
@@ -142,12 +142,21 @@ $(function () {
 
     var openReadDetail = (id) => {
         newWin = window.open('_blank')
-        newWin.location = meta.host + '/library/read/'+id
+        newWin.location = meta.host + '/library/read/' + id
     }
 
     getBooksPost(localMem);
 
     $('#dlib-header-search-btn').on('click', onBookSearch)
+    $('#dlib-header-search-input').keydown(function(event){
+        if (event.keyCode == 13) {
+            console.log('search from search box.')
+            var toSearchVal = $("#dlib-header-search-input").val()
+            var request = { 'toSearch': toSearchVal }
+            $("#dlib-header-filter-isread-group button").html('全部')
+            getBooksPost(request)
+        }
+    })
 
     $("#dlib-header-filter-isread-group-read").on("click", { label: '已读', isRead: true }, onClickIsRead);
     $("#dlib-header-filter-isread-group-unread").on("click", { label: '未读', isRead: false }, onClickIsRead);

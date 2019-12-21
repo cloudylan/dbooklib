@@ -44,10 +44,15 @@ public class HomePageController {
 		LOGGER.debug(new StringBuffer("Analysis Starts for ").append(action).toString());
 		
 		if ("author".equals(action))
-		{}
+		{
+		}
 		else if ("year".equals(action))
-		{}
+		{
+		}
 		else if("category".equals(action)){
+		}
+		else {
+			
 		}
 		return "home";
 	}

@@ -1,0 +1,95 @@
+.body {
+	font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC",
+		"Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.dlib-logo {
+	height: 40px;
+	width: 40px;
+}
+
+.dlib-logo-name {
+	height: 40px;
+	width: 40px;
+	font-size: x-large;
+}
+
+.dlib-header-search {
+	width: 200em;
+}
+
+.dlib-header-tab {
+	text-align: center;
+	align-self: center;
+}
+
+.dlib-header-filter {
+	margin-top: 0.5em;
+	text-align: center;
+}
+
+.dlib-main {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.dlib-main-list {
+	overflow: auto;
+	white-space: nowrap;
+}
+
+.dlib-main-detial-name {
+	color: dodgerblue;
+}
+
+.dlib-footer {
+	background-color: dimgray
+}
+
+.dlib-main-buffer-left {
+	background-color: white;
+}
+
+.dlib-main-page-button-group {
+	margin-bottom: 1em;
+}
+
+.dlib-header-search-buffer {
+	width: 15%;
+}
+
+.dlib-main-list-name {
+	font-size: large;
+	color: dodgerblue;
+	font-weight: 500;
+}
+
+.dlib-main-list-dlink {
+	margin-left: 0.4em;
+	font-size: xx-small;
+	color: lightslategray
+}
+
+.dlib-main-list-author {
+	font-size: small;
+	font-weight: 400;
+	position: absolute;
+	right: 20%;
+}
+
+.dlib-main-list-isread {
+	font-size: small;
+	font-weight: 400;
+	position: absolute;
+	right: 5%;
+}
+
+.dlib-header-search-button {
+	background: url(search.png)
+}
+
+.dlib-main-list-name-test {
+	font-size: large;
+	color: brown;
+	font-weight: 500;
+}
