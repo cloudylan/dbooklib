@@ -71,6 +71,27 @@ $(function () {
         });
     }
 
+    var loadKindleLocally = () => {
+        console.log("batch adding.")
+        url = meta.host + '/library/rest/read/load'
+
+        $.ajax(url, {
+            dataType: "html",
+            method: 'GET',
+            headers: { "Content-Type": "application/json" },
+            success: function(response){
+                var $data = JSON.parse(response)
+                if($data.isSuccessful)
+                {
+                    alert("Kindle电子书载入成功："+$data.updatedNumber+"本")
+                }
+                else{
+                    alert("载入失败，数据更新："+$data.updateSuccessful?+"成功":"失败。文件归档："+ $data.fileArchived?"成功":"失败")
+                }
+            }
+        })
+    }
+
     var onClickIsRead = (event) => {
         console.log('search by is read flag.')
         $("#dlib-header-filter-isread-group button").html(event.data.label)
@@ -175,6 +196,7 @@ $(function () {
     $("#dlib-nav-category-cartoon").on("click", { category: '漫画' }, onClickCategory);
 
     $('#dlib-header-filter-add-new').on('click', openNewWindow);
+    $('#dlib-header-filter-local-batch').on('click', loadKindleLocally);
 
     $("#dlib-main-book-list a").on("click", bindDetail);
     for (var index = 1; index <= 10; index++) {

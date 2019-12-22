@@ -1,4 +1,4 @@
-package cloudylan.dbooklib.domain.book;
+package cloudylan.dbooklib.domain;
 
 import java.util.List;
 

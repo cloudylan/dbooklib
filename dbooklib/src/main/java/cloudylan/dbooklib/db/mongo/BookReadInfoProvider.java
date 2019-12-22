@@ -24,9 +24,9 @@ import com.mongodb.client.result.UpdateResult;
 import cloudylan.dbooklib.model.BookReadInfo;
 
 @Component
-public class BooksProvider {
+public class BookReadInfoProvider {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BooksProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BookReadInfoProvider.class);
 
 	private final static MongoDatabase MONGODB = buildDatabase();
 
@@ -35,9 +35,11 @@ public class BooksProvider {
 	static {
 		UNREAD_LIST.add("");
 		UNREAD_LIST.add("TODO");
+		UNREAD_LIST.add(null);
 	}
 
 	public List<Document> getDetail() {
+
 		FindIterable<Document> bookDocs = MONGODB.getCollection(MongoData.BOOK.value()).find();
 		MongoCursor<Document> bookIterator = bookDocs.iterator();
 
@@ -95,26 +97,57 @@ public class BooksProvider {
 		return docs;
 	}
 
-	public Document insertReadInfo(BookReadInfo info) {
+	public Document insertReadInfo(BookReadInfo info, boolean isTest) {
 		LOGGER.info("Performing read info creating.");
 		Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
 				.append("description", info.getDescription());
+		
+		if (isTest)
+		{
+			toInsert.append("isTest", true);
+		}
 
 		MONGODB.getCollection(MongoData.USER_READ_INFO.value()).insertOne(toInsert);
 		return toInsert;
 	}
 
-	public Document updateReadInfo(BookReadInfo info) {
+	public Document updateReadInfo(BookReadInfo info, boolean isTest) {
 		LOGGER.info("Performing read info updating.");
 		Document toUpdate = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
 				.append("description", info.getDescription());
+
+		if (isTest)
+		{
+			toUpdate.append("isTest", true);
+		}
+
 		UpdateResult ur = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
 				.replaceOne(eq("_id", new ObjectId(info.getId())), toUpdate);
 
 		LOGGER.info(ur.toString());
 		return toUpdate;
+	}
+	
+	public void insertManyReadInfo(List<BookReadInfo> readInfos, boolean isTest)
+	{
+		LOGGER.info("Performing many read infos inserting.");
+		List<Document> toInsertList = new ArrayList<Document>();
+		for (BookReadInfo info : readInfos)
+		{
+			Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
+					.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
+					.append("description", info.getDescription());
+
+			if (isTest)
+			{
+				toInsert.append("isTest", true);
+			}
+			toInsertList.add(toInsert);
+		}
+		
+		MONGODB.getCollection(MongoData.USER_READ_INFO.value()).insertMany(toInsertList);
 	}
 
 	public Document getReadInfo(String id) {
@@ -127,6 +160,7 @@ public class BooksProvider {
 
 		return doc;
 	}
+
 
 	private static MongoDatabase buildDatabase() {
 		MongoClientSettings settings = MongoClientSettings.builder()

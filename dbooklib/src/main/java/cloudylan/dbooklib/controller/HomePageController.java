@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cloudylan.dbooklib.db.mongo.BooksProvider;
+import cloudylan.dbooklib.db.mongo.BookReadInfoProvider;
 import cloudylan.dbooklib.model.BookFile;
 import cloudylan.dbooklib.model.BookReadInfo;
-import cloudylan.dbooklib.service.BookListService;
+import cloudylan.dbooklib.service.BookFileService;
 
 @Controller(value = "HomePageController")
 @RequestMapping("/library")
@@ -24,10 +24,10 @@ public class HomePageController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
 
 	@Autowired
-	private BookListService bookListService;
+	private BookFileService bookListService;
 
 	@Autowired
-	private BooksProvider bookProvider;
+	private BookReadInfoProvider bookProvider;
 
 	@RequestMapping(value = "/index")
 	public String test(Model mode) {
