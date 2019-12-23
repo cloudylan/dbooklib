@@ -21,7 +21,7 @@ import cloudylan.dbooklib.model.BookReadInfo;
 @Service
 public class BookFileService {
 
-	private static final String FOLDER = "/Users/cloudy/Downloads/test/";
+	private static final String FOLDER = "/Users/cloudy/Downloads/";
 
 	private static final String APPENDX_MOBI = ".mobi";
 
@@ -29,7 +29,9 @@ public class BookFileService {
 
 	private static final String REMOVE_NAME = "SoBooKs.cc+\\+* *\\-* *\\+*";
 	
-	private static final String REMOVE_FORMAT = "[\\.azw3]*[\\.mobi]*";
+	private static final String REMOVE_MOBI = "\\.mobi?";
+	
+	private static final String REMOVE_AZW3 = "\\.azw3?";
 
 	private static final String KINDLE = "Kindle";
 
@@ -69,34 +71,35 @@ public class BookFileService {
 		return bookFileList.stream().map(nm -> new BookFile(nm)).collect(Collectors.toList());
 	}
 
-	public Document addReadInfos(List<String> bookNames, String source, boolean isTest) {
+	public Document addReadInfos(List<String> bookNames, String source, boolean isNew) {
 		boolean isSuccessfull = false;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		List<BookReadInfo> infos = new ArrayList<BookReadInfo>();
 		List<File> files = new ArrayList<File>();
 		for (String name : bookNames) {
+			files.add(new File(new StringBuffer(FOLDER).append(name).toString()));
 			BookReadInfo info = new BookReadInfo();
-			String newName = name.contains(REMOVE_NAME) ? name.replaceFirst(REMOVE_NAME, "").replaceFirst(REMOVE_FORMAT, "") : name;
-			info.setName(newName);
+			String newName = name.replaceFirst(REMOVE_NAME, "");
+			info.setName(newName.replaceFirst(REMOVE_MOBI, "").replaceFirst(REMOVE_AZW3, "").trim());
 			info.setSource(source);
 			info.setDescription(
 					new StringBuffer("Kindle 添加日期").append(sdf.format(Calendar.getInstance().getTime())).toString());
 			infos.add(info);
 
-			files.add(new File(new StringBuffer(FOLDER).append(name).toString()));
 		}
-		this.readInfoProvider.insertManyReadInfo(infos, isTest);
+		this.readInfoProvider.insertManyReadInfo(infos, isNew);
 		Document doc = new Document("updateSuccessful", true);
 		isSuccessfull = true;
 
 		try {
+			File path = new File(new StringBuffer(FOLDER).append("book/archived/").append(sdf.format(Calendar.getInstance().getTime())).append("/").toString());
+			path.mkdir();
 			for (File file : files) {
 				if (file.exists()) {
-					File newF = new File(new StringBuffer(FOLDER).append("archived/")
+					File newF = new File(new StringBuffer(FOLDER).append("book/archived/").append(sdf.format(Calendar.getInstance().getTime())).append("/")
 							.append(file.getName().replaceFirst(REMOVE_NAME, "")).toString());
 					file.renameTo(newF);
 				}
-
 			}
 			doc.append("fileArchived", true);
 		} catch (Exception e) {

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="http://localhost:8090/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
     <title>阅读信息</title>
     <style>
         .body {
@@ -39,7 +39,6 @@
 </head>
 
 <body>
-
     <div class="dlib-read-container">
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
@@ -53,14 +52,14 @@
             <div class="dlib-read-main-middle col-sm-6">
                 <div>
                     <div class="form-row">
-                        <div class="form-group col-md-10">
-                            <input type="text" class="form-control is-invalid" id="inputName" placeholder="书名"
+                        <div class="form-group col-md-9">
+                            <input type="text" class="form-control" id="inputName" placeholder="书名"
                                 th:value="${readInfo!=null?readInfo.name:''}">
                         </div>
                         <div class="dlib-read-main-item-name-buffer"></div>
-                        <div class="form-check col-md-1 dlib-read-main-item-isread">
+                        <div class="form-check col-md-2 dlib-read-main-item-isread">
                             <input class="form-check-input" type="checkbox" id="readCheck"
-                                th:checked="${readInfo!=null?(readInfo.isRead?'checked':''):''}">
+                                th:checked="${readInfo!=null?(readInfo.isRead?'checked':null):null}">
                             <label class="form-check-label" for="readCheck">
                                 已读
                             </label>
@@ -113,43 +112,59 @@
         
     </div>
 
-    <script src="http://localhost:8090/js/jquery-3.4.1.js"></script>
-    <script src="http://localhost:8090/js/popper.min.js"></script>
-    <script src="http://localhost:8090/js/bootstrap.min.js"></script>
+    <script src="../../../js/jquery-3.4.1.js"></script>
+    <script src="../../../js/popper.min.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/dbooklib.js"></script>
     <script type="text/javascript">
         $(function () {
             meta = {
-                host: 'http://localhost:8090'
+                host: 'http://'+window.location.host
+            }
+
+            var checkNameEmpty = () => {
+                if ($('#inputName').val() != '') {
+                    if($('#inputName').hasClass('is-invalid'))
+                    {
+                        $('#inputName').removeClass('is-invalid')
+                    }
+                    return true
+                }
+                else {
+                    if(!$('#inputName').hasClass('is-invalid'))
+                    {
+                        $('#inputName').addClass('is-invalid')
+                    }
+                    return false
+                }
             }
 
             var checkYearInput = () => {
                 if ($('#readCheck').is(':checked') && $('#inputDate').val() == '') {
-                    $('#inputDate').addClass('is-invalid')
+                    if(!$('#inputDate').hasClass('is-invalid'))
+                    {
+                        $('#inputDate').addClass('is-invalid')
+                    }
                     return false
                 }
                 else if (!$('#readCheck').is(':checked')) {
-                    $('#inputDate').removeClass('is-invalid')
+                    if($('#inputDate').hasClass('is-invalid'))
+                    {
+                        $('#inputDate').removeClass('is-invalid')
+                    }
                     return true
                 }
                 return true
             }
 
-            var checkNameEmpty = () => {
-                if ($('#inputName').val() != '') {
-                    $('#inputName').removeClass('is-invalid')
-                    return true
-                }
-                else {
-                    $('#inputName').addClass('is-invalid')
-                    return false
-                }
-            }
-
             var checkDateEmpty = () => {
                 if ($('#inputDate').val() != '') {
-                    $('#inputDate').removeClass('is-invalid')
+                    if($('#inputDate').hasClass('is-invalid'))
+                    {
+                        $('#inputDate').removeClass('is-invalid')
+                    }
                 }
-                else if ($('#readCheck').is(':checked')) {
+                else if ($('#readCheck').is(':checked') && !$('#inputDate').hasClass('is-invalid')) {
                     $('#inputDate').addClass('is-invalid')
                 }
             }
@@ -159,7 +174,7 @@
                 isValid = isValid && checkYearInput()
 
                 if (!isValid) {
-                    return
+                    alert("请输入必要信息。")
                 }
 
                 var url = meta.host + '/library/rest/read/save'
@@ -185,6 +200,7 @@
                         $content = JSON.parse(response)
                         $('#read-info-id').val($content._id)
                         $('#dlib-result-lbl').html('保存成功').removeClass('alert-danger').addClass('alert-success')
+                        
                     },
                     error: function (err) {
                         $('#dlib-result-lbl').html('保存失败').removeClass('alert-success').addClass('alert-danger')

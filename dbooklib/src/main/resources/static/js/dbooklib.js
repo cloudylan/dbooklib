@@ -4,7 +4,47 @@ $(function () {
     }
 
     meta = {
-        host: 'http://localhost:8090'
+        host: 'http://' + window.location.host
+    }
+
+    var getBooksPost = (input) => {
+        var url = meta.host + '/library/rest/books'
+
+        $.ajax(url, {
+            dataType: "html",
+            method: "POST",
+            data: JSON.stringify(input),
+            headers: { "Content-Type": "application/json" },
+            success: function (response) {
+                var resJson = JSON.parse(response)
+                $("#dlib-main-book-list li").remove()
+
+                $.each(resJson, function (index, value) {
+                    var $item = $('<li class="list-group-item"></li>')
+                    var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
+                    $name.html(value.name)
+                    if (value.isNew) {
+                        $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-highlight')
+                    }
+                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({ 'href': meta.host + '/library/read/' + value._id })
+                    $detailLink.html('详细')
+                    var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
+                    $type.html(value.type)
+                    var $isread = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-isread')
+                    if (value.year != 'TODO') {
+                        $isread.html(value.year)
+                    }
+
+                    $item.append($name)
+                    $item.append($detailLink)
+                    $item.append($type)
+                    $item.append($isread)
+
+                    $name.on('click', bindDetail)
+                    $("#dlib-main-book-list").append($item)
+                })
+            }
+        });
     }
 
     var bindDetail = () => {
@@ -31,45 +71,7 @@ $(function () {
         })
     };
 
-    var getBooksPost = (input) => {
-        var url = meta.host + '/library/rest/books'
 
-        $.ajax(url, {
-            dataType: "html",
-            method: "POST",
-            data: JSON.stringify(input),
-            headers: { "Content-Type": "application/json" },
-            success: function (response) {
-                var resJson = JSON.parse(response)
-                $("#dlib-main-book-list li").remove()
-
-                $.each(resJson, function (index, value) {
-                    var $item = $('<li class="list-group-item"></li>')
-                    var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
-                    $name.html(value.name)
-                    if (value.isTest) {
-                        $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-test')
-                    }
-                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({ 'href': meta.host + '/library/read/' + value._id })
-                    $detailLink.html('详细')
-                    var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
-                    $type.html(value.type)
-                    var $isread = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-isread')
-                    if (value.year != 'TODO') {
-                        $isread.html(value.year)
-                    }
-
-                    $item.append($name)
-                    $item.append($detailLink)
-                    $item.append($type)
-                    $item.append($isread)
-
-                    $name.on('click', bindDetail)
-                    $("#dlib-main-book-list").append($item)
-                })
-            }
-        });
-    }
 
     var loadKindleLocally = () => {
         console.log("batch adding.")
@@ -79,14 +81,14 @@ $(function () {
             dataType: "html",
             method: 'GET',
             headers: { "Content-Type": "application/json" },
-            success: function(response){
+            success: function (response) {
                 var $data = JSON.parse(response)
-                if($data.isSuccessful)
-                {
-                    alert("Kindle电子书载入成功："+$data.updatedNumber+"本")
+                if ($data.isSuccessful) {
+                    alert("Kindle电子书载入成功：" + $data.updatedNumber + "本")
+                    $("#dlib-header-filter-isread-group-unread").click()
                 }
-                else{
-                    alert("载入失败，数据更新："+$data.updateSuccessful?+"成功":"失败。文件归档："+ $data.fileArchived?"成功":"失败")
+                else {
+                    alert("载入失败，数据更新：" + $data.updateSuccessful ? +"成功" : "失败。文件归档：" + $data.fileArchived ? "成功" : "失败")
                 }
             }
         })
@@ -169,7 +171,7 @@ $(function () {
     getBooksPost(localMem);
 
     $('#dlib-header-search-btn').on('click', onBookSearch)
-    $('#dlib-header-search-input').keydown(function(event){
+    $('#dlib-header-search-input').keydown(function (event) {
         if (event.keyCode == 13) {
             console.log('search from search box.')
             var toSearchVal = $("#dlib-header-search-input").val()

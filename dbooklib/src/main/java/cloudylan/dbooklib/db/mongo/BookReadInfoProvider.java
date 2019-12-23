@@ -113,6 +113,7 @@ public class BookReadInfoProvider {
 	}
 
 	public Document updateReadInfo(BookReadInfo info, boolean isTest) {
+
 		LOGGER.info("Performing read info updating.");
 		Document toUpdate = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
@@ -129,8 +130,8 @@ public class BookReadInfoProvider {
 		LOGGER.info(ur.toString());
 		return toUpdate;
 	}
-	
-	public void insertManyReadInfo(List<BookReadInfo> readInfos, boolean isTest)
+
+	public void insertManyReadInfo(List<BookReadInfo> readInfos, boolean isNew)
 	{
 		LOGGER.info("Performing many read infos inserting.");
 		List<Document> toInsertList = new ArrayList<Document>();
@@ -140,10 +141,11 @@ public class BookReadInfoProvider {
 					.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
 					.append("description", info.getDescription());
 
-			if (isTest)
+			if (isNew)
 			{
-				toInsert.append("isTest", true);
+				toInsert.append("isNew", true);
 			}
+
 			toInsertList.add(toInsert);
 		}
 		
@@ -153,6 +155,7 @@ public class BookReadInfoProvider {
 	public Document getReadInfo(String id) {
 		Document query = new Document("_id", new ObjectId(id));
 		Document doc = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).find(query).first();
+
 		if (doc != null) {
 			doc.put("_id", doc.get("_id").toString());
 		}
