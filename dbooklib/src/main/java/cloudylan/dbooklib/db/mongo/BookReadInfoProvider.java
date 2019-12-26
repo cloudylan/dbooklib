@@ -38,18 +38,19 @@ public class BookReadInfoProvider {
 		UNREAD_LIST.add(null);
 	}
 
-	public List<Document> getDetail() {
-
-		FindIterable<Document> bookDocs = MONGODB.getCollection(MongoData.BOOK.value()).find();
+	public Document getDetail(String id) {
+		// 5e04e16e0582440bd7a65986
+		Document retVal = new Document();
+		Document toFind = new Document();
+		toFind.put("_id", new ObjectId(id));
+		FindIterable<Document> bookDocs = MONGODB.getCollection(MongoData.BOOK.value()).find(toFind);
 		MongoCursor<Document> bookIterator = bookDocs.iterator();
 
-		List<Document> docs = new ArrayList<Document>();
-		while (bookIterator.hasNext()) {
-			docs.add(bookIterator.next());
+		if (bookIterator.hasNext()) {
+			retVal = bookIterator.next();
 		}
 
-		return docs;
-
+		return retVal;
 	}
 
 	public List<Document> getMyBooks(BookReadInfo info) {

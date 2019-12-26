@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
- 	<link rel="stylesheet" href="../css/home.css">
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/home.css"> -->
+    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/home.css">
     <title>Hello, Books!</title>
     <script type="text/javascript">
         host = window.location.host;
@@ -23,10 +25,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="dlib-header-search collapse navbar-collapse flex-fill" id="navbarTogglerDemo01">
-                <img class="dlib-logo" src="../pics/sailor.jpg" alt="Hello Books!" />
+                <img class="dlib-logo" src="./pics/sailor.jpg" alt="Hello Books!" />
                 <div class="dlib-logo-name">Books</div>
                 <div class="dlib-header-search-buffer"></div>
-                
+
                 <div class="form-inline my-0 my-lg-0">
                     <input id="dlib-header-search-input" class="form-control mr-sm-1 input-lg" type="search"
                         placeholder="Search" aria-label="Search">
@@ -73,6 +75,7 @@
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">全部</button>
                 <div class="dropdown-menu">
+                    <a id="dlib-header-filter-year-group-2019" class="dropdown-item" href="#">2020</a>
                     <a id="dlib-header-filter-year-group-2019" class="dropdown-item" href="#">2019</a>
                     <a id="dlib-header-filter-year-group-2018" class="dropdown-item" href="#">2018</a>
                     <a id="dlib-header-filter-year-group-2017" class="dropdown-item" href="#">2017</a>
@@ -84,7 +87,8 @@
                 <button type="button" id='dlib-header-filter-add-new' class="btn btn-outline-success">添加</button>
             </div>
             <div class="btn-group">
-                <button type="button" id='dlib-header-filter-local-batch' class="btn btn-outline-success">本地批量添加</button>
+                <button type="button" id='dlib-header-filter-local-batch'
+                    class="btn btn-outline-success">本地批量添加</button>
             </div>
         </nav>
         <div class="dlib-main row">
@@ -100,15 +104,15 @@
                     <img src="" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title dlib-main-detial-name"></h5>
-                        <p class="card-text"></p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item card-author"></li>
-                        <li class="list-group-item card-star">&#9734;&#9734;&#9734;&#9734;&#9734;</li>
-                        <li class="list-group-item card-year"></li>
-                    </ul>
-                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item card-author"></li>
+                            <li class="list-group-item card-star">&#9734;&#9734;&#9734;&#9734;&#9734;</li>
+                            <li class="list-group-item card-year"></li>
+                        </ul>
                         <a href="#" class="card-forward-link">去往>></a>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"></p>
                     </div>
                 </div>
             </div>
@@ -128,15 +132,15 @@
         <footer class="zone dlib-footer" hidden>Footer</footer>
     </div>
 
-    
-    <script src="../js/jquery-3.4.1.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/dbooklib.js"></script>
+
+    <script src="http://localhost:8080/dbooklib/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/popper.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/dbooklib.js"></script>
     <script type="text/javascript">
-        // alert(window.location.host)
+
     </script>
-    
+
 </body>
 
 </html>

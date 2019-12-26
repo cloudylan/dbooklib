@@ -1,7 +1,10 @@
 TODO List:
 
-1. html local url replecement.
+1. html local url replacement.
+2. 选中已读，自动填充当前年。
+3. selenium处理豆瓣页面。
 4. mongoDB user / password.
+5. 压缩static css and js.
 
 
 db.book.update({}, {$rename:{"publisherYear": "publishYear"}}, false, true)

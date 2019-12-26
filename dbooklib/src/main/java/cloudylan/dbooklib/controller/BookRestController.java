@@ -1,5 +1,8 @@
 package cloudylan.dbooklib.controller;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.bson.Document;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +25,8 @@ import cloudylan.dbooklib.model.BookReadInfo;
 import cloudylan.dbooklib.service.BookFileService;
 
 @RestController
-@RequestMapping("/library/rest")
-@CrossOrigin(origins = "http://localhost:8090", maxAge = 3600)
+@RequestMapping("/rest")
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 public class BookRestController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookRestController.class);
@@ -33,6 +37,9 @@ public class BookRestController {
 	@Autowired
 	private BookFileService bookService;
 
+	/**
+	 * This operation returns book reading status search.
+	 */
 	@RequestMapping(value = "/books", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<List<Document>> getBooks(@RequestBody BookReadInfo request) {
@@ -41,6 +48,9 @@ public class BookRestController {
 		return new ResponseEntity<List<Document>>(retVal, HttpStatus.OK);
 	}
 
+	/**
+	 * This operation proceed reading information persistence.
+	 */
 	@RequestMapping(value = "/read/save", method = RequestMethod.POST)
 	public ResponseEntity<Document> insertBooks(@RequestBody BookReadInfo request) {
 
@@ -58,19 +68,46 @@ public class BookRestController {
 		return new ResponseEntity<Document>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	/**
+	 * This operation returns book details for a given book.
+	 */
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Document> getBookDetail() {
-		List<Document> retVal = this.bookProvider.getDetail();
-		return new ResponseEntity<Document>(retVal.get(0), HttpStatus.OK);
+	public ResponseEntity<Document> getBookDetail(@PathVariable String id) {
+		Document retVal = this.bookProvider.getDetail(id);
+		return new ResponseEntity<Document>(retVal, HttpStatus.OK);
 	}
 
+	/**
+	 * This operation proceeds batch reading info for local kindle files.
+	 */
 	@RequestMapping(value = "/read/load", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Document> loadReadInfos() {
 		Document doc = this.bookService.loadBookInfos();
 		return new ResponseEntity<Document>(doc,
 				doc.getBoolean("isSuccessful") ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
+	}
+	
+	/**
+	 * This operation calls Python program to crawl book details from Douban books.
+	 */
+	@RequestMapping(value="/book/spy", method = RequestMethod.POST)
+	public String crawlBookDetail() throws IOException, InterruptedException
+	{
+		String exe = "/Users/cloudy/anaconda/envs/cloudylib/bin/python";
+        String command = "/Users/cloudy/PycharmProjects/dbooklib/test/calculator_sample.py";
+        String command2 = "/Users/cloudy/PycharmProjects/dbooklib/dlibboot/application.py";
+        String num1 = "1";
+        String num2 = "2";
+        String[] cmdArr = new String[] {exe, command2};
+        Process process = Runtime.getRuntime().exec(cmdArr);
+        InputStream is = process.getInputStream();
+        DataInputStream dis = new DataInputStream(is);
+        String str = dis.readLine();
+        process.waitFor();
+        System.out.println(str);
+		return "hello " + str;
 	}
 
 }

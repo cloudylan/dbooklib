@@ -4,11 +4,11 @@ $(function () {
     }
 
     meta = {
-        host: 'http://' + window.location.host
+        host: 'http://' + window.location.host + '/dbooklib/'
     }
 
     var getBooksPost = (input) => {
-        var url = meta.host + '/library/rest/books'
+        var url = meta.host + 'rest/books'
 
         $.ajax(url, {
             dataType: "html",
@@ -23,10 +23,11 @@ $(function () {
                     var $item = $('<li class="list-group-item"></li>')
                     var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
                     $name.html(value.name)
+                    $name.on("click", {id: value.bookReferId}, getDetail)
                     if (value.isNew) {
                         $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-highlight')
                     }
-                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({ 'href': meta.host + '/library/read/' + value._id })
+                    var $detailLink = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-dlink').attr({ 'href': meta.host + 'read/' + value._id })
                     $detailLink.html('详细')
                     var $type = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-author').attr({ 'href': '#' })
                     $type.html(value.type)
@@ -40,15 +41,16 @@ $(function () {
                     $item.append($type)
                     $item.append($isread)
 
-                    $name.on('click', bindDetail)
                     $("#dlib-main-book-list").append($item)
                 })
             }
         });
     }
 
-    var bindDetail = () => {
-        var url = meta.host + '/library/rest/detail'
+    var getDetail = (event) => {
+        if (event.data.id === undefined)
+        {return}
+        var url = meta.host + 'rest/detail/' + event.data.id
         $.ajax(url, {
             dataType: "html",
             method: "GET",
@@ -58,11 +60,11 @@ $(function () {
             success: function (response) {
                 $content = JSON.parse(response);
                 var $card = $(".card");
-                $card.find("h5.dlib-main-detial-name").html($content.book);
-                $("p.card-text").html($content.description);
+                $card.find("h5.dlib-main-detial-name").html($content.name);
                 $("li.card-author").html($content.author);
-                $("li.card-year").html($content.publisherYear);
-                $("img.card-img-top").attr({ "src": "http://localhost:8090/pics/silkroad.jpg" });
+                $("p.card-text").html($content.intro);
+                $("li.card-year").html($content.publish_year);
+                $("img.card-img-top").attr({ "src": meta.host + 'pics/' + $content.image});
                 $("#dlib-main-detail").removeAttr('hidden')
             },
             error: function (request, errType, errMsg) {
@@ -71,11 +73,9 @@ $(function () {
         })
     };
 
-
-
     var loadKindleLocally = () => {
         console.log("batch adding.")
-        url = meta.host + '/library/rest/read/load'
+        url = meta.host + 'rest/read/load'
 
         $.ajax(url, {
             dataType: "html",
@@ -160,12 +160,12 @@ $(function () {
 
     var openNewWindow = () => {
         newWin = window.open('_blank')
-        newWin.location = meta.host + '/library/read/new'
+        newWin.location = meta.host + 'read/new'
     }
 
     var openReadDetail = (id) => {
         newWin = window.open('_blank')
-        newWin.location = meta.host + '/library/read/' + id
+        newWin.location = meta.host + 'rest/read/' + id
     }
 
     getBooksPost(localMem);
@@ -200,7 +200,6 @@ $(function () {
     $('#dlib-header-filter-add-new').on('click', openNewWindow);
     $('#dlib-header-filter-local-batch').on('click', loadKindleLocally);
 
-    $("#dlib-main-book-list a").on("click", bindDetail);
     for (var index = 1; index <= 10; index++) {
         $("#page_" + index).on("click", { pageNo: index }, onClickPage);
     }

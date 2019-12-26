@@ -13,6 +13,7 @@ public class BookReadInfo {
 	private String source;
 	private String description;
 	private String toSearch;
+	private String bookReferId;
 
 	public BookReadInfo() {
 		super();
@@ -106,6 +107,14 @@ public class BookReadInfo {
 		this.toSearch = toSearch;
 	}
 
+	public String getBookReferId() {
+		return bookReferId;
+	}
+
+	public void setBookReferId(String bookReferId) {
+		this.bookReferId = bookReferId;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -113,7 +122,7 @@ public class BookReadInfo {
 				.append(", isbn=").append(isbn).append(", isRead=").append(isRead).append(", category=")
 				.append(category).append(", date=").append(date).append(", pageNo=").append(pageNo).append(", source=")
 				.append(source).append(", description=").append(description).append(", toSearch=").append(toSearch)
-				.append("]");
+				.append(", bookReferId=").append(bookReferId).append("]");
 		return builder.toString();
 	}
 
