@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cloudylan.dbooklib.config.AppConfiguration;
 import cloudylan.dbooklib.db.mongo.BookReadInfoProvider;
+import cloudylan.dbooklib.model.BookCrawlerRequest;
 import cloudylan.dbooklib.model.BookReadInfo;
 import cloudylan.dbooklib.service.BookFileService;
 
@@ -90,17 +92,13 @@ public class BookRestController {
 	}
 	
 	/**
+	 * 
 	 * This operation calls Python program to crawl book details from Douban books.
 	 */
 	@RequestMapping(value="/book/spy", method = RequestMethod.POST)
-	public String crawlBookDetail() throws IOException, InterruptedException
+	public String crawlBookDetail(@RequestBody BookCrawlerRequest request) throws IOException, InterruptedException
 	{
-		String exe = "/Users/cloudy/anaconda/envs/cloudylib/bin/python";
-        String command = "/Users/cloudy/PycharmProjects/dbooklib/test/calculator_sample.py";
-        String command2 = "/Users/cloudy/PycharmProjects/dbooklib/dlibboot/application.py";
-        String num1 = "1";
-        String num2 = "2";
-        String[] cmdArr = new String[] {exe, command2};
+        String[] cmdArr = new String[] {AppConfiguration.PYTHON_INTERPRETOR, AppConfiguration.PYTHON_MAIN, request.getReadId(),request.getLink()};
         Process process = Runtime.getRuntime().exec(cmdArr);
         InputStream is = process.getInputStream();
         DataInputStream dis = new DataInputStream(is);

@@ -49,7 +49,10 @@ $(function () {
 
     var getDetail = (event) => {
         if (event.data.id === undefined)
-        {return}
+        {
+            // $('.card').css('visibility','hidden')
+            return
+        }
         var url = meta.host + 'rest/detail/' + event.data.id
         $.ajax(url, {
             dataType: "html",
@@ -64,6 +67,7 @@ $(function () {
                 $("li.card-author").html($content.author);
                 $("p.card-text").html($content.intro);
                 $("li.card-year").html($content.publish_year);
+                $("li.card-star").html($content.score + '  ' + '&#9734;&#9734;&#9734;&#9734;&#9734;');
                 $("img.card-img-top").attr({ "src": meta.host + 'pics/' + $content.image});
                 $("#dlib-main-detail").removeAttr('hidden')
             },

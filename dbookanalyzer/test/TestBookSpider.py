@@ -4,6 +4,7 @@ import dlibboot.bookspider as spider
 import dlibboot.config as config
 import db.mongohandler as db
 
+# URL = '/Users/cloudy/Downloads/test/test_string.htm'
 URL = "https://book.douban.com/subject/26853835/"
 config.LOG_LEVEL = logging.DEBUG
 

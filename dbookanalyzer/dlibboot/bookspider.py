@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import io
 import dlibboot.config as config
 import logging as log
 
@@ -8,7 +7,7 @@ HTML_PARSER = 'html.parser'
 log.basicConfig(level=config.LOG_LEVEL)
 
 
-def get_single_book_details(book_url, is_test, db):
+def get_single_book_details(book_url, is_test):
 
     log.info('Spider is processing: ' + book_url)
     response = requests.get(book_url, headers=config.HEADER)
@@ -37,9 +36,7 @@ def get_single_book_details(book_url, is_test, db):
 
     log.debug(book)
 
-    result = db.save(book)
-
-    return result
+    return book
 
 
 # def get_single_book_details_2(book_url, write_to_file, is_test, save):
