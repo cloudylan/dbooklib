@@ -4,7 +4,8 @@ $(function () {
     }
 
     meta = {
-        host: 'http://' + window.location.host + '/dbooklib/'
+        // host: 'http://' + window.location.host + '/dbooklib/'
+        host: 'http://' + 'localhost:8080' + '/dbooklib/'
     }
 
     var getBooksPost = (input) => {
@@ -68,7 +69,7 @@ $(function () {
                 $("p.card-text").html($content.intro);
                 $("li.card-year").html($content.publish_year);
                 $("li.card-star").html($content.score + '  ' + '&#9734;&#9734;&#9734;&#9734;&#9734;');
-                $("img.card-img-top").attr({ "src": meta.host + 'pics/' + $content.image});
+                $("img.card-img-top").attr({"src": $content.image});
                 $("#dlib-main-detail").removeAttr('hidden')
             },
             error: function (request, errType, errMsg) {
@@ -189,6 +190,7 @@ $(function () {
     $("#dlib-header-filter-isread-group-unread").on("click", { label: '未读', isRead: false }, onClickIsRead);
     $("#dlib-header-filter-isread-group-all").on("click", { label: '全部' }, onClickIsRead);
 
+    $("#dlib-header-filter-year-group-2020").on("click", { date: '2020' }, onClickYear);
     $("#dlib-header-filter-year-group-2019").on("click", { date: '2019' }, onClickYear);
     $("#dlib-header-filter-year-group-2018").on("click", { date: '2018' }, onClickYear);
     $("#dlib-header-filter-year-group-2017").on("click", { date: '2017' }, onClickYear);

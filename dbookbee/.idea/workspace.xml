@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="application.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="application.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dlibboot/application.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+            <state relative-caret-position="321">
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -27,7 +27,7 @@
         <entry file="file://$PROJECT_DIR$/test/TestBootApplication.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="93">
-              <caret line="13" column="14" lean-forward="true" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+              <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -56,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mongohandler.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mongohandler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/mongohandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="20" column="53" selection-start-line="20" selection-start-column="53" selection-end-line="20" selection-end-column="53" />
+            <state relative-caret-position="149">
+              <caret line="19" column="38" lean-forward="true" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -94,7 +94,7 @@
     <findStrings>
       <find>uncompress_lz77</find>
       <find>pprint</find>
-      <find />
+      <find>First Non-book index</find>
       <find>f</find>
       <find>config</find>
       <find>h1</find>
@@ -295,9 +295,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_TestMongoHandler_TestMongoHandler - 2019.12.27 at 11h 24m 25s.xml">
-      <configuration name="Unittests for TestMongoHandler.TestMongoHandler" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_TestMongoHandler_py - 2019.12.27 at 11h 24m 38s.xml">
       <configuration name="Unittests in TestMongoHandler.py" configurationId="tests" />
     </history-entry>
@@ -325,16 +322,18 @@
     <history-entry file="Unittests_for_TestBootApplication_TestBootApplication - 2019.12.27 at 11h 53m 00s.xml">
       <configuration name="Unittests for TestBootApplication.TestBootApplication" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_in_TestBootApplication_py - 2019.12.27 at 11h 55m 09s.xml">
+      <configuration name="Unittests in TestBootApplication.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="713" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info id="DB Browser" order="3" />
       <window_info anchor="bottom" id="DB Execution Console" order="7" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35581788" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35581788" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Mongo Explorer" order="3" />
@@ -675,10 +674,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/mongohandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="19" column="38" lean-forward="true" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/TestBootApplication.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
-          <caret line="13" column="14" lean-forward="true" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -687,20 +696,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dlibboot/application.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        <state relative-caret-position="321">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/mongohandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="20" column="53" selection-start-line="20" selection-start-column="53" selection-end-line="20" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

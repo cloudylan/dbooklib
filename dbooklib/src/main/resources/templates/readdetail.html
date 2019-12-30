@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/bootstrap.min.css">
     <title>阅读信息</title>
     <style>
         .body {
@@ -32,8 +32,12 @@
             position: relative;
         }
 
-        .dlib-read-main-item-name-buffer{
-            width:2em;
+        .dlib-read-main-item-name-buffer {
+            width: 2em;
+        }
+
+        .dlib-main-left-book-image {
+            width: 85%;
         }
     </style>
 </head>
@@ -43,12 +47,17 @@
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="http://localhost:8080/dbooklib/">
-                <img src="http://localhost:8080/dbooklib/pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
-                    alt=""><span>阅读信息</span>
+                <img src="http://localhost:8080/dbooklib/pics/sailor.jpg" width="30" height="30"
+                    class="d-inline-block align-top" alt=""><span>阅读信息</span>
             </a>
         </nav>
         <div class="dlib-read-main row">
-            <div class="dlib-read-main-left col-sm-3"></div>
+            <div class="dlib-read-main-left col-sm-3">
+
+                <!-- <img src="http://localhost/pics/book/s29017929.jpg" class="rounded float-right dlib-main-left-book-image" alt="cover"> -->
+                <img th:src="${bookDetail!=null?bookDetail['image']:''}"
+                    class="rounded float-right dlib-main-left-book-image" alt="cover">
+            </div>
             <div class="dlib-read-main-middle col-sm-6">
                 <div>
                     <div class="form-row">
@@ -68,7 +77,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <input type="text" class="form-control" id="inputAuthor"
-                                th:value="${readInfo!=null?readInfo.author:''}" placeholder="作者">
+                                th:value="${bookDetail!=null?bookDetail['author']:(readInfo!=null?readInfo.author:'')}"
+                                placeholder="作者">
                         </div>
                         <div class="form-group col-md-4">
                             <select id="inputCategory" class="form-control">
@@ -105,34 +115,56 @@
                         <div id="read-info-id" th:value="${readInfo!=null?readInfo.id:''}"></div>
                     </div>
                 </div>
-                <hr class="simple" color="#F0F0F0"/>	
+                <hr class="simple" color="#F0F0F0" />
+                <div>
+                    <div class="input-group mb-3" id="dlib-book-detail-import">
+                        <input id="dlib-book-detail-douban-link" type="text" class="form-control" placeholder="从豆瓣链接导入"
+                            aria-label="从豆瓣链接导入" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button"
+                                id="dlib-book-detail-import-btn">导入</button>
+                        </div>
+                    </div>
+                    <div>
+                        <ul id="dlib-book-detail-info" class="list-group list-group-flush">
+                            <li id="dlib-book-detail-publisher" class="list-group-item"
+                                th:text="${bookDetail!=null?bookDetail['publisher']:''}"></li>
+                            <li id="dlib-book-detail-publish_year" class="list-group-item"
+                                th:text="${bookDetail!=null?bookDetail['publish_year']:''}"></li>
+                            <li id="dlib-book-detail-reviewcount" class="list-group-item"
+                                th:text="${bookDetail!=null?bookDetail['review_count']:''}"></li>
+                            <li id="dlib-book-detail-score" class="list-group-item"
+                                th:text="${bookDetail!=null?bookDetail['score']:''}"></li>
+                            <li id="dlib-book-detail-intro" class="list-group-item"
+                                th:text="${bookDetail!=null?bookDetail['intro']:''}"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="dlib-read-main-right col-sm-3"></div>
         </div>
-        
     </div>
 
-    <script src="../js/jquery-3.4.1.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/dbooklib.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/popper.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/dbooklib.js"></script>
     <script type="text/javascript">
         $(function () {
             meta = {
-                host: 'http://'+window.location.host + '/dbooklib/rest'
+                // host: 'http://'+window.location.host + '/dbooklib/rest'
+                host: 'http://' + 'localhost:8080' + '/dbooklib/rest'
             }
 
             var checkNameEmpty = () => {
                 if ($('#inputName').val() != '') {
-                    if($('#inputName').hasClass('is-invalid'))
-                    {
+                    if ($('#inputName').hasClass('is-invalid')) {
                         $('#inputName').removeClass('is-invalid')
                     }
                     return true
                 }
                 else {
-                    if(!$('#inputName').hasClass('is-invalid'))
-                    {
+                    if (!$('#inputName').hasClass('is-invalid')) {
                         $('#inputName').addClass('is-invalid')
                     }
                     return false
@@ -141,15 +173,13 @@
 
             var checkYearInput = () => {
                 if ($('#readCheck').is(':checked') && $('#inputDate').val() == '') {
-                    if(!$('#inputDate').hasClass('is-invalid'))
-                    {
+                    if (!$('#inputDate').hasClass('is-invalid')) {
                         $('#inputDate').addClass('is-invalid')
                     }
                     return false
                 }
                 else if (!$('#readCheck').is(':checked')) {
-                    if($('#inputDate').hasClass('is-invalid'))
-                    {
+                    if ($('#inputDate').hasClass('is-invalid')) {
                         $('#inputDate').removeClass('is-invalid')
                     }
                     return true
@@ -159,8 +189,7 @@
 
             var checkDateEmpty = () => {
                 if ($('#inputDate').val() != '') {
-                    if($('#inputDate').hasClass('is-invalid'))
-                    {
+                    if ($('#inputDate').hasClass('is-invalid')) {
                         $('#inputDate').removeClass('is-invalid')
                     }
                 }
@@ -200,7 +229,7 @@
                         $content = JSON.parse(response)
                         $('#read-info-id').val($content._id)
                         $('#dlib-result-lbl').html('保存成功').removeClass('alert-danger').addClass('alert-success')
-                        
+
                     },
                     error: function (err) {
                         $('#dlib-result-lbl').html('保存失败').removeClass('alert-success').addClass('alert-danger')
@@ -208,12 +237,54 @@
                 })
             }
 
+            const loadFromExternalSrc = () => {
+                var url = meta.host + '/bee/fetch'
+                var read_id = $('#read-info-id').attr('value')
+                var link_val = $('#dlib-book-detail-douban-link').val()
+                $('#dlib-book-detail-douban-link').attr('disabled', 'disabled')
+                $('#dlib-book-detail-import-btn').attr('disabled', 'disabled')
+                var request = {
+                    readId: read_id,
+                    link: link_val
+                }
+                $.ajax(url, {
+                    dataType: 'html',
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: JSON.stringify(request),
+                    success: function (response) {
+                        alert(response)
+                        setTimeout(
+                            function () {
+                                window.location.reload()
+                            }, 1000);
+                    }
+                })
+
+            }
+
+            hideEmptyBlocks = () => {
+                if ($('.dlib-main-left-book-image').attr('src') === ''){
+                    $('.dlib-main-left-book-image').hide()
+                }
+                if ($('#dlib-book-detail-intro').text() === ''){
+                    $('#dlib-book-detail-info').hide()
+                }
+                else{
+                    $('#dlib-book-detail-import').hide()
+                }
+            }
+
             $('#readCheck').on('change', checkYearInput);
             $('#inputName').on('input', checkNameEmpty)
             $('#inputDate').on('input', checkDateEmpty)
             $('#save').on('click', save)
+            $('#dlib-book-detail-import-btn').on('click', loadFromExternalSrc)
             checkNameEmpty()
             checkYearInput()
+            hideEmptyBlocks()
 
         });
     </script>

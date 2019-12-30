@@ -4,6 +4,8 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -25,6 +27,10 @@ import cloudylan.dbooklib.model.BookReadInfo;
 
 @Component
 public class BookReadInfoProvider {
+	
+	private static final String PIC_SVC = "http://localhost/pics/book/";
+	private static final String IMAGE_NAME = "[0-9a-zA-Z]+\\.jpg";
+	private static final Pattern pattern = Pattern.compile(IMAGE_NAME);
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookReadInfoProvider.class);
 
@@ -38,8 +44,12 @@ public class BookReadInfoProvider {
 		UNREAD_LIST.add(null);
 	}
 
+	/**
+	 * 
+	 * Get Book Detail from MongoDB.
+	 * 
+	 */
 	public Document getDetail(String id) {
-		// 5e04e16e0582440bd7a65986
 		Document retVal = new Document();
 		Document toFind = new Document();
 		toFind.put("_id", new ObjectId(id));
@@ -50,9 +60,19 @@ public class BookReadInfoProvider {
 			retVal = bookIterator.next();
 		}
 
+		Matcher matcher = pattern.matcher(retVal.getString("image"));
+		if (matcher.find())
+		{
+			retVal.put("image", new StringBuffer(PIC_SVC).append(matcher.group(0)).toString());
+		}
+
 		return retVal;
 	}
 
+	/**
+	 * 
+	 * Get Read Informations based on Search Conditions.
+	 */
 	public List<Document> getMyBooks(BookReadInfo info) {
 		Document toFind = new Document();
 
@@ -98,6 +118,14 @@ public class BookReadInfoProvider {
 		return docs;
 	}
 
+	/**
+	 * 
+	 * Insert Read Info.
+	 * 
+	 * @param info
+	 * @param isTest
+	 * @return the inserted value.
+	 */
 	public Document insertReadInfo(BookReadInfo info, boolean isTest) {
 		LOGGER.info("Performing read info creating.");
 		Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
@@ -166,6 +194,10 @@ public class BookReadInfoProvider {
 	}
 
 
+	/**
+	 * Build Database Instance with MongoDB Driver.
+	 * @return
+	 */
 	private static MongoDatabase buildDatabase() {
 		MongoClientSettings settings = MongoClientSettings.builder()
 				.applyConnectionString(new ConnectionString(MongoData.CONNECTION_STR.value())).retryWrites(true)

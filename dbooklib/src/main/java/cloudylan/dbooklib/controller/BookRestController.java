@@ -90,21 +90,22 @@ public class BookRestController {
 		return new ResponseEntity<Document>(doc,
 				doc.getBoolean("isSuccessful") ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
 	}
-	
+
 	/**
 	 * 
 	 * This operation calls Python program to crawl book details from Douban books.
 	 */
-	@RequestMapping(value="/book/spy", method = RequestMethod.POST)
-	public String crawlBookDetail(@RequestBody BookCrawlerRequest request) throws IOException, InterruptedException
-	{
-        String[] cmdArr = new String[] {AppConfiguration.PYTHON_INTERPRETOR, AppConfiguration.PYTHON_MAIN, request.getReadId(),request.getLink()};
-        Process process = Runtime.getRuntime().exec(cmdArr);
-        InputStream is = process.getInputStream();
-        DataInputStream dis = new DataInputStream(is);
-        String str = dis.readLine();
-        process.waitFor();
-        System.out.println(str);
+	@RequestMapping(value = "/bee/fetch", method = RequestMethod.POST)
+	public String crawlBookDetail(@RequestBody BookCrawlerRequest request) throws IOException, InterruptedException {
+		LOGGER.debug(request.toString());
+		String[] cmdArr = new String[] { AppConfiguration.PYTHON_INTERPRETOR, AppConfiguration.PYTHON_MAIN,
+				request.getReadId(), request.getLink() };
+		Process process = Runtime.getRuntime().exec(cmdArr);
+		InputStream is = process.getInputStream();
+		DataInputStream dis = new DataInputStream(is);
+		String str = dis.readLine();
+		process.waitFor();
+		LOGGER.debug(str);
 		return "hello " + str;
 	}
 

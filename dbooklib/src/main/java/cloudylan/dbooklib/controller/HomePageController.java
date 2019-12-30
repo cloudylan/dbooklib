@@ -82,7 +82,7 @@ public class HomePageController {
 			bi.setDate(readInfoDoc.getString("year"));
 			bi.setCategory(readInfoDoc.getString("type"));
 			bi.setAuthor(readInfoDoc.getString("author"));
-			bi.setIsRead(readInfoDoc.getBoolean("isRead", false));
+			bi.setIsRead(readInfoDoc.getString("year") != null ? true : false);
 			bi.setSource((readInfoDoc.getString("source") == null || "".equals(readInfoDoc.getString("source"))) ? "纸质" : readInfoDoc.getString("source"));
 			bi.setDescription(readInfoDoc.getString("description"));
 			bi.setBookReferId(readInfoDoc.getString("bookReferId"));
