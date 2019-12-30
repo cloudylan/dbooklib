@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <title>阅读信息</title>
     <style>
         .body {
@@ -46,14 +46,13 @@
     <div class="dlib-read-container">
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="http://localhost:8080/dbooklib/">
-                <img src="http://localhost:8080/dbooklib/pics/sailor.jpg" width="30" height="30"
+            <a class="navbar-brand" href="/dbooklib/">
+                <img src="../pics/sailor.jpg" width="30" height="30"
                     class="d-inline-block align-top" alt=""><span>阅读信息</span>
             </a>
         </nav>
         <div class="dlib-read-main row">
             <div class="dlib-read-main-left col-sm-3">
-
                 <!-- <img src="http://localhost/pics/book/s29017929.jpg" class="rounded float-right dlib-main-left-book-image" alt="cover"> -->
                 <img th:src="${bookDetail!=null?bookDetail['image']:''}"
                     class="rounded float-right dlib-main-left-book-image" alt="cover">
@@ -145,15 +144,15 @@
         </div>
     </div>
 
-    <script src="http://localhost:8080/dbooklib/js/jquery-3.4.1.js"></script>
-    <script src="http://localhost:8080/dbooklib/js/popper.min.js"></script>
-    <script src="http://localhost:8080/dbooklib/js/bootstrap.min.js"></script>
-    <script src="http://localhost:8080/dbooklib/js/dbooklib.js"></script>
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/dbooklib.js"></script>
     <script type="text/javascript">
         $(function () {
             meta = {
-                // host: 'http://'+window.location.host + '/dbooklib/rest'
-                host: 'http://' + 'localhost:8080' + '/dbooklib/rest'
+                host: 'http://'+window.location.host + '/dbooklib/rest'
+                // host: 'http://' + 'localhost:8080' + '/dbooklib/rest'
             }
 
             var checkNameEmpty = () => {
