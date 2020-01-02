@@ -26,8 +26,13 @@
             margin-top: 2em;
         }
 
-        .dlib-analysis-main-left-readnum{
+        .dlib-analysis-main-left-readnum {
             padding-left: 4%;
+        }
+
+        .dlib-analysis-author{
+            width: 95%;
+            margin-right: 2em;
         }
     </style>
 </head>
@@ -44,7 +49,7 @@
             </a>
         </nav>
         <div class="dlib-analysis-main row">
-            <div class="dlib-analysis-main-left col-sm-3">
+            <div class="dlib-analysis-main-left col-sm-2">
                 <div class="dlib-analysis-main-left-readnum">
                     <div class="card border-success mb-1" style="max-width: 8rem;">
                         <div class="card-header">已读</div>
@@ -60,11 +65,67 @@
                     </div>
                 </div>
             </div>
-            <div class="dlib-analysis-main-middle col-sm-6">
+            <div class="dlib-analysis-main-middle col-sm-7">
+                
                 <div id="analysis-year-chart" class="analysis-year-chart">
                 </div>
+                <div id="analysis-oneyear-chart">
+                </div>
+                <!-- <div id="container-test" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto">
+                </div> -->
+                <div id="analysis-category-chart">
+                </div>
+                
+                <div id="analysis-category-author-chart">
+                </div>
             </div>
-            <div class="dlib-analysis-main-right col-sm-3"></div>
+            <div class="dlib-analysis-main-right col-sm-3">
+
+                <div>
+                    <div class="card mb-3 dlib-analysis-author">
+                        <div class="row no-gutters">
+                          <div class="col-md-5">
+                            <img src="http://localhost/pics/author/asimov.jpg" class="card-img" alt="...">
+                          </div>
+                          <div class="col-md-7">
+                            <div class="card-body">
+                              <h6 class="card-title">艾萨克·阿西莫夫</h6>
+                              <p class="card-text"><small class="text-muted">6</small></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card mb-3 dlib-analysis-author">
+                        <div class="row no-gutters">
+                          <div class="col-md-5">
+                            <img src="http://localhost/pics/author/neilgaiman.jpg" class="card-img" alt="...">
+                          </div>
+                          <div class="col-md-7">
+                            <div class="card-body">
+                              <h6 class="card-title">尼尔·盖曼</h6>
+                              <p class="card-text"><small class="text-muted">5</small></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card mb-3 dlib-analysis-author">
+                        <div class="row no-gutters">
+                          <div class="col-md-5">
+                            <img src="http://localhost/pics/author/liucixin.jpg" class="card-img" alt="...">
+                          </div>
+                          <div class="col-md-7">
+                            <div class="card-body">
+                              <h6 class="card-title">刘慈欣</h6>
+                              <p class="card-text"><small class="text-muted">4</small></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                </div>
+            </div>
         </div>
 
     </div>
@@ -76,6 +137,11 @@
     <script src="http://localhost/dbooklib/js/popper.min.js"></script>
     <script src="http://localhost/dbooklib/js/bootstrap.min.js"></script>
     <script src="http://localhost/dbooklib/js/highcharts.js"></script>
+    <script src="http://localhost/static/js/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/tilemap.js"></script>
     <script type="text/javascript">
         meta = {
             host: 'http://localhost:8080/dbooklib/',
@@ -86,6 +152,9 @@
 
         $(function () {
             url = meta.host + 'rest/analysis/year'
+
+
+
             $.ajax(url, {
                 method: 'GET',
                 dataType: 'html',
@@ -142,6 +211,1024 @@
                     });
                 }
             })
+
+
+            Highcharts.chart('analysis-category-chart', {
+
+                chart: {
+                    polar: true,
+                    type: 'line'
+                },
+
+                accessibility: {
+                    description: 'A spiderweb chart compares the allocated budget against actual spending within an organization. The spider chart has six spokes. Each spoke represents one of the 6 departments within the organization: sales, marketing, development, customer support, information technology and administration. The chart is interactive, and each data point is displayed upon hovering. The chart clearly shows that 4 of the 6 departments have overspent their budget with Marketing responsible for the greatest overspend of $20,000. The allocated budget and actual spending data points for each department are as follows: Sales. Budget equals $43,000; spending equals $50,000. Marketing. Budget equals $19,000; spending equals $39,000. Development. Budget equals $60,000; spending equals $42,000. Customer support. Budget equals $35,000; spending equals $31,000. Information technology. Budget equals $17,000; spending equals $26,000. Administration. Budget equals $10,000; spending equals $14,000.'
+                },
+
+                title: {
+                    text: 'Budget vs spending',
+                    x: -80
+                },
+
+                pane: {
+                    size: '80%'
+                },
+
+                xAxis: {
+                    categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
+                        'Information Technology'],
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0
+                },
+
+                tooltip: {
+                    shared: true,
+                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+                },
+
+                legend: {
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                series: [{
+                    name: 'Allocated Budget',
+                    data: [43000, 19000, 60000, 35000, 17000],
+                    pointPlacement: 'on'
+                }, {
+                    name: 'Actual Spending',
+                    data: [50000, 39000, 42000, 31000, 26000],
+                    pointPlacement: 'on'
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            },
+                            pane: {
+                                size: '70%'
+                            }
+                        }
+                    }]
+                }
+
+            });
+
+
+            Highcharts.chart('analysis-oneyear-chart', {
+                chart: {
+                    type: 'tilemap',
+                    inverted: true,
+                    height: '80%'
+                },
+
+                accessibility: {
+                    description: 'A tile map represents the states of the USA by population in 2016. The hexagonal tiles are positioned to geographically echo the map of the USA. A color-coded legend states the population levels as below 1 million (beige), 1 to 5 million (orange), 5 to 20 million (pink) and above 20 million (hot pink). The chart is interactive, and the individual state data points are displayed upon hovering. Three states have a population of above 20 million: California (39.3 million), Texas (27.9 million) and Florida (20.6 million). The northern US region from Massachusetts in the Northwest to Illinois in the Midwest contains the highest concentration of states with a population of 5 to 20 million people. The southern US region from South Carolina in the Southeast to New Mexico in the Southwest contains the highest concentration of states with a population of 1 to 5 million people. 6 states have a population of less than 1 million people; these include Alaska, Delaware, Wyoming, North Dakota, South Dakota and Vermont. The state with the lowest population is Wyoming in the Northwest with 584,153 people.'
+                },
+
+                title: {
+                    text: 'U.S. states by population in 2016'
+                },
+
+                subtitle: {
+                    text: 'Source:<a href="https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population">Wikipedia</a>'
+                },
+
+                xAxis: {
+                    visible: false
+                },
+
+                yAxis: {
+                    visible: false
+                },
+
+                colorAxis: {
+                    dataClasses: [{
+                        from: 0,
+                        to: 1000000,
+                        color: '#F9EDB3',
+                        name: '< 1M'
+                    }, {
+                        from: 1000000,
+                        to: 5000000,
+                        color: '#FFC428',
+                        name: '1M - 5M'
+                    }, {
+                        from: 5000000,
+                        to: 20000000,
+                        color: '#FF7987',
+                        name: '5M - 20M'
+                    }, {
+                        from: 20000000,
+                        color: '#FF2371',
+                        name: '> 20M'
+                    }]
+                },
+
+                tooltip: {
+                    headerFormat: '',
+                    pointFormat: 'The population of <b> {point.name}</b> is <b>{point.value}</b>'
+                },
+
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.hc-a2}',
+                            color: '#000000',
+                            style: {
+                                textOutline: false
+                            }
+                        }
+                    }
+                },
+
+                series: [{
+                    name: '',
+                    data: [{
+                        'hc-a2': 'Python',
+                        name: 'Alabama',
+                        region: 'South',
+                        x: 6,
+                        y: 7,
+                        value: 4849377
+                    }, {
+                        'hc-a2': 'AK',
+                        name: 'Alaska',
+                        region: 'West',
+                        x: 0,
+                        y: 0,
+                        value: 737732
+                    }, {
+                        'hc-a2': 'AZ',
+                        name: 'Arizona',
+                        region: 'West',
+                        x: 5,
+                        y: 3,
+                        value: 6745408
+                    }, {
+                        'hc-a2': 'AR',
+                        name: 'Arkansas',
+                        region: 'South',
+                        x: 5,
+                        y: 6,
+                        value: 2994079
+                    }, {
+                        'hc-a2': 'CA',
+                        name: 'California',
+                        region: 'West',
+                        x: 5,
+                        y: 2,
+                        value: 39250017
+                    }, {
+                        'hc-a2': 'CO',
+                        name: 'Colorado',
+                        region: 'West',
+                        x: 4,
+                        y: 3,
+                        value: 5540545
+                    }, {
+                        'hc-a2': 'CT',
+                        name: 'Connecticut',
+                        region: 'Northeast',
+                        x: 3,
+                        y: 11,
+                        value: 3596677
+                    }, {
+                        'hc-a2': 'DE',
+                        name: 'Delaware',
+                        region: 'South',
+                        x: 4,
+                        y: 9,
+                        value: 935614
+                    }, {
+                        'hc-a2': 'DC',
+                        name: 'District of Columbia',
+                        region: 'South',
+                        x: 4,
+                        y: 10,
+                        value: 7288000
+                    }, {
+                        'hc-a2': 'FL',
+                        name: 'Florida',
+                        region: 'South',
+                        x: 8,
+                        y: 8,
+                        value: 20612439
+                    }, {
+                        'hc-a2': 'GA',
+                        name: 'Georgia',
+                        region: 'South',
+                        x: 7,
+                        y: 8,
+                        value: 10310371
+                    }, {
+                        'hc-a2': 'HI',
+                        name: 'Hawaii',
+                        region: 'West',
+                        x: 8,
+                        y: 0,
+                        value: 1419561
+                    }, {
+                        'hc-a2': 'ID',
+                        name: 'Idaho',
+                        region: 'West',
+                        x: 3,
+                        y: 2,
+                        value: 1634464
+                    }, {
+                        'hc-a2': 'IL',
+                        name: 'Illinois',
+                        region: 'Midwest',
+                        x: 3,
+                        y: 6,
+                        value: 12801539
+                    }, {
+                        'hc-a2': 'IN',
+                        name: 'Indiana',
+                        region: 'Midwest',
+                        x: 3,
+                        y: 7,
+                        value: 6596855
+                    }, {
+                        'hc-a2': 'IA',
+                        name: 'Iowa',
+                        region: 'Midwest',
+                        x: 3,
+                        y: 5,
+                        value: 3107126
+                    }, {
+                        'hc-a2': 'KS',
+                        name: 'Kansas',
+                        region: 'Midwest',
+                        x: 5,
+                        y: 5,
+                        value: 2904021
+                    }, {
+                        'hc-a2': 'KY',
+                        name: 'Kentucky',
+                        region: 'South',
+                        x: 4,
+                        y: 6,
+                        value: 4413457
+                    }, {
+                        'hc-a2': 'LA',
+                        name: 'Louisiana',
+                        region: 'South',
+                        x: 6,
+                        y: 5,
+                        value: 4649676
+                    }, {
+                        'hc-a2': 'ME',
+                        name: 'Maine',
+                        region: 'Northeast',
+                        x: 0,
+                        y: 11,
+                        value: 1330089
+                    }, {
+                        'hc-a2': 'MD',
+                        name: 'Maryland',
+                        region: 'South',
+                        x: 4,
+                        y: 8,
+                        value: 6016447
+                    }, {
+                        'hc-a2': 'MA',
+                        name: 'Massachusetts',
+                        region: 'Northeast',
+                        x: 2,
+                        y: 10,
+                        value: 6811779
+                    }, {
+                        'hc-a2': 'MI',
+                        name: 'Michigan',
+                        region: 'Midwest',
+                        x: 2,
+                        y: 7,
+                        value: 9928301
+                    }, {
+                        'hc-a2': 'MN',
+                        name: 'Minnesota',
+                        region: 'Midwest',
+                        x: 2,
+                        y: 4,
+                        value: 5519952
+                    }, {
+                        'hc-a2': 'MS',
+                        name: 'Mississippi',
+                        region: 'South',
+                        x: 6,
+                        y: 6,
+                        value: 2984926
+                    }, {
+                        'hc-a2': 'MO',
+                        name: 'Missouri',
+                        region: 'Midwest',
+                        x: 4,
+                        y: 5,
+                        value: 6093000
+                    }, {
+                        'hc-a2': 'MT',
+                        name: 'Montana',
+                        region: 'West',
+                        x: 2,
+                        y: 2,
+                        value: 1023579
+                    }, {
+                        'hc-a2': 'NE',
+                        name: 'Nebraska',
+                        region: 'Midwest',
+                        x: 4,
+                        y: 4,
+                        value: 1881503
+                    }, {
+                        'hc-a2': 'NV',
+                        name: 'Nevada',
+                        region: 'West',
+                        x: 4,
+                        y: 2,
+                        value: 2839099
+                    }, {
+                        'hc-a2': 'NH',
+                        name: 'New Hampshire',
+                        region: 'Northeast',
+                        x: 1,
+                        y: 11,
+                        value: 1326813
+                    }, {
+                        'hc-a2': 'NJ',
+                        name: 'New Jersey',
+                        region: 'Northeast',
+                        x: 3,
+                        y: 10,
+                        value: 8944469
+                    }, {
+                        'hc-a2': 'NM',
+                        name: 'New Mexico',
+                        region: 'West',
+                        x: 6,
+                        y: 3,
+                        value: 2085572
+                    }, {
+                        'hc-a2': 'NY',
+                        name: 'New York',
+                        region: 'Northeast',
+                        x: 2,
+                        y: 9,
+                        value: 19745289
+                    }, {
+                        'hc-a2': 'NC',
+                        name: 'North Carolina',
+                        region: 'South',
+                        x: 5,
+                        y: 9,
+                        value: 10146788
+                    }, {
+                        'hc-a2': 'ND',
+                        name: 'North Dakota',
+                        region: 'Midwest',
+                        x: 2,
+                        y: 3,
+                        value: 739482
+                    }, {
+                        'hc-a2': 'OH',
+                        name: 'Ohio',
+                        region: 'Midwest',
+                        x: 3,
+                        y: 8,
+                        value: 11614373
+                    }, {
+                        'hc-a2': 'OK',
+                        name: 'Oklahoma',
+                        region: 'South',
+                        x: 6,
+                        y: 4,
+                        value: 3878051
+                    }, {
+                        'hc-a2': 'OR',
+                        name: 'Oregon',
+                        region: 'West',
+                        x: 4,
+                        y: 1,
+                        value: 3970239
+                    }, {
+                        'hc-a2': 'PA',
+                        name: 'Pennsylvania',
+                        region: 'Northeast',
+                        x: 3,
+                        y: 9,
+                        value: 12784227
+                    }, {
+                        'hc-a2': 'RI',
+                        name: 'Rhode Island',
+                        region: 'Northeast',
+                        x: 2,
+                        y: 11,
+                        value: 1055173
+                    }, {
+                        'hc-a2': 'SC',
+                        name: 'South Carolina',
+                        region: 'South',
+                        x: 6,
+                        y: 8,
+                        value: 4832482
+                    }, {
+                        'hc-a2': 'SD',
+                        name: 'South Dakota',
+                        region: 'Midwest',
+                        x: 3,
+                        y: 4,
+                        value: 853175
+                    }, {
+                        'hc-a2': 'TN',
+                        name: 'Tennessee',
+                        region: 'South',
+                        x: 5,
+                        y: 7,
+                        value: 6651194
+                    }, {
+                        'hc-a2': 'TX',
+                        name: 'Texas',
+                        region: 'South',
+                        x: 7,
+                        y: 4,
+                        value: 27862596
+                    }, {
+                        'hc-a2': 'UT',
+                        name: 'Utah',
+                        region: 'West',
+                        x: 5,
+                        y: 4,
+                        value: 2942902
+                    }, {
+                        'hc-a2': 'VT',
+                        name: 'Vermont',
+                        region: 'Northeast',
+                        x: 1,
+                        y: 10,
+                        value: 626011
+                    }, {
+                        'hc-a2': 'VA',
+                        name: 'Virginia',
+                        region: 'South',
+                        x: 5,
+                        y: 8,
+                        value: 8411808
+                    }, {
+                        'hc-a2': 'WA',
+                        name: 'Washington',
+                        region: 'West',
+                        x: 2,
+                        y: 1,
+                        value: 7288000
+                    }, {
+                        'hc-a2': 'WV',
+                        name: 'West Virginia',
+                        region: 'South',
+                        x: 4,
+                        y: 7,
+                        value: 1850326
+                    }, {
+                        'hc-a2': 'WI',
+                        name: 'Wisconsin',
+                        region: 'Midwest',
+                        x: 2,
+                        y: 5,
+                        value: 5778708
+                    }, {
+                        'hc-a2': 'WY',
+                        name: 'Wyoming',
+                        region: 'West',
+                        x: 3,
+                        y: 3,
+                        value: 584153
+                    }]
+                }]
+            });
+
+            Highcharts.chart('analysis-category-author-chart', {
+                chart: {
+                    type: 'packedbubble',
+                    height: '100%'
+                },
+                title: {
+                    text: '2014 年世界各地碳排放量'
+                },
+                tooltip: {
+                    useHTML: true,
+                    pointFormat: '<b>{point.name}:</b> {point.y}m CO<sub>2</sub>'
+                },
+                plotOptions: {
+                    packedbubble: {
+                        minSize: '30%',
+                        maxSize: '120%',
+                        zMin: 0,
+                        zMax: 1000,
+                        layoutAlgorithm: {
+                            gravitationalConstant: 0.05,
+                            splitSeries: true,
+                            seriesInteraction: false,
+                            dragBetweenSeries: true,
+                            parentNodeLimit: true
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}',
+                            filter: {
+                                property: 'y',
+                                operator: '>',
+                                value: 250
+                            },
+                            style: {
+                                color: 'black',
+                                textOutline: 'none',
+                                fontWeight: 'normal'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: '欧洲',
+                    data: [{
+                        name: 'Germany',
+                        value: 767.1
+                    }, {
+                        name: 'Croatia',
+                        value: 20.7
+                    },
+                    {
+                        name: "Belgium",
+                        value: 97.2
+                    },
+                    {
+                        name: "Czech Republic",
+                        value: 111.7
+                    },
+                    {
+                        name: "Netherlands",
+                        value: 158.1
+                    },
+                    {
+                        name: "Spain",
+                        value: 241.6
+                    },
+                    {
+                        name: "Ukraine",
+                        value: 249.1
+                    },
+                    {
+                        name: "Poland",
+                        value: 298.1
+                    },
+                    {
+                        name: "France",
+                        value: 323.7
+                    },
+                    {
+                        name: "Romania",
+                        value: 78.3
+                    },
+                    {
+                        name: "United Kingdom",
+                        value: 415.4
+                    }, {
+                        name: "Turkey",
+                        value: 353.2
+                    }, {
+                        name: "Italy",
+                        value: 337.6
+                    },
+                    {
+                        name: "Greece",
+                        value: 71.1
+                    },
+                    {
+                        name: "Austria",
+                        value: 69.8
+                    },
+                    {
+                        name: "Belarus",
+                        value: 67.7
+                    },
+                    {
+                        name: "Serbia",
+                        value: 59.3
+                    },
+                    {
+                        name: "Finland",
+                        value: 54.8
+                    },
+                    {
+                        name: "Bulgaria",
+                        value: 51.2
+                    },
+                    {
+                        name: "Portugal",
+                        value: 48.3
+                    },
+                    {
+                        name: "Norway",
+                        value: 44.4
+                    },
+                    {
+                        name: "Sweden",
+                        value: 44.3
+                    },
+                    {
+                        name: "Hungary",
+                        value: 43.7
+                    },
+                    {
+                        name: "Switzerland",
+                        value: 40.2
+                    },
+                    {
+                        name: "Denmark",
+                        value: 40
+                    },
+                    {
+                        name: "Slovakia",
+                        value: 34.7
+                    },
+                    {
+                        name: "Ireland",
+                        value: 34.6
+                    },
+                    {
+                        name: "Croatia",
+                        value: 20.7
+                    },
+                    {
+                        name: "Estonia",
+                        value: 19.4
+                    },
+                    {
+                        name: "Slovenia",
+                        value: 16.7
+                    },
+                    {
+                        name: "Lithuania",
+                        value: 12.3
+                    },
+                    {
+                        name: "Luxembourg",
+                        value: 10.4
+                    },
+                    {
+                        name: "Macedonia",
+                        value: 9.5
+                    },
+                    {
+                        name: "Moldova",
+                        value: 7.8
+                    },
+                    {
+                        name: "Latvia",
+                        value: 7.5
+                    },
+                    {
+                        name: "Cyprus",
+                        value: 7.2
+                    }]
+                }, {
+                    name: '非洲',
+                    data: [{
+                        name: "Senegal",
+                        value: 8.2
+                    },
+                    {
+                        name: "Cameroon",
+                        value: 9.2
+                    },
+                    {
+                        name: "Zimbabwe",
+                        value: 13.1
+                    },
+                    {
+                        name: "Ghana",
+                        value: 14.1
+                    },
+                    {
+                        name: "Kenya",
+                        value: 14.1
+                    },
+                    {
+                        name: "Sudan",
+                        value: 17.3
+                    },
+                    {
+                        name: "Tunisia",
+                        value: 24.3
+                    },
+                    {
+                        name: "Angola",
+                        value: 25
+                    },
+                    {
+                        name: "Libya",
+                        value: 50.6
+                    },
+                    {
+                        name: "Ivory Coast",
+                        value: 7.3
+                    },
+                    {
+                        name: "Morocco",
+                        value: 60.7
+                    },
+                    {
+                        name: "Ethiopia",
+                        value: 8.9
+                    },
+                    {
+                        name: "United Republic of Tanzania",
+                        value: 9.1
+                    },
+                    {
+                        name: "Nigeria",
+                        value: 93.9
+                    },
+                    {
+                        name: "South Africa",
+                        value: 392.7
+                    }, {
+                        name: "Egypt",
+                        value: 225.1
+                    }, {
+                        name: "Algeria",
+                        value: 141.5
+                    }]
+                }, {
+                    name: '大洋洲',
+                    data: [{
+                        name: "Australia",
+                        value: 409.4
+                    },
+                    {
+                        name: "New Zealand",
+                        value: 34.1
+                    },
+                    {
+                        name: "Papua New Guinea",
+                        value: 7.1
+                    }]
+                }, {
+                    name: '北美洲',
+                    data: [{
+                        name: "Costa Rica",
+                        value: 7.6
+                    },
+                    {
+                        name: "Honduras",
+                        value: 8.4
+                    },
+                    {
+                        name: "Jamaica",
+                        value: 8.3
+                    },
+                    {
+                        name: "Panama",
+                        value: 10.2
+                    },
+                    {
+                        name: "Guatemala",
+                        value: 12
+                    },
+                    {
+                        name: "Dominican Republic",
+                        value: 23.4
+                    },
+                    {
+                        name: "Cuba",
+                        value: 30.2
+                    },
+                    {
+                        name: "USA",
+                        value: 5334.5
+                    }, {
+                        name: "Canada",
+                        value: 566
+                    }, {
+                        name: "Mexico",
+                        value: 456.3
+                    }]
+                }, {
+                    name: '南美洲',
+                    data: [{
+                        name: "El Salvador",
+                        value: 7.2
+                    },
+                    {
+                        name: "Uruguay",
+                        value: 8.1
+                    },
+                    {
+                        name: "Bolivia",
+                        value: 17.8
+                    },
+                    {
+                        name: "Trinidad and Tobago",
+                        value: 34
+                    },
+                    {
+                        name: "Ecuador",
+                        value: 43
+                    },
+                    {
+                        name: "Chile",
+                        value: 78.6
+                    },
+                    {
+                        name: "Peru",
+                        value: 52
+                    },
+                    {
+                        name: "Colombia",
+                        value: 74.1
+                    },
+                    {
+                        name: "Brazil",
+                        value: 501.1
+                    }, {
+                        name: "Argentina",
+                        value: 199
+                    },
+                    {
+                        name: "Venezuela",
+                        value: 195.2
+                    }]
+                }, {
+                    name: '亚洲',
+                    data: [{
+                        name: "Nepal",
+                        value: 6.5
+                    },
+                    {
+                        name: "Georgia",
+                        value: 6.5
+                    },
+                    {
+                        name: "Brunei Darussalam",
+                        value: 7.4
+                    },
+                    {
+                        name: "Kyrgyzstan",
+                        value: 7.4
+                    },
+                    {
+                        name: "Afghanistan",
+                        value: 7.9
+                    },
+                    {
+                        name: "Myanmar",
+                        value: 9.1
+                    },
+                    {
+                        name: "Mongolia",
+                        value: 14.7
+                    },
+                    {
+                        name: "Sri Lanka",
+                        value: 16.6
+                    },
+                    {
+                        name: "Bahrain",
+                        value: 20.5
+                    },
+                    {
+                        name: "Yemen",
+                        value: 22.6
+                    },
+                    {
+                        name: "Jordan",
+                        value: 22.3
+                    },
+                    {
+                        name: "Lebanon",
+                        value: 21.1
+                    },
+                    {
+                        name: "Azerbaijan",
+                        value: 31.7
+                    },
+                    {
+                        name: "Singapore",
+                        value: 47.8
+                    },
+                    {
+                        name: "Hong Kong",
+                        value: 49.9
+                    },
+                    {
+                        name: "Syria",
+                        value: 52.7
+                    },
+                    {
+                        name: "DPR Korea",
+                        value: 59.9
+                    },
+                    {
+                        name: "Israel",
+                        value: 64.8
+                    },
+                    {
+                        name: "Turkmenistan",
+                        value: 70.6
+                    },
+                    {
+                        name: "Oman",
+                        value: 74.3
+                    },
+                    {
+                        name: "Qatar",
+                        value: 88.8
+                    },
+                    {
+                        name: "Philippines",
+                        value: 96.9
+                    },
+                    {
+                        name: "Kuwait",
+                        value: 98.6
+                    },
+                    {
+                        name: "Uzbekistan",
+                        value: 122.6
+                    },
+                    {
+                        name: "Iraq",
+                        value: 139.9
+                    },
+                    {
+                        name: "Pakistan",
+                        value: 158.1
+                    },
+                    {
+                        name: "Vietnam",
+                        value: 190.2
+                    },
+                    {
+                        name: "United Arab Emirates",
+                        value: 201.1
+                    },
+                    {
+                        name: "Malaysia",
+                        value: 227.5
+                    },
+                    {
+                        name: "Kazakhstan",
+                        value: 236.2
+                    },
+                    {
+                        name: "Thailand",
+                        value: 272
+                    },
+
+                    {
+                        name: "Indonesia",
+                        value: 453
+                    },
+                    {
+                        name: "Saudi Arabia",
+                        value: 494.8
+                    },
+                    {
+                        name: "Japan",
+                        value: 1278.9
+                    },
+                    {
+                        name: "China",
+                        value: 10540.8
+                    },
+                    {
+                        name: "India",
+                        value: 2341.9
+                    },
+                    {
+                        name: "Russia",
+                        value: 1766.4
+                    },
+                    {
+                        name: "Iran",
+                        value: 618.2
+                    },
+                    {
+                        name: "Korea",
+                        value: 610.1
+                    }]
+                }]
+            });
 
         })
 

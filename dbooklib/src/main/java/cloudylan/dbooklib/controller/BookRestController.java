@@ -54,7 +54,7 @@ public class BookRestController {
 	 * This operation proceed reading information persistence.
 	 */
 	@RequestMapping(value = "/read/save", method = RequestMethod.POST)
-	public ResponseEntity<Document> insertBooks(@RequestBody BookReadInfo request) {
+	public ResponseEntity<Document> saveBooks(@RequestBody BookReadInfo request) {
 
 		LOGGER.info(request.toString());
 
