@@ -1,7 +1,7 @@
 import logging
 
 HTML_PARSER = 'html.parser'
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.DEBUG
 IS_TEST = False
 PICS_FOLDER = '/Users/cloudy/Java/tomcat/apache-tomcat-9.0.0.M9/webapps/pics/book/'
 

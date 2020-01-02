@@ -8,7 +8,7 @@ dbooklib.egg-info/requires.txt
 dbooklib.egg-info/top_level.txt
 dlibboot/__init__.py
 dlibboot/application.py
-dlibboot/bookspider.py
+dlibboot/bookbee.py
 dlibboot/config.py
 dlibboot/reader.py
 model/__init__.py

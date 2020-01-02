@@ -51,7 +51,7 @@ $(function () {
     var getDetail = (event) => {
         if (event.data.id === undefined)
         {
-            // $('.card').css('visibility','hidden')
+            $('.card').hide()
             return
         }
         var url = meta.host + 'rest/detail/' + event.data.id
@@ -65,12 +65,14 @@ $(function () {
                 $content = JSON.parse(response);
                 var $card = $(".card");
                 $card.find("h5.dlib-main-detial-name").html($content.name);
-                $("li.card-author").html($content.author);
+                $("li.card-author").html($content.author!=null?$content.author:'作者信息未知');
                 $("p.card-text").html($content.intro);
                 $("li.card-year").html($content.publish_year);
                 $("li.card-star").html($content.score + '  ' + '&#9734;&#9734;&#9734;&#9734;&#9734;');
                 $("img.card-img-top").attr({"src": $content.image});
+                $(".card-forward-link").on('click', {link: $content.link}, openNewWindowV3)
                 $("#dlib-main-detail").removeAttr('hidden')
+                $('.card').show()
             },
             error: function (request, errType, errMsg) {
                 alert(errType);
@@ -163,14 +165,9 @@ $(function () {
         getBooksPost(request)
     }
 
-    var openNewWindow = () => {
+    var openNewWindowV3 = (event) => {
         newWin = window.open('_blank')
-        newWin.location = meta.host + 'read/new'
-    }
-
-    var openReadDetail = (id) => {
-        newWin = window.open('_blank')
-        newWin.location = meta.host + 'rest/read/' + id
+        newWin.location = event.data.link
     }
 
     getBooksPost(localMem);
@@ -194,6 +191,22 @@ $(function () {
     $("#dlib-header-filter-year-group-2019").on("click", { date: '2019' }, onClickYear);
     $("#dlib-header-filter-year-group-2018").on("click", { date: '2018' }, onClickYear);
     $("#dlib-header-filter-year-group-2017").on("click", { date: '2017' }, onClickYear);
+    $("#dlib-header-filter-year-group-2016").on("click", { date: '2016' }, onClickYear);
+    $("#dlib-header-filter-year-group-2015").on("click", { date: '2015' }, onClickYear);
+    $("#dlib-header-filter-year-group-2014").on("click", { date: '2014' }, onClickYear);
+    $("#dlib-header-filter-year-group-2013").on("click", { date: '2013' }, onClickYear);
+    $("#dlib-header-filter-year-group-2012").on("click", { date: '2012' }, onClickYear);
+    $("#dlib-header-filter-year-group-2011").on("click", { date: '2011' }, onClickYear);
+    $("#dlib-header-filter-year-group-2010").on("click", { date: '2010' }, onClickYear);
+    $("#dlib-header-filter-year-group-2009").on("click", { date: '2009' }, onClickYear);
+    $("#dlib-header-filter-year-group-2008").on("click", { date: '2008' }, onClickYear);
+    $("#dlib-header-filter-year-group-2007").on("click", { date: '2007' }, onClickYear);
+    $("#dlib-header-filter-year-group-2006").on("click", { date: '2006' }, onClickYear);
+    $("#dlib-header-filter-year-group-2005").on("click", { date: '2005' }, onClickYear);
+    $("#dlib-header-filter-year-group-2004").on("click", { date: '2004' }, onClickYear);
+    $("#dlib-header-filter-year-group-2003").on("click", { date: '2003' }, onClickYear);
+    $("#dlib-header-filter-year-group-2002").on("click", { date: '2002' }, onClickYear);
+    $("#dlib-header-filter-year-group-2001").on("click", { date: '2001' }, onClickYear);
     $("#dlib-header-filter-year-group-all").on("click", { date: '全部' }, onClickYear);
 
     $("#dlib-nav-category-all").on("click", { category: '全部' }, onClickCategory);
@@ -202,8 +215,9 @@ $(function () {
     $("#dlib-nav-category-popularization").on("click", { category: '论述' }, onClickCategory);
     $("#dlib-nav-category-computer").on("click", { category: '计算机' }, onClickCategory);
     $("#dlib-nav-category-cartoon").on("click", { category: '漫画' }, onClickCategory);
+    $("#dlib-nav-category-analysis").on("click", { link: meta.host + 'analysis' }, openNewWindowV3);
 
-    $('#dlib-header-filter-add-new').on('click', openNewWindow);
+    $('#dlib-header-filter-add-new').on('click', {link: meta.host + 'read/new'}, openNewWindowV3);
     $('#dlib-header-filter-local-batch').on('click', loadKindleLocally);
 
     for (var index = 1; index <= 10; index++) {

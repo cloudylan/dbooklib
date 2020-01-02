@@ -11,7 +11,8 @@
     <title>阅读信息</title>
     <style>
         .body {
-            font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC",
+                "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         }
 
         .dlib-read-container {
@@ -47,8 +48,8 @@
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="/dbooklib/">
-                <img src="../pics/sailor.jpg" width="30" height="30"
-                    class="d-inline-block align-top" alt=""><span>阅读信息</span>
+                <img src="../pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
+                    alt=""><span>阅读信息</span>
             </a>
         </nav>
         <div class="dlib-read-main row">
@@ -76,7 +77,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <input type="text" class="form-control" id="inputAuthor"
-                                th:value="${bookDetail!=null?bookDetail['author']:(readInfo!=null?readInfo.author:'')}"
+                                th:value="${(bookDetail!=null&&bookDetail['author']!=null)?bookDetail['author']:(readInfo!=null?readInfo.author:'')}"
                                 placeholder="作者">
                         </div>
                         <div class="form-group col-md-4">
@@ -151,7 +152,7 @@
     <script type="text/javascript">
         $(function () {
             meta = {
-                host: 'http://'+window.location.host + '/dbooklib/rest'
+                host: 'http://' + window.location.host + '/dbooklib/rest'
                 // host: 'http://' + 'localhost:8080' + '/dbooklib/rest'
             }
 
@@ -229,6 +230,7 @@
                         $('#read-info-id').val($content._id)
                         $('#dlib-result-lbl').html('保存成功').removeClass('alert-danger').addClass('alert-success')
 
+                        setTimeout(function () { window.location.reload() }, 1000);
                     },
                     error: function (err) {
                         $('#dlib-result-lbl').html('保存失败').removeClass('alert-success').addClass('alert-danger')
@@ -255,23 +257,20 @@
                     data: JSON.stringify(request),
                     success: function (response) {
                         alert(response)
-                        setTimeout(
-                            function () {
-                                window.location.reload()
-                            }, 1000);
+                        window.location.reload()
                     }
                 })
 
             }
 
             hideEmptyBlocks = () => {
-                if ($('.dlib-main-left-book-image').attr('src') === ''){
+                if ($('.dlib-main-left-book-image').attr('src') === '') {
                     $('.dlib-main-left-book-image').hide()
                 }
-                if ($('#dlib-book-detail-intro').text() === ''){
+                if ($('#dlib-book-detail-intro').text() === '') {
                     $('#dlib-book-detail-info').hide()
                 }
-                else{
+                else {
                     $('#dlib-book-detail-import').hide()
                 }
             }

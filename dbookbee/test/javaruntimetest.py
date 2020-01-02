@@ -14,7 +14,7 @@ import io
 import dlibboot.config as config
 import logging as log
 import json
-import dlibboot.bookspider as spider
+import dlibboot.bookbee as spider
 log.basicConfig(level=config.LOG_LEVEL)
 # URL = '/Users/cloudy/Downloads/test/test_string.htm'
 URL = 'https://book.douban.com/subject/26853835/'

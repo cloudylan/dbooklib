@@ -28,7 +28,7 @@ import cloudylan.dbooklib.service.BookFileService;
 
 @RestController
 @RequestMapping("/rest")
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin
 public class BookRestController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookRestController.class);
@@ -106,7 +106,14 @@ public class BookRestController {
 		String str = dis.readLine();
 		process.waitFor();
 		LOGGER.debug(str);
-		return "hello " + str;
+		return str;
+	}
+
+	@RequestMapping(value="/analysis/year", method = RequestMethod.GET)
+	public ResponseEntity<List<Document>> getAnalysis() {
+		List<Document> byYear = this.bookProvider.getAnalysisByYear(null);
+
+		return new ResponseEntity<List<Document>>(byYear, HttpStatus.OK);
 	}
 
 }

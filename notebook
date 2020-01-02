@@ -2,15 +2,14 @@ TODO List:
 
 OK - 1. html local url replacement.
 OK - 页首logo链接
-91.开机自动启动
-90.readinfo 更新，$set,否则覆盖bookReferId造成书籍联系丢失
+OK - 90.readinfo 更新，$set,否则覆盖bookReferId造成书籍联系丢失
+OK - 91.开机自动启动
+
 80. selenium处理豆瓣页面。
 2. 选中已读，自动填充当前年。
 4. mongoDB user / password.
+3. 自动部署
 5. 压缩static css and js.
 
 
-db.book.update({}, {$rename:{"publisherYear": "publishYear"}}, false, true)
-
-
-db.getCollection('private_enterprise').update({},{$rename:{"证券代码":'code'}},false,true)
+conda install -n cloudylib -c conda-forge selenium

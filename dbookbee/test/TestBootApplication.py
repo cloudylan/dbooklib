@@ -9,8 +9,8 @@ config.LOG_LEVEL = logging.DEBUG
 class TestBootApplication(unittest.TestCase):
 
     def test_run(self):
-        read_id = "5e004e2da7f1fd799d0217f8"
-        link = "https://book.douban.com/subject/26740503/"
+        read_id = "5df0a6093d1f97067898ef75"
+        link = "https://book.douban.com/subject/11229072/"
         app.run(read_id, link)
 
 

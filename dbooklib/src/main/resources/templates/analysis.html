@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://localhost/dbooklib/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+    <title>数据</title>
+
+    <style>
+        .body {
+            font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC",
+                "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        }
+
+        .dlib-analysis-container {
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .dlib-analysis-main {
+            margin-top: 2em;
+        }
+
+        .dlib-analysis-main-left-readnum{
+            padding-left: 4%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dlib-analysis-container">
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="/dbooklib/">
+                <!-- <img src="./pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
+                    alt=""><span>阅读数据</span> -->
+                <img src="http://localhost:8080/dbooklib/pics/sailor.jpg" width="30" height="30"
+                    class="d-inline-block align-top" alt=""><span>阅读数据</span>
+            </a>
+        </nav>
+        <div class="dlib-analysis-main row">
+            <div class="dlib-analysis-main-left col-sm-3">
+                <div class="dlib-analysis-main-left-readnum">
+                    <div class="card border-success mb-1" style="max-width: 8rem;">
+                        <div class="card-header">已读</div>
+                        <div class="card-body text-success">
+                            <p class="card-text" th:text="${readStats.read}">100</p>
+                        </div>
+                    </div>
+                    <div class="card border-danger mb-1" style="max-width: 8rem;">
+                        <div class="card-header">未读</div>
+                        <div class="card-body text-danger">
+                            <p class="card-text" th:text="${readStats.notRead}">100</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dlib-analysis-main-middle col-sm-6">
+                <div id="analysis-year-chart" class="analysis-year-chart">
+                </div>
+            </div>
+            <div class="dlib-analysis-main-right col-sm-3"></div>
+        </div>
+
+    </div>
+
+    <!-- <script src="./js/jquery-3.4.1.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script> -->
+    <script src="http://localhost/dbooklib/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost/dbooklib/js/popper.min.js"></script>
+    <script src="http://localhost/dbooklib/js/bootstrap.min.js"></script>
+    <script src="http://localhost/dbooklib/js/highcharts.js"></script>
+    <script type="text/javascript">
+        meta = {
+            host: 'http://localhost:8080/dbooklib/',
+            yearLabels: [],
+            yearStats: { name: '全部', data: [] },
+            toDos: 0
+        }
+
+        $(function () {
+            url = meta.host + 'rest/analysis/year'
+            $.ajax(url, {
+                method: 'GET',
+                dataType: 'html',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                success: function (response) {
+                    var $content = JSON.parse(response)
+                    for (var i = 0; i < $content.length; i++) {
+                        if ($content[i]._id == null) {
+                            meta.toDos = $content[i].count
+                            continue
+                        }
+                        meta.yearLabels[i] = $content[i]._id
+                        meta.yearStats.data[i] = $content[i].count
+                    }
+
+                    console.log(meta.yearLabels)
+                    Highcharts.chart('analysis-year-chart', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: '读书年分布'
+                        },
+                        // subtitle: {
+                        //     text: 'Source: WorldClimate.com'
+                        // },
+                        xAxis: {
+                            categories: meta.yearLabels,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: ''
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y} 本</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [meta.yearStats]
+                    });
+                }
+            })
+
+        })
+
+
+    </script>
+</body>
+
+</html>

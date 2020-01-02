@@ -1,6 +1,7 @@
 package cloudylan.dbooklib.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -40,28 +41,20 @@ public class HomePageController {
 
 		return "index";
 	}
-	
-	/*
+
+	/**
 	 * 
 	 * This page returns analysis for reading.
 	 */
-	@RequestMapping(value = "/analysis/{action}")
-	public String analysis(@PathVariable String action)
-	{
-		LOGGER.debug(new StringBuffer("Analysis Starts for ").append(action).toString());
-		
-		if ("author".equals(action))
-		{
-		}
-		else if ("year".equals(action))
-		{
-		}
-		else if("category".equals(action)){
-		}
-		else {
-			
-		}
-		return "home";
+	@RequestMapping(value = "/analysis")
+	public String analysis(Model model) {
+		LOGGER.debug(new StringBuffer("Analysis Starts for ").toString());
+
+		Map<String, Integer> readStats = this.bookProvider.getStatisticByReadFlag();
+
+		model.addAttribute("readStats", readStats);
+
+		return "analysis";
 	}
 
 	/*
@@ -83,18 +76,16 @@ public class HomePageController {
 			bi.setCategory(readInfoDoc.getString("type"));
 			bi.setAuthor(readInfoDoc.getString("author"));
 			bi.setIsRead(readInfoDoc.getString("year") != null ? true : false);
-			bi.setSource((readInfoDoc.getString("source") == null || "".equals(readInfoDoc.getString("source"))) ? "纸质" : readInfoDoc.getString("source"));
+			bi.setSource((readInfoDoc.getString("source") == null || "".equals(readInfoDoc.getString("source"))) ? "纸质"
+					: readInfoDoc.getString("source"));
 			bi.setDescription(readInfoDoc.getString("description"));
 			bi.setBookReferId(readInfoDoc.getString("bookReferId"));
 		}
 
 		Document detail = null;
-		if (!StringUtils.isEmpty(bi.getBookReferId()))
-		{
+		if (!StringUtils.isEmpty(bi.getBookReferId())) {
 			detail = this.bookProvider.getDetail(bi.getBookReferId());
-		}
-		else
-		{
+		} else {
 			detail = new Document();
 		}
 
