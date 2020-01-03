@@ -30,7 +30,7 @@
             padding-left: 4%;
         }
 
-        .dlib-analysis-author{
+        .dlib-analysis-author {
             width: 95%;
             margin-right: 2em;
         }
@@ -66,64 +66,67 @@
                 </div>
             </div>
             <div class="dlib-analysis-main-middle col-sm-7">
-                
+
                 <div id="analysis-year-chart" class="analysis-year-chart">
+                </div>
+                <div id="analysis-category-chart">
                 </div>
                 <div id="analysis-oneyear-chart">
                 </div>
                 <!-- <div id="container-test" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto">
                 </div> -->
-                <div id="analysis-category-chart">
-                </div>
-                
+
+
                 <div id="analysis-category-author-chart">
                 </div>
             </div>
             <div class="dlib-analysis-main-right col-sm-3">
+                <h5>作者 TOP 10 / 全部作者</h5>
+                <div id="dlib-analysis-author-list"></div>
+                <div id="dlib-analysis-author-top">
 
-                <div>
                     <div class="card mb-3 dlib-analysis-author">
                         <div class="row no-gutters">
-                          <div class="col-md-5">
-                            <img src="http://localhost/pics/author/asimov.jpg" class="card-img" alt="...">
-                          </div>
-                          <div class="col-md-7">
-                            <div class="card-body">
-                              <h6 class="card-title">艾萨克·阿西莫夫</h6>
-                              <p class="card-text"><small class="text-muted">6</small></p>
+                            <div class="col-md-5">
+                                <img src="http://localhost/pics/author/asimov.jpg" class="card-img" alt="...">
                             </div>
-                          </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h6 class="card-title">艾萨克·阿西莫夫</h6>
+                                    <p class="card-text"><small class="text-muted">6</small></p>
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                    </div>
 
-                      <div class="card mb-3 dlib-analysis-author">
+                    <div class="card mb-3 dlib-analysis-author">
                         <div class="row no-gutters">
-                          <div class="col-md-5">
-                            <img src="http://localhost/pics/author/neilgaiman.jpg" class="card-img" alt="...">
-                          </div>
-                          <div class="col-md-7">
-                            <div class="card-body">
-                              <h6 class="card-title">尼尔·盖曼</h6>
-                              <p class="card-text"><small class="text-muted">5</small></p>
+                            <div class="col-md-5">
+                                <img src="http://localhost/pics/author/neilgaiman.jpg" class="card-img" alt="...">
                             </div>
-                          </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h6 class="card-title">尼尔·盖曼</h6>
+                                    <p class="card-text"><small class="text-muted">5</small></p>
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                    </div>
 
-                      <div class="card mb-3 dlib-analysis-author">
+                    <div class="card mb-3 dlib-analysis-author">
                         <div class="row no-gutters">
-                          <div class="col-md-5">
-                            <img src="http://localhost/pics/author/liucixin.jpg" class="card-img" alt="...">
-                          </div>
-                          <div class="col-md-7">
-                            <div class="card-body">
-                              <h6 class="card-title">刘慈欣</h6>
-                              <p class="card-text"><small class="text-muted">4</small></p>
+                            <div class="col-md-5">
+                                <img src="http://localhost/pics/author/liucixin.jpg" class="card-img" alt="...">
                             </div>
-                          </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h6 class="card-title">刘慈欣</h6>
+                                    <p class="card-text"><small class="text-muted">4</small></p>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -151,11 +154,8 @@
         }
 
         $(function () {
-            url = meta.host + 'rest/analysis/year'
 
-
-
-            $.ajax(url, {
+            $.ajax(meta.host + 'rest/analysis/year', {
                 method: 'GET',
                 dataType: 'html',
                 headers: {
@@ -213,77 +213,146 @@
             })
 
 
-            Highcharts.chart('analysis-category-chart', {
+            $.ajax(meta.host + 'rest/analysis/category', {
+                method: 'GET',
+                dataType: 'html',
+                headers: { "Content-Type": "application/json" },
+                success: function (response) {
+                    var myDate = new Date();
+                    var tYear = myDate.getFullYear();
+                    var dividence = tYear - 2000
+                    var maxValue = 0
 
-                chart: {
-                    polar: true,
-                    type: 'line'
-                },
 
-                accessibility: {
-                    description: 'A spiderweb chart compares the allocated budget against actual spending within an organization. The spider chart has six spokes. Each spoke represents one of the 6 departments within the organization: sales, marketing, development, customer support, information technology and administration. The chart is interactive, and each data point is displayed upon hovering. The chart clearly shows that 4 of the 6 departments have overspent their budget with Marketing responsible for the greatest overspend of $20,000. The allocated budget and actual spending data points for each department are as follows: Sales. Budget equals $43,000; spending equals $50,000. Marketing. Budget equals $19,000; spending equals $39,000. Development. Budget equals $60,000; spending equals $42,000. Customer support. Budget equals $35,000; spending equals $31,000. Information technology. Budget equals $17,000; spending equals $26,000. Administration. Budget equals $10,000; spending equals $14,000.'
-                },
+                    $content = JSON.parse(response)
+                    var current_year = $content[String(tYear)]
+                    var previous_year = $content[String(tYear - 1)]
+                    var history = $content['history']
+                    // console.log(current_year)
+                    // console.log(previous_year)
+                    // console.log(history)
 
-                title: {
-                    text: 'Budget vs spending',
-                    x: -80
-                },
+                    var all_type = []
+                    var history_count = [0, 0, 0, 0, 0]
+                    var current_year_count = [0, 0, 0, 0, 0]
+                    var previous_year_count = [0, 0, 0, 0, 0]
 
-                pane: {
-                    size: '80%'
-                },
-
-                xAxis: {
-                    categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
-                        'Information Technology'],
-                    tickmarkPlacement: 'on',
-                    lineWidth: 0
-                },
-
-                yAxis: {
-                    gridLineInterpolation: 'polygon',
-                    lineWidth: 0,
-                    min: 0
-                },
-
-                tooltip: {
-                    shared: true,
-                    pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
-                },
-
-                legend: {
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-
-                series: [{
-                    name: 'Allocated Budget',
-                    data: [43000, 19000, 60000, 35000, 17000],
-                    pointPlacement: 'on'
-                }, {
-                    name: 'Actual Spending',
-                    data: [50000, 39000, 42000, 31000, 26000],
-                    pointPlacement: 'on'
-                }],
-
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            },
-                            pane: {
-                                size: '70%'
-                            }
+                    var loopData = (category_data, target_count) => {
+                        for (var j = 0; j < category_data.length; j++) {
+                            if (category_data[j].count > maxValue)
+                                maxValue = category_data[j].count
+                                
+                            // console.log(category_data[j]._id )
+                            if (category_data[j]._id == '历史')
+                                target_count[0] = category_data[j].count
+                            else if (category_data[j]._id == '文学')
+                                target_count[1] = category_data[j].count
+                            else if (category_data[j]._id == '漫画')
+                                target_count[2] = category_data[j].count
+                            else if (category_data[j]._id == '计算机')
+                                target_count[3] = category_data[j].count
+                            else if (category_data[j]._id == '论述')
+                                target_count[4] = category_data[j].count
                         }
-                    }]
-                }
+                    }
 
-            });
+                    for (var i = 0; i < history.length; i++) {
+                        all_type[i] = history[i]._id
+                        history_count[i] = history[i].count / dividence
+                        if (history_count[i] > maxValue)
+                                maxValue = history_count[i]
+                    }
+
+                    console.log(history.length)
+                    console.log(all_type)
+                    console.log(history_count)
+
+                    loopData(current_year, current_year_count)
+                    loopData(previous_year, previous_year_count)
+
+                    Highcharts.chart('analysis-category-chart', {
+
+                        chart: {
+                            polar: true,
+                            type: 'line'
+                        },
+
+                        accessibility: {
+                            description: '读书种类对比，今年 vs 历史。'
+                        },
+
+                        title: {
+                            text: '类别分布',
+                            x: -80
+                        },
+
+                        pane: {
+                            size: '85%'
+                        },
+
+                        xAxis: {
+                            categories: all_type,
+                            tickmarkPlacement: 'on',
+                            lineWidth: 0
+                        },
+
+                        yAxis: {
+                            gridLineInterpolation: 'polygon',
+                            lineWidth: 0,
+                            softMin: 5,
+                            softMax: 5,
+                            endOnTick: false
+                        },
+
+                        tooltip: {
+                            shared: true,
+                            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}</b><br/>'
+                        },
+
+                        legend: {
+                            align: 'right',
+                            verticalAlign: 'middle'
+                        },
+
+                        series: [{
+                            name: '今年',
+                            data: current_year_count,
+                            color: '#53E30F',
+                            pointPlacement: 'on'
+                        }, {
+                            name: '去年',
+                            data: previous_year_count,
+                            color: '#1DBDE5',
+                            pointPlacement: 'on'
+                        }, {
+                            name: '历史记录',
+                            data: history_count,
+                            color: '#E44532',
+                            pointPlacement: 'on'
+                        }],
+
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    },
+                                    pane: {
+                                        size: '100%'
+                                    }
+                                }
+                            }]
+                        }
+
+                    });
+                }
+            })
+
+
 
 
             Highcharts.chart('analysis-oneyear-chart', {

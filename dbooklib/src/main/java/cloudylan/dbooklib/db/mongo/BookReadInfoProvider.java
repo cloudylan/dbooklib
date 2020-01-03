@@ -155,7 +155,8 @@ public class BookReadInfoProvider {
 		LOGGER.info("Performing read info updating.");
 
 		Document toUpdate = new Document("type", info.getCategory()).append("name", info.getName())
-				.append("year", StringUtils.isEmptyOrWhitespace(info.getDate())?null:info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
+				.append("year", StringUtils.isEmptyOrWhitespace(info.getDate()) ? null : info.getDate())
+				.append("source", info.getSource()).append("author", info.getAuthor())
 				.append("description", info.getDescription()).append("isNew", false);
 		Document updateObj = new Document("$set", toUpdate);
 
@@ -227,29 +228,65 @@ public class BookReadInfoProvider {
 		return retVal;
 	}
 
-	public Map<String, Integer> getStatisticByReadFlag()
-	{
+	public Map<String, Integer> getStatisticByReadFlag() {
 		Map<String, Integer> ret = new HashMap<String, Integer>();
 		int alreadyRead = 0;
 		Document readMatchs = new Document("$match", new Document("year", new Document("$ne", null)));
 		Document year = new Document("$group", new Document("_id", "$year").append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("_id", -1));
-		Document[] pipeline = {readMatchs, year, sort};
-		MongoCursor<Document> aggIter = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).aggregate(Arrays.asList(pipeline)).iterator();
-		while(aggIter.hasNext())
-		{
+		Document[] pipeline = { readMatchs, year, sort };
+		MongoCursor<Document> aggIter = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
+				.aggregate(Arrays.asList(pipeline)).iterator();
+		while (aggIter.hasNext()) {
 			alreadyRead += aggIter.next().getInteger("count");
 		}
-		
-		
+
 		Document notReadMatchs = new Document("$match", new Document("year", new Document("$eq", null)));
-		Document[] notPipeline = {notReadMatchs, year, sort};
-		Document nonRead = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).aggregate(Arrays.asList(notPipeline)).first();
-		
+		Document[] notPipeline = { notReadMatchs, year, sort };
+		Document nonRead = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).aggregate(Arrays.asList(notPipeline))
+				.first();
+
 		ret.put("read", alreadyRead);
 		ret.put("notRead", nonRead.getInteger("count"));
-		
+
 		return ret;
+	}
+
+	public Map<String, List<Document>> getStatisticsByCatetory(List<String> years) {
+		Map<String, List<Document>> retVal = new HashMap<String, List<Document>>();
+
+		List<Document> states = new ArrayList<Document>();
+		Document queryHistory = new Document("year", new Document("$regex", "(19|20)\\d{2}"));
+		Document pipeHistoryMatch = new Document("$match", queryHistory);
+		Document pipeHistoryGroup = new Document("$group",
+				new Document("_id", "$type").append("count", new Document("$sum", 1)));
+		Document pipeHistorySort = new Document("$sort", new Document("_id", 1));
+		Document[] pipeline = { pipeHistoryMatch, pipeHistoryGroup, pipeHistorySort };
+		MongoCursor<Document> mc = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
+				.aggregate(Arrays.asList(pipeline)).iterator();
+		while (mc.hasNext()) {
+			states.add(mc.next());
+		}
+		retVal.put("history", states);
+
+		for (String year : years) {
+			List<Document> internal = new ArrayList<Document>();
+			Document queryYear = new Document("year", new Document("$regex", year));
+			Document pipeYear = new Document("$match", queryYear);
+			Document pipeYearGroup = new Document("$group",
+					new Document("_id", "$type").append("count", new Document("$sum", 1)));
+			Document pipeYearSort = new Document("$sort", new Document("_id", 1));
+			Document[] pipelineYear = { pipeYear, pipeYearGroup, pipeYearSort };
+			MongoCursor<Document> mcYear = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
+					.aggregate(Arrays.asList(pipelineYear)).iterator();
+			while (mcYear.hasNext()) {
+				internal.add(mcYear.next());
+			}
+			retVal.put(year, internal);
+		}
+
+		return retVal;
+
 	}
 
 	/**

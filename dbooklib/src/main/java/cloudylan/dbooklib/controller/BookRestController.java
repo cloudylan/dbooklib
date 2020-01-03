@@ -3,7 +3,10 @@ package cloudylan.dbooklib.controller;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -52,6 +55,7 @@ public class BookRestController {
 
 	/**
 	 * This operation proceed reading information persistence.
+	 * 
 	 */
 	@RequestMapping(value = "/read/save", method = RequestMethod.POST)
 	public ResponseEntity<Document> saveBooks(@RequestBody BookReadInfo request) {
@@ -109,11 +113,20 @@ public class BookRestController {
 		return str;
 	}
 
-	@RequestMapping(value="/analysis/year", method = RequestMethod.GET)
-	public ResponseEntity<List<Document>> getAnalysis() {
+	@RequestMapping(value = "/analysis/year", method = RequestMethod.GET)
+	public ResponseEntity<List<Document>> getYearStatistics() {
 		List<Document> byYear = this.bookProvider.getAnalysisByYear(null);
 
 		return new ResponseEntity<List<Document>>(byYear, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/analysis/category", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, List<Document>>> getCategoryStatistics() {
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		String[] years = { String.valueOf(currentYear), String.valueOf(currentYear - 1) };
+		Map<String, List<Document>> retVal = this.bookProvider.getStatisticsByCatetory(Arrays.asList(years));
+
+		return new ResponseEntity<Map<String, List<Document>>>(retVal, HttpStatus.OK);
 	}
 
 }
