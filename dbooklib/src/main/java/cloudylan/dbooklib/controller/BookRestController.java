@@ -1,8 +1,8 @@
 package cloudylan.dbooklib.controller;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -105,12 +105,14 @@ public class BookRestController {
 		String[] cmdArr = new String[] { AppConfiguration.PYTHON_INTERPRETOR, AppConfiguration.PYTHON_MAIN,
 				request.getReadId(), request.getLink() };
 		Process process = Runtime.getRuntime().exec(cmdArr);
-		InputStream is = process.getInputStream();
-		DataInputStream dis = new DataInputStream(is);
-		String str = dis.readLine();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+		StringBuffer sb = new StringBuffer("");
+		sb.append(br.readLine());
 		process.waitFor();
-		LOGGER.debug(str);
-		return str;
+		LOGGER.debug(sb.toString());
+		return sb.toString();
 	}
 
 	@RequestMapping(value = "/analysis/year", method = RequestMethod.GET)
@@ -127,6 +129,13 @@ public class BookRestController {
 		Map<String, List<Document>> retVal = this.bookProvider.getStatisticsByCatetory(Arrays.asList(years));
 
 		return new ResponseEntity<Map<String, List<Document>>>(retVal, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/analysis/author", method = RequestMethod.GET)
+	public ResponseEntity<List<Document>> getAuthorStatistics() {
+		List<Document> authors = this.bookProvider.getAuthorStatistics();
+
+		return new ResponseEntity<List<Document>>(authors, HttpStatus.OK);
 	}
 
 }

@@ -8,22 +8,19 @@ log.basicConfig(level=config.LOG_LEVEL)
 
 def run(read_id, link):
     log.info("Application started...")
-    result = "Processing.."
     try:
         book_dic = bee.get_single_book_details(link, config.IS_TEST)
         inserted = db.save_book_detail(book_dic)
         db.save_read_info_refer_id(read_id, inserted)
-        result = book_dic['title']
+        return book_dic['title']
     except Exception as e:
-        result = e
-    finally:
-        return result
+        return e
 
 
 def start():
-    name = run(sys.argv[1], sys.argv[2])
-    print(name + "Loaded Successfully...")
+    result = run(sys.argv[1], sys.argv[2])
+    print(result + " is loaded Successfully...")
 
 
 start()
-print("Book Bee is at rest...")
+

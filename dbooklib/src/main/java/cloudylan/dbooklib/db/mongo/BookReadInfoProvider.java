@@ -81,7 +81,9 @@ public class BookReadInfoProvider {
 
 		String toSearch = info.getToSearch();
 		if (null != toSearch) {
-			toFind.append("name", new Document("$regex", toSearch));
+			Document[] toSearchCondition = {new Document("name", new Document("$regex", toSearch)),
+					new Document("author", new Document("$regex", toSearch))};
+			toFind.append("$or", Arrays.asList(toSearchCondition));
 		}
 
 		String category = info.getCategory();
@@ -287,6 +289,25 @@ public class BookReadInfoProvider {
 
 		return retVal;
 
+	}
+
+	public List<Document> getAuthorStatistics() {
+		List<Document> result = new ArrayList<Document>();
+		String[] nonInList = {null, ""};
+		Document matches = new Document("$match",
+				new Document("author", new Document("$nin", Arrays.asList(nonInList))).append("type", new Document("$ne", "漫画")));
+		Document group = new Document("$group",
+				new Document("_id", "$author").append("count", new Document("$sum", 1)));
+		Document sort = new Document("$sort", new Document("count", -1));
+		Document[] pipeline = { matches, group, sort };
+		MongoCursor<Document> authorCursor = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
+				.aggregate(Arrays.asList(pipeline)).iterator();
+
+		while (authorCursor.hasNext()) {
+			result.add(authorCursor.next());
+		}
+
+		return result;
 	}
 
 	/**
