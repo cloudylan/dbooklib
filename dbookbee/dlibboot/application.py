@@ -18,8 +18,8 @@ def run(read_id, link):
 
 
 def start():
-    result = run(sys.argv[1], sys.argv[2])
-    print(result + " is loaded Successfully...")
+    run(sys.argv[1], sys.argv[2])
+    print(sys.argv[2] + " is loaded Successfully...")
 
 
 start()

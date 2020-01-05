@@ -5,7 +5,6 @@ $(function () {
 
     meta = {
         host: 'http://' + window.location.host + '/dbooklib/'
-        // host: 'http://' + 'localhost:8080' + '/dbooklib/'
     }
 
     var getBooksPost = (input) => {

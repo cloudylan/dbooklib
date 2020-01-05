@@ -67,7 +67,7 @@ public class BookRestController {
 			result = this.bookProvider.updateReadInfo(request, false);
 			result.append("_id", request.getId());
 		} else {
-			result = this.bookProvider.insertReadInfo(request, true);
+			result = this.bookProvider.insertReadInfo(request, false);
 			result.put("_id", ((ObjectId) result.get("_id")).toString());
 		}
 

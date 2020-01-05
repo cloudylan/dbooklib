@@ -295,7 +295,7 @@ public class BookReadInfoProvider {
 		List<Document> result = new ArrayList<Document>();
 		String[] nonInList = {null, ""};
 		Document matches = new Document("$match",
-				new Document("author", new Document("$nin", Arrays.asList(nonInList))).append("type", new Document("$ne", "漫画")));
+				new Document("author", new Document("$nin", Arrays.asList(nonInList))).append("year", new Document("$regex", "(19|20)\\d{2}")).append("type", new Document("$ne", "漫画")));
 		Document group = new Document("$group",
 				new Document("_id", "$author").append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("count", -1));

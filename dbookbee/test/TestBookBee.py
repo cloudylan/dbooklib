@@ -11,9 +11,10 @@ config.LOG_LEVEL = logging.DEBUG
 
 class TestBookSpider(unittest.TestCase):
 
-    def ttest_getBookDetails(self):
-        result = bee.get_single_book_details(URL, True, db)
-        logging.debug(result)
+    def test_getBookDetails(self):
+        history_url = 'https://book.douban.com/subject/11229072/'
+        result = bee.get_single_book_details(history_url, True)
+        # logging.debug(result)
         # self.assertEquals(result, 'Y')
 
     def ttest_fetch_img(self):
@@ -22,6 +23,8 @@ class TestBookSpider(unittest.TestCase):
 
     def test_selenium_spider(self):
         link = "https://book.douban.com/subject/11229072/"
+        comments_url = 'https://book.douban.com/subject/11229072/comments/'
+        link2 = 'https://book.douban.com/subject/26853835/'
         bee.get_book_details_with_selenium(link)
 
 
