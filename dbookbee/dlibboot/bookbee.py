@@ -5,8 +5,6 @@ import logging as log
 import re
 import selenium.webdriver as webdriver
 import time
-import io
-from lxml import etree
 
 
 HTML_PARSER = 'html.parser'
@@ -50,6 +48,80 @@ def get_single_book_details(book_url, is_test):
     return book
 
 
+def get_comments_by_page(driver, comments_url, ret_val):
+    driver.get(comments_url)
+    # log.debug(driver.page_source)
+    pattern = re.compile(r'http\S+/\d+/')
+    book_id = re.search(pattern, comments_url)
+
+    try:
+        comment_list = driver.find_elements_by_class_name('comment-item')
+        for comment_item in comment_list:
+            vote_count = comment_item.find_element_by_class_name('vote-count').text
+            comment_info = comment_item.find_element_by_class_name('comment-info')
+            user_element = comment_info.find_element_by_tag_name('a')
+            user_link = user_element.get_attribute('href')
+            user_name = user_element.text
+
+            span_elements = comment_info.find_elements_by_tag_name('span')
+            rating = span_elements[0].get_attribute('class')
+            comment_date = span_elements[1].text
+            content = comment_item.find_element_by_class_name('short').text
+
+            ret_val.append({'book_refer_id':book_id, 'vote_count': vote_count, 'user': user_name, 'user_link': user_link, 'rating': rating,
+                            'date': comment_date, 'content': content})
+            return True
+    except Exception as e:
+        log.error(e)
+        return False
+
+
+def get_book_comments(url):
+    log.debug("Start loading review comments...")
+
+    comments_url = url + 'comments/'
+    ret_val = []
+    opt = webdriver.ChromeOptions()
+    opt.add_argument('--headless')
+    opt.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(
+        options=opt, executable_path='/Users/cloudy/Tools/chromedriver')
+
+    time.sleep(2)
+
+    get_comments_by_page(driver, comments_url, ret_val)
+
+    # driver.get(comments_url)
+    # log.debug(driver.page_source)
+    #
+    # comment_list = driver.find_elements_by_class_name('comment-item')
+    # for comment_item in comment_list:
+    #     vote_count = comment_item.find_element_by_class_name('vote-count').text
+    #     comment_info = comment_item.find_element_by_class_name('comment-info')
+    #     user_element = comment_info.find_element_by_tag_name('a')
+    #     user_link = user_element.get_attribute('href')
+    #     user_name = user_element.text
+    #
+    #     span_elements = comment_info.find_elements_by_tag_name('span')
+    #     rating = span_elements[0].get_attribute('class')
+    #     comment_date = span_elements[1].text
+    #     content = comment_item.find_element_by_class_name('short').text
+    #
+    #     ret_val.append({'vote_count': vote_count, 'user': user_name, 'user_link': user_link, 'rating':rating, 'date': comment_date, 'content': content})
+
+    init_page = 2
+
+    while True:
+        page_url = comments_url + 'hot?p=' + str(init_page)
+        result = get_comments_by_page(driver, page_url, ret_val)
+        if not result:
+            break
+        init_page += 1
+
+    driver.close()
+    return ret_val
+
+
 def get_book_details_with_selenium(book_url):
     log.info('Spider is processing with selenium: ' + book_url)
 
@@ -84,4 +156,5 @@ def fetch_img(url):
         f.close()
 
     log.debug('Image ' + file_name[0] + ' is saved.')
+
 
