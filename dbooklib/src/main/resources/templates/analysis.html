@@ -178,6 +178,7 @@
             const initPage = () => {
                 $('#dlib-analysis-author-tops').hide()
                 meta.current_user = getCookie('dbooklib_current_user')
+                meta.year_base = meta.current_user == 'dylan' ? 2000 : 2019
                 $('a.navbar-brand span').html(meta.current_user.toUpperCase()+' 的阅读数据')
             }
 
@@ -247,6 +248,8 @@
                 success: function (response) {
                     var myDate = new Date();
                     var tYear = myDate.getFullYear();
+                    var dividence = tYear - meta.year_base
+                    console.log(dividence + ' years of historical data.')
                     var maxValue = 0
 
                     $content = JSON.parse(response)
@@ -278,7 +281,6 @@
                         }
                     }
 
-                    var dividence = history.length
                     for (var i = 0; i < history.length; i++) {
                         all_type[i] = history[i]._id
                         history_count[i] = history[i].count / dividence

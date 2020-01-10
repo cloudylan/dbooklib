@@ -1,4 +1,5 @@
 $(function () {
+
     localMem = {
         isRead: true,
         user: 'dylan'
@@ -8,6 +9,27 @@ $(function () {
         // host: 'http://' + window.location.host + '/dbooklib/'
         host: 'http://localhost:8080/dbooklib/'
     }
+
+    var openNewWindowV3 = (event) => {
+        newWin = window.open('_blank')
+        newWin.location = event.data.link
+    }
+
+    const getCookie = (cname) => {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "dylan";
+    } 
 
     var getBooksPost = (input) => {
         var url = meta.host + 'rest/books'
@@ -171,11 +193,6 @@ $(function () {
         getBooksPost(request)
     }
 
-    var openNewWindowV3 = (event) => {
-        newWin = window.open('_blank')
-        newWin.location = event.data.link
-    }
-
     getBooksPost(localMem);
 
     $('#dlib-header-search-btn').on('click', onBookSearch)
@@ -195,13 +212,19 @@ $(function () {
     })
 
     $("#user_dylan").change(function () {
+        document.cookie = "dbooklib_current_user=dylan; path=/";
         localMem.user = 'dylan'
-        document.cookie = "dbooklib_current_user="+localMem.user+"; path=/";
+        $("#dlib-nav-category-analysis").off("click");
+        $("#dlib-nav-category-analysis").on("click", {link: meta.host + 'analysis/dylan'}, openNewWindowV3);
         getBooksPost(localMem)
     })
+
     $("#user_jing").change(function () {
+        document.cookie = "dbooklib_current_user=jing; path=/";
         localMem.user = 'jing'
-        document.cookie = "dbooklib_current_user="+localMem.user+"; path=/";
+        $("#dlib-nav-category-analysis").off("click");
+        $("#dlib-nav-category-analysis").on("click", {link: meta.host + 'analysis/jing'}, openNewWindowV3);
+
         getBooksPost(localMem)
     })
 
