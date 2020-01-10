@@ -2,6 +2,7 @@ package cloudylan.dbooklib.model;
 
 public class BookReadInfo {
 
+	private String user;
 	private String id;
 	private String name;
 	private String author;
@@ -17,6 +18,14 @@ public class BookReadInfo {
 
 	public BookReadInfo() {
 		super();
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getId() {
@@ -118,11 +127,11 @@ public class BookReadInfo {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BookReadInfo [id=").append(id).append(", name=").append(name).append(", author=").append(author)
-				.append(", isbn=").append(isbn).append(", isRead=").append(isRead).append(", category=")
-				.append(category).append(", date=").append(date).append(", pageNo=").append(pageNo).append(", source=")
-				.append(source).append(", description=").append(description).append(", toSearch=").append(toSearch)
-				.append(", bookReferId=").append(bookReferId).append("]");
+		builder.append("BookReadInfo [user=").append(user).append(", id=").append(id).append(", name=").append(name)
+				.append(", author=").append(author).append(", isbn=").append(isbn).append(", isRead=").append(isRead)
+				.append(", category=").append(category).append(", date=").append(date).append(", pageNo=")
+				.append(pageNo).append(", source=").append(source).append(", description=").append(description)
+				.append(", toSearch=").append(toSearch).append(", bookReferId=").append(bookReferId).append("]");
 		return builder.toString();
 	}
 

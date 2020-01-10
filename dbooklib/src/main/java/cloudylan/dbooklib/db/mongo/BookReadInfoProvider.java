@@ -77,7 +77,14 @@ public class BookReadInfoProvider {
 	 * Get Read Informations based on Search Conditions.
 	 */
 	public List<Document> getMyBooks(BookReadInfo info) {
-		Document toFind = new Document();
+
+		if (StringUtils.isEmpty(info.getUser()))
+		{
+			// TODO Not good to throw runtime exception.
+			throw new RuntimeException("User is not inputed.");
+		}
+		
+		Document toFind = new Document("user", info.getUser());
 
 		String toSearch = info.getToSearch();
 		if (null != toSearch) {
@@ -135,7 +142,7 @@ public class BookReadInfoProvider {
 		LOGGER.info("Performing read info creating.");
 		Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
 				.append("year", info.getDate()).append("source", info.getSource()).append("author", info.getAuthor())
-				.append("description", info.getDescription());
+				.append("description", info.getDescription()).append("user", info.getUser());
 
 		if (isTest) {
 			toInsert.append("isTest", true);
@@ -208,8 +215,9 @@ public class BookReadInfoProvider {
 	 * 
 	 * @return
 	 */
-	public List<Document> getAnalysisByYear(Integer limit) {
+	public List<Document> getAnalysisByYear(String user, Integer limit) {
 		int resultLimit = 30;
+		Document matches = new Document("$match", new Document("user", user));
 		Document year = new Document("$group", new Document("_id", "$year").append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("_id", -1));
 
@@ -218,7 +226,7 @@ public class BookReadInfoProvider {
 		}
 		Document limit_pipe = new Document("$limit", resultLimit);
 
-		Document[] pipeline = { year, sort, limit_pipe };
+		Document[] pipeline = { matches, year, sort, limit_pipe };
 		List<Document> retVal = new ArrayList<Document>();
 		MongoCursor<Document> aggIter = MONGODB.getCollection(MongoData.USER_READ_INFO.value())
 				.aggregate(Arrays.asList(pipeline)).iterator();
@@ -230,10 +238,10 @@ public class BookReadInfoProvider {
 		return retVal;
 	}
 
-	public Map<String, Integer> getStatisticByReadFlag() {
+	public Map<String, Integer> getStatisticByReadFlag(String user) {
 		Map<String, Integer> ret = new HashMap<String, Integer>();
 		int alreadyRead = 0;
-		Document readMatchs = new Document("$match", new Document("year", new Document("$ne", null)));
+		Document readMatchs = new Document("$match", new Document("year", new Document("$ne", null)).append("user", user));
 		Document year = new Document("$group", new Document("_id", "$year").append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("_id", -1));
 		Document[] pipeline = { readMatchs, year, sort };
@@ -243,7 +251,7 @@ public class BookReadInfoProvider {
 			alreadyRead += aggIter.next().getInteger("count");
 		}
 
-		Document notReadMatchs = new Document("$match", new Document("year", new Document("$eq", null)));
+		Document notReadMatchs = new Document("$match", new Document("year", new Document("$eq", null)).append("user", user));
 		Document[] notPipeline = { notReadMatchs, year, sort };
 		Document nonRead = MONGODB.getCollection(MongoData.USER_READ_INFO.value()).aggregate(Arrays.asList(notPipeline))
 				.first();
@@ -254,11 +262,11 @@ public class BookReadInfoProvider {
 		return ret;
 	}
 
-	public Map<String, List<Document>> getStatisticsByCatetory(List<String> years) {
+	public Map<String, List<Document>> getStatisticsByCatetory(String user, List<String> years) {
 		Map<String, List<Document>> retVal = new HashMap<String, List<Document>>();
 
 		List<Document> states = new ArrayList<Document>();
-		Document queryHistory = new Document("year", new Document("$regex", "(19|20)\\d{2}"));
+		Document queryHistory = new Document("year", new Document("$regex", "(19|20)\\d{2}")).append("user", user);
 		Document pipeHistoryMatch = new Document("$match", queryHistory);
 		Document pipeHistoryGroup = new Document("$group",
 				new Document("_id", "$type").append("count", new Document("$sum", 1)));
@@ -273,7 +281,7 @@ public class BookReadInfoProvider {
 
 		for (String year : years) {
 			List<Document> internal = new ArrayList<Document>();
-			Document queryYear = new Document("year", new Document("$regex", year));
+			Document queryYear = new Document("year", new Document("$regex", year)).append("user", user);
 			Document pipeYear = new Document("$match", queryYear);
 			Document pipeYearGroup = new Document("$group",
 					new Document("_id", "$type").append("count", new Document("$sum", 1)));
@@ -291,11 +299,11 @@ public class BookReadInfoProvider {
 
 	}
 
-	public List<Document> getAuthorStatistics() {
+	public List<Document> getAuthorStatistics(String user) {
 		List<Document> result = new ArrayList<Document>();
 		String[] nonInList = {null, ""};
 		Document matches = new Document("$match",
-				new Document("author", new Document("$nin", Arrays.asList(nonInList))).append("year", new Document("$regex", "(19|20)\\d{2}")).append("type", new Document("$ne", "漫画")));
+				new Document("author", new Document("$nin", Arrays.asList(nonInList))).append("user", user).append("year", new Document("$regex", "(19|20)\\d{2}")).append("type", new Document("$ne", "漫画")));
 		Document group = new Document("$group",
 				new Document("_id", "$author").append("count", new Document("$sum", 1)));
 		Document sort = new Document("$sort", new Document("count", -1));

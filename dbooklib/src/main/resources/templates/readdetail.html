@@ -149,13 +149,28 @@
     <script src="../js/jquery-3.4.1.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/dbooklib.js"></script>
     <script type="text/javascript">
         $(function () {
             meta = {
                 host: 'http://' + window.location.host + '/dbooklib/rest'
                 // host: 'http://' + 'localhost:8080' + '/dbooklib/rest'
             }
+
+            const getCookie = (cname) => {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                        }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "dylan";
+            } 
 
             var checkNameEmpty = () => {
                 if ($('#inputName').val() != '') {
@@ -216,7 +231,8 @@
                     category: $('#inputCategory').val(),
                     date: $('#inputDate').val(),
                     source: $('#inputSource').val(),
-                    description: $('#inputDescription').val()
+                    description: $('#inputDescription').val(),
+                    user: getCookie('dbooklib_current_user')
                 }
 
                 $.ajax(url, {
@@ -264,7 +280,7 @@
 
             }
 
-            hideEmptyBlocks = () => {
+            const hideEmptyBlocks = () => {
                 if ($('.dlib-main-left-book-image').attr('src') === '') {
                     $('.dlib-main-left-book-image').hide()
                 }
@@ -285,6 +301,8 @@
             checkYearInput()
             hideEmptyBlocks()
 
+            var current_user = getCookie('dbooklib_current_user')
+            $('a.navbar-brand span').html(current_user+' 的阅读信息')
         });
     </script>
 </body>

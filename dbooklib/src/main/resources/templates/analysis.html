@@ -8,8 +8,7 @@
 
     <link rel="shortcut icon" type="image/png" href="/dbooklib/favicon.png">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="http://localhost/dbooklib/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/dbooklib/css/bootstrap.min.css">
     <title>数据</title>
 
     <style>
@@ -49,9 +48,17 @@
         <!-- Image and text -->
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="/dbooklib/">
-                <img src="./pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
+                <img src="/dbooklib/pics/sailor.jpg" width="30" height="30" class="d-inline-block align-top"
                     alt=""><span>阅读数据</span>
             </a>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="user_dylan" value='dylan'>Dylan
+                </label>
+                <label class="btn btn-success">
+                    <input type="radio" name="options" id="user_jing" value='jing'>Jing
+                </label>
+            </div>
         </nav>
         <div class="dlib-analysis-main row">
             <div class="dlib-analysis-main-left col-sm-2">
@@ -132,16 +139,17 @@
 
     </div>
 
-    <script src="./js/jquery-3.4.1.js"></script>
-    <script src="./js/popper.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/highcharts.js"></script>
-    <script src="./js/highcharts-more.js"></script>
-    <script src="./js/exporting.js"></script>
-    <script src="./js/heatmap.js"></script>
-    <script src="./js/oldie.js"></script>
-    <script src="./js/tilemap.js"></script>
+    <script src="/dbooklib/js/jquery-3.4.1.js"></script>
+    <script src="/dbooklib/js/popper.min.js"></script>
+    <script src="/dbooklib/js/bootstrap.min.js"></script>
+    <script src="/dbooklib/js/highcharts.js"></script>
+    <script src="/dbooklib/js/highcharts-more.js"></script>
+    <script src="/dbooklib/js/exporting.js"></script>
+    <script src="/dbooklib/js/heatmap.js"></script>
+    <script src="/dbooklib/js/oldie.js"></script>
+    <script src="/dbooklib/js/tilemap.js"></script>
     <script type="text/javascript">
+
         meta = {
             host: 'http://' + window.location.host + '/dbooklib/',
             yearLabels: [],
@@ -151,7 +159,31 @@
 
         $(function () {
 
-            $.ajax(meta.host + 'rest/analysis/year', {
+            const getCookie = (cname) => {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                        }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "dylan";
+            } 
+
+            const initPage = () => {
+                $('#dlib-analysis-author-tops').hide()
+                meta.current_user = getCookie('dbooklib_current_user')
+                $('a.navbar-brand span').html(meta.current_user.toUpperCase()+' 的阅读数据')
+            }
+
+            initPage()
+
+            $.ajax(meta.host + 'rest/analysis/year/'+meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: {
@@ -208,14 +240,13 @@
                 }
             })
 
-            $.ajax(meta.host + 'rest/analysis/category', {
+            $.ajax(meta.host + 'rest/analysis/category/'+meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: { "Content-Type": "application/json" },
                 success: function (response) {
                     var myDate = new Date();
                     var tYear = myDate.getFullYear();
-                    var dividence = tYear - 2000
                     var maxValue = 0
 
                     $content = JSON.parse(response)
@@ -247,6 +278,7 @@
                         }
                     }
 
+                    var dividence = history.length
                     for (var i = 0; i < history.length; i++) {
                         all_type[i] = history[i]._id
                         history_count[i] = history[i].count / dividence
@@ -339,7 +371,7 @@
                 }
             })
 
-            $.ajax(meta.host + 'rest/analysis/author', {
+            $.ajax(meta.host + 'rest/analysis/author/'+meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: {
@@ -361,11 +393,19 @@
                 }
             })
 
-            const initPage = () => {
-                $('#dlib-analysis-author-tops').hide()
-            }
+            $("#user_dylan").change(function () {
+                meta.current_user = 'dylan'
+                document.cookie = "dbooklib_current_user="+meta.current_user+"; path=/";
+                window.location.href='/dbooklib/analysis/dylan'
+                window.location.reload;     
+            })
 
-            initPage()
+            $("#user_jing").change(function () {
+                meta.current_user = 'jing'
+                document.cookie = "dbooklib_current_user="+meta.current_user+"; path=/";
+                window.location.href='/dbooklib/analysis/jing'
+                window.location.reload;   
+            })
         })
 
     </script>

@@ -46,11 +46,14 @@ public class HomePageController {
 	 * 
 	 * This page returns analysis for reading.
 	 */
-	@RequestMapping(value = "/analysis")
-	public String analysis(Model model) {
+	@RequestMapping(value = "/analysis/{user}")
+	public String analysis(@PathVariable(required=false) String user, Model model) {
 		LOGGER.debug(new StringBuffer("Analysis Starts for ").toString());
+		if (StringUtils.isEmpty(user)) {
+			user = "dylan";
+		}
 
-		Map<String, Integer> readStats = this.bookProvider.getStatisticByReadFlag();
+		Map<String, Integer> readStats = this.bookProvider.getStatisticByReadFlag(user);
 
 		model.addAttribute("readStats", readStats);
 

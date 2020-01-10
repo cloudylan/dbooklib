@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
 
 import cloudylan.dbooklib.config.AppConfiguration;
 import cloudylan.dbooklib.db.mongo.BookReadInfoProvider;
@@ -47,6 +48,7 @@ public class BookRestController {
 	 */
 	@RequestMapping(value = "/books", method = RequestMethod.POST)
 	@ResponseBody
+	@CrossOrigin
 	public ResponseEntity<List<Document>> getBooks(@RequestBody BookReadInfo request) {
 		LOGGER.info(request.toString());
 		List<Document> retVal = this.bookProvider.getMyBooks(request);
@@ -115,25 +117,35 @@ public class BookRestController {
 		return sb.toString();
 	}
 
-	@RequestMapping(value = "/analysis/year", method = RequestMethod.GET)
-	public ResponseEntity<List<Document>> getYearStatistics() {
-		List<Document> byYear = this.bookProvider.getAnalysisByYear(null);
+	@RequestMapping(value = "/analysis/year/{user}", method = RequestMethod.GET)
+	public ResponseEntity<List<Document>> getYearStatistics(@PathVariable(required = false) String user) {
+		if (StringUtils.isEmpty(user)) {
+			user = "dylan";
+		}
+		List<Document> byYear = this.bookProvider.getAnalysisByYear(user, null);
 
 		return new ResponseEntity<List<Document>>(byYear, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/analysis/category", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, List<Document>>> getCategoryStatistics() {
+	@RequestMapping(value = "/analysis/category/{user}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, List<Document>>> getCategoryStatistics(
+			@PathVariable(required = false) String user) {
+		if (StringUtils.isEmpty(user)) {
+			user = "dylan";
+		}
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 		String[] years = { String.valueOf(currentYear), String.valueOf(currentYear - 1) };
-		Map<String, List<Document>> retVal = this.bookProvider.getStatisticsByCatetory(Arrays.asList(years));
+		Map<String, List<Document>> retVal = this.bookProvider.getStatisticsByCatetory(user, Arrays.asList(years));
 
 		return new ResponseEntity<Map<String, List<Document>>>(retVal, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/analysis/author", method = RequestMethod.GET)
-	public ResponseEntity<List<Document>> getAuthorStatistics() {
-		List<Document> authors = this.bookProvider.getAuthorStatistics();
+	@RequestMapping(value = "/analysis/author/{user}", method = RequestMethod.GET)
+	public ResponseEntity<List<Document>> getAuthorStatistics(@PathVariable(required = false) String user) {
+		if (StringUtils.isEmpty(user)) {
+			user = "dylan";
+		}
+		List<Document> authors = this.bookProvider.getAuthorStatistics(user);
 
 		return new ResponseEntity<List<Document>>(authors, HttpStatus.OK);
 	}

@@ -8,10 +8,10 @@
 
     <!-- Bootstrap CSS -->
     <link rel="shortcut icon" type="image/png" href="/dbooklib/favicon.png">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/home.css">
-    <!-- <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/home.css"> -->
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/home.css"> -->
+    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/dbooklib/css/home.css">
     <title>Hello, Books!</title>
     <script type="text/javascript">
         host = window.location.host;
@@ -32,9 +32,17 @@
 
                 <div class="form-inline my-0 my-lg-0">
                     <input id="dlib-header-search-input" class="form-control mr-sm-1 input-lg" type="search"
-                        placeholder="Search" aria-label="Search" >
+                        placeholder="Search" aria-label="Search">
                     <button id="dlib-header-search-btn" class="btn btn-outline-success my-2 my-sm-0">搜索</button>
                 </div>
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="user_dylan" value='dylan' checked>Dylan
+                </label>
+                <label class="btn btn-success">
+                    <input type="radio" name="options" id="user_jing" value='jing'>Jing
+                </label>
             </div>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -89,7 +97,7 @@
                     <a id="dlib-header-filter-year-group-2013" class="dropdown-item" href="#">2013</a>
                     <a id="dlib-header-filter-year-group-2012" class="dropdown-item" href="#">2012</a>
                     <a id="dlib-header-filter-year-group-2011" class="dropdown-item" href="#">2011</a>
-                    <a id="dlib-header-filter-year-group-2010" class="dropdown-item" href="#">2010</a>
+                    <!-- <a id="dlib-header-filter-year-group-2010" class="dropdown-item" href="#">2010</a>
                     <a id="dlib-header-filter-year-group-2009" class="dropdown-item" href="#">2009</a>
                     <a id="dlib-header-filter-year-group-2008" class="dropdown-item" href="#">2008</a>
                     <a id="dlib-header-filter-year-group-2007" class="dropdown-item" href="#">2007</a>
@@ -98,7 +106,7 @@
                     <a id="dlib-header-filter-year-group-2004" class="dropdown-item" href="#">2004</a>
                     <a id="dlib-header-filter-year-group-2003" class="dropdown-item" href="#">2003</a>
                     <a id="dlib-header-filter-year-group-2002" class="dropdown-item" href="#">2002</a>
-                    <a id="dlib-header-filter-year-group-2001" class="dropdown-item" href="#">2001</a>
+                    <a id="dlib-header-filter-year-group-2001" class="dropdown-item" href="#">2001</a> -->
                     <div class="dropdown-divider"></div>
                     <a id="dlib-header-filter-year-group-all" class="dropdown-item" href="#">全部</a>
                 </div>
@@ -130,7 +138,7 @@
                             <li class="list-group-item card-year"></li>
                             <li class="list-group-item card-goto"><a href="#" class="card-forward-link">去往>></a></li>
                         </ul>
-                       
+
                     </div>
                     <div class="card-body">
                         <p class="card-text"></p>
@@ -154,10 +162,15 @@
     </div>
 
 
-    <script src="./js/jquery-3.4.1.js"></script>
+    <!-- <script src="./js/jquery-3.4.1.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/dbooklib.js"></script>
+    <script src="./js/dbooklib.js"></script> -->
+
+    <script src="http://localhost:8080/dbooklib/js/jquery-3.4.1.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/popper.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8080/dbooklib/js/dbooklib.js"></script>
     <script type="text/javascript">
 
     </script>

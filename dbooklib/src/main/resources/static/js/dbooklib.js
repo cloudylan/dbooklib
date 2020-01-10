@@ -1,10 +1,12 @@
 $(function () {
     localMem = {
-        isRead: true
+        isRead: true,
+        user: 'dylan'
     }
 
     meta = {
-        host: 'http://' + window.location.host + '/dbooklib/'
+        // host: 'http://' + window.location.host + '/dbooklib/'
+        host: 'http://localhost:8080/dbooklib/'
     }
 
     var getBooksPost = (input) => {
@@ -23,7 +25,7 @@ $(function () {
                     var $item = $('<li class="list-group-item"></li>')
                     var $name = $('<a></a>').addClass('d-inline').addClass('dlib-main-list-name').attr({ 'href': '#' })
                     $name.html(value.name)
-                    $name.on("click", {id: value.bookReferId}, getDetail)
+                    $name.on("click", { id: value.bookReferId }, getDetail)
                     if (value.isNew) {
                         $name.removeClass('dlib-main-list-name').addClass('dlib-main-list-name-highlight')
                     }
@@ -48,8 +50,7 @@ $(function () {
     }
 
     var getDetail = (event) => {
-        if (event.data.id === undefined)
-        {
+        if (event.data.id === undefined) {
             $('.card').hide()
             return
         }
@@ -64,12 +65,12 @@ $(function () {
                 $content = JSON.parse(response);
                 var $card = $(".card");
                 $card.find("h5.dlib-main-detial-name").html($content.name);
-                $("li.card-author").html($content.author!=null?$content.author:'作者信息未知');
+                $("li.card-author").html($content.author != null ? $content.author : '作者信息未知');
                 $("p.card-text").html($content.intro);
                 $("li.card-year").html($content.publish_year);
                 $("li.card-star").html($content.score + '  ' + '&#9734;&#9734;&#9734;&#9734;&#9734;');
-                $("img.card-img-top").attr({"src": $content.image});
-                $(".card-forward-link").on('click', {link: $content.link}, openNewWindowV3)
+                $("img.card-img-top").attr({ "src": $content.image });
+                $(".card-forward-link").on('click', { link: $content.link }, openNewWindowV3)
                 $("#dlib-main-detail").removeAttr('hidden')
                 $('.card').show()
             },
@@ -145,13 +146,13 @@ $(function () {
         else {
             localMem.category = null
         }
-        localMem.isRead = true;
+        localMem.isRead = null;
         localMem.date = null;
         $.extend(true, request, localMem)
         getBooksPost(request)
 
         $("#dlib-header-filter-year-group button").html("全部")
-        $("#dlib-header-filter-isread-group button").html('已读')
+        $("#dlib-header-filter-isread-group button").html('全部')
 
         $("#dlib-nav-category-group li.nav-item").removeClass('active')
     }
@@ -159,8 +160,14 @@ $(function () {
     var onBookSearch = () => {
         console.log('search from search box.')
         var toSearchVal = $("#dlib-header-search-input").val()
-        var request = { 'toSearch': toSearchVal }
+        localMem.isRead = null
+        localMem.date = null
+        localMem.category = null
+        localMem.toSearch = toSearchVal
+
+        var request = {}
         $("#dlib-header-filter-isread-group button").html('全部')
+        $.extend(true, request, localMem);
         getBooksPost(request)
     }
 
@@ -176,10 +183,26 @@ $(function () {
         if (event.keyCode == 13) {
             console.log('search from search box.')
             var toSearchVal = $("#dlib-header-search-input").val()
-            var request = { 'toSearch': toSearchVal }
+            localMem.isRead = null
+            localMem.date = null
+            localMem.category = null
+            localMem.toSearch = toSearchVal
+            var request = {}
             $("#dlib-header-filter-isread-group button").html('全部')
+            $.extend(true, request, localMem);
             getBooksPost(request)
         }
+    })
+
+    $("#user_dylan").change(function () {
+        localMem.user = 'dylan'
+        document.cookie = "dbooklib_current_user="+localMem.user+"; path=/";
+        getBooksPost(localMem)
+    })
+    $("#user_jing").change(function () {
+        localMem.user = 'jing'
+        document.cookie = "dbooklib_current_user="+localMem.user+"; path=/";
+        getBooksPost(localMem)
     })
 
     $("#dlib-header-filter-isread-group-read").on("click", { label: '已读', isRead: true }, onClickIsRead);
@@ -196,16 +219,16 @@ $(function () {
     $("#dlib-header-filter-year-group-2013").on("click", { date: '2013' }, onClickYear);
     $("#dlib-header-filter-year-group-2012").on("click", { date: '2012' }, onClickYear);
     $("#dlib-header-filter-year-group-2011").on("click", { date: '2011' }, onClickYear);
-    $("#dlib-header-filter-year-group-2010").on("click", { date: '2010' }, onClickYear);
-    $("#dlib-header-filter-year-group-2009").on("click", { date: '2009' }, onClickYear);
-    $("#dlib-header-filter-year-group-2008").on("click", { date: '2008' }, onClickYear);
-    $("#dlib-header-filter-year-group-2007").on("click", { date: '2007' }, onClickYear);
-    $("#dlib-header-filter-year-group-2006").on("click", { date: '2006' }, onClickYear);
-    $("#dlib-header-filter-year-group-2005").on("click", { date: '2005' }, onClickYear);
-    $("#dlib-header-filter-year-group-2004").on("click", { date: '2004' }, onClickYear);
-    $("#dlib-header-filter-year-group-2003").on("click", { date: '2003' }, onClickYear);
-    $("#dlib-header-filter-year-group-2002").on("click", { date: '2002' }, onClickYear);
-    $("#dlib-header-filter-year-group-2001").on("click", { date: '2001' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2010").on("click", { date: '2010' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2009").on("click", { date: '2009' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2008").on("click", { date: '2008' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2007").on("click", { date: '2007' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2006").on("click", { date: '2006' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2005").on("click", { date: '2005' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2004").on("click", { date: '2004' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2003").on("click", { date: '2003' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2002").on("click", { date: '2002' }, onClickYear);
+    // $("#dlib-header-filter-year-group-2001").on("click", { date: '2001' }, onClickYear);
     $("#dlib-header-filter-year-group-all").on("click", { date: '全部' }, onClickYear);
 
     $("#dlib-nav-category-all").on("click", { category: '全部' }, onClickCategory);
@@ -214,13 +237,15 @@ $(function () {
     $("#dlib-nav-category-popularization").on("click", { category: '论述' }, onClickCategory);
     $("#dlib-nav-category-computer").on("click", { category: '计算机' }, onClickCategory);
     $("#dlib-nav-category-cartoon").on("click", { category: '漫画' }, onClickCategory);
-    $("#dlib-nav-category-analysis").on("click", { link: meta.host + 'analysis' }, openNewWindowV3);
+    $("#dlib-nav-category-analysis").on("click", { link: meta.host + 'analysis/' +  localMem.user}, openNewWindowV3);
 
-    $('#dlib-header-filter-add-new').on('click', {link: meta.host + 'read/new'}, openNewWindowV3);
+    $('#dlib-header-filter-add-new').on('click', { link: meta.host + 'read/new' }, openNewWindowV3);
     $('#dlib-header-filter-local-batch').on('click', loadKindleLocally);
 
     for (var index = 1; index <= 10; index++) {
         $("#page_" + index).on("click", { pageNo: index }, onClickPage);
     }
+
+    document.cookie = "dbooklib_current_user="+localMem.user+"; path=/";
 
 });

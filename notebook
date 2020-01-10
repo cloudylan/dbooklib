@@ -15,4 +15,11 @@ OK - 数据备份
 
 
 conda install -n cloudylib -c conda-forge selenium
-mongodump -d librarydb -o /Users/cloudy/Data/dlibrary/backu
+mongodump -d librarydb -o /Users/cloudy/Data/dlibrary/backup
+
+mongoexport -d librarydb -c user_read_info -o /Users/cloudy/Data/dlibrary/export/librarydb/user_read_info.json
+mongoexport -d librarydb -c user_read_info_jing -o /Users/cloudy/Data/dlibrary/export/librarydb/user_read_info_jing.json
+
+mongoimport --db librarydb --collection user_read_info --file /Users/cloudy/Data/dlibrary/export/librarydb/user_read_info_jing.json
+
+mongoimport --db librarydb --collection user_read_info_jing --file /Users/cloudy/Data/dlibrary/export/librarydb/user_read_info_jing.json
