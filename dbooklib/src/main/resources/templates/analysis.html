@@ -35,7 +35,7 @@
             margin-right: 2em;
         }
 
-        .dlib-analysis-authors{
+        .dlib-analysis-authors {
             margin-top: 1em;
             margin-right: 4%;
             width: 80%;
@@ -105,34 +105,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="card mb-3 dlib-analysis-author">
-                        <div class="row no-gutters">
-                            <div class="col-md-5">
-                                <img src="http://localhost/pics/author/neilgaiman.jpg" class="card-img" alt="...">
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body">
-                                    <h6 class="card-title">尼尔·盖曼</h6>
-                                    <p class="card-text"><small class="text-muted">5</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3 dlib-analysis-author">
-                        <div class="row no-gutters">
-                            <div class="col-md-5">
-                                <img src="http://localhost/pics/author/liucixin.jpg" class="card-img" alt="...">
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body">
-                                    <h6 class="card-title">刘慈欣</h6>
-                                    <p class="card-text"><small class="text-muted">4</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div> -->
             </div>
         </div>
@@ -163,28 +135,28 @@
                 var name = cname + "=";
                 var decodedCookie = decodeURIComponent(document.cookie);
                 var ca = decodedCookie.split(';');
-                for(var i = 0; i <ca.length; i++) {
+                for (var i = 0; i < ca.length; i++) {
                     var c = ca[i];
                     while (c.charAt(0) == ' ') {
                         c = c.substring(1);
-                        }
+                    }
                     if (c.indexOf(name) == 0) {
                         return c.substring(name.length, c.length);
                     }
                 }
                 return "dylan";
-            } 
+            }
 
             const initPage = () => {
                 $('#dlib-analysis-author-tops').hide()
                 meta.current_user = getCookie('dbooklib_current_user')
-                meta.year_base = meta.current_user == 'dylan' ? 2000 : 2019
-                $('a.navbar-brand span').html(meta.current_user.toUpperCase()+' 的阅读数据')
+                meta.year_base = meta.current_user == 'dylan' ? 2001 : 2019
+                $('a.navbar-brand span').html(meta.current_user.toUpperCase() + ' 的阅读数据')
             }
 
             initPage()
 
-            $.ajax(meta.host + 'rest/analysis/year/'+meta.current_user, {
+            $.ajax(meta.host + 'rest/analysis/year/' + meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: {
@@ -209,9 +181,6 @@
                         title: {
                             text: '读书年分布'
                         },
-                        // subtitle: {
-                        //     text: 'Source: WorldClimate.com'
-                        // },
                         xAxis: {
                             categories: meta.yearLabels,
                             crosshair: true
@@ -241,7 +210,7 @@
                 }
             })
 
-            $.ajax(meta.host + 'rest/analysis/category/'+meta.current_user, {
+            $.ajax(meta.host + 'rest/analysis/category/' + meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: { "Content-Type": "application/json" },
@@ -250,24 +219,19 @@
                     var tYear = myDate.getFullYear();
                     var dividence = tYear - meta.year_base
                     console.log(dividence + ' years of historical data.')
-                    var maxValue = 0
-
+ 
                     $content = JSON.parse(response)
                     var current_year = $content[String(tYear)]
                     var previous_year = $content[String(tYear - 1)]
                     var history = $content['history']
 
-                    var all_type = []
-                    var history_count = [0, 0, 0, 0, 0]
+                    var all_type = ['历史', '文学', '漫画', '计算机', '论述']
+                    var history_count = [0.0, 0.0, 0.0, 0.0, 0.0]
                     var current_year_count = [0, 0, 0, 0, 0]
                     var previous_year_count = [0, 0, 0, 0, 0]
 
-                    var loopData = (category_data, target_count) => {
+                    const loopData = (category_data, target_count) => {
                         for (var j = 0; j < category_data.length; j++) {
-                            if (category_data[j].count > maxValue)
-                                maxValue = category_data[j].count
-
-                            // console.log(category_data[j]._id )
                             if (category_data[j]._id == '历史')
                                 target_count[0] = category_data[j].count
                             else if (category_data[j]._id == '文学')
@@ -281,11 +245,19 @@
                         }
                     }
 
-                    for (var i = 0; i < history.length; i++) {
-                        all_type[i] = history[i]._id
-                        history_count[i] = history[i].count / dividence
-                        if (history_count[i] > maxValue)
-                            maxValue = history_count[i]
+
+                    for (var j = 0; j < history.length; j++) {
+                        var cnt = parseFloat(new Number(history[j].count / dividence).toFixed(1))
+                        if (history[j]._id == '历史')
+                            history_count[0] = cnt
+                        else if (history[j]._id == '文学')
+                            history_count[1] = cnt
+                        else if (history[j]._id == '漫画')
+                            history_count[2] = cnt
+                        else if (history[j]._id == '计算机')
+                            history_count[3] = cnt
+                        else if (history[j]._id == '论述')
+                            history_count[4] = cnt
                     }
 
                     loopData(current_year, current_year_count)
@@ -373,7 +345,7 @@
                 }
             })
 
-            $.ajax(meta.host + 'rest/analysis/author/'+meta.current_user, {
+            $.ajax(meta.host + 'rest/analysis/author/' + meta.current_user, {
                 method: 'GET',
                 dataType: 'html',
                 headers: {
@@ -397,16 +369,16 @@
 
             $("#user_dylan").change(function () {
                 meta.current_user = 'dylan'
-                document.cookie = "dbooklib_current_user="+meta.current_user+"; path=/";
-                window.location.href='/dbooklib/analysis/dylan'
-                window.location.reload;     
+                document.cookie = "dbooklib_current_user=" + meta.current_user + "; path=/";
+                window.location.href = '/dbooklib/analysis/dylan'
+                window.location.reload;
             })
 
             $("#user_jing").change(function () {
                 meta.current_user = 'jing'
-                document.cookie = "dbooklib_current_user="+meta.current_user+"; path=/";
-                window.location.href='/dbooklib/analysis/jing'
-                window.location.reload;   
+                document.cookie = "dbooklib_current_user=" + meta.current_user + "; path=/";
+                window.location.href = '/dbooklib/analysis/jing'
+                window.location.reload;
             })
         })
 

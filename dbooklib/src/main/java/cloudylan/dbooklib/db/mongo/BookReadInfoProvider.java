@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -265,8 +266,12 @@ public class BookReadInfoProvider {
 	public Map<String, List<Document>> getStatisticsByCatetory(String user, List<String> years) {
 		Map<String, List<Document>> retVal = new HashMap<String, List<Document>>();
 
+		String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 		List<Document> states = new ArrayList<Document>();
-		Document queryHistory = new Document("year", new Document("$regex", "(19|20)\\d{2}")).append("user", user);
+		Document notCurrentYear = new Document("year", new Document("$ne", currentYear));
+		Document allYear =  new Document("year", new Document("$regex", "(19|20)\\d{2}"));
+		Document[] queryArray = {allYear, notCurrentYear};
+		Document queryHistory = new Document("$and", Arrays.asList(queryArray)).append("user", user);
 		Document pipeHistoryMatch = new Document("$match", queryHistory);
 		Document pipeHistoryGroup = new Document("$group",
 				new Document("_id", "$type").append("count", new Document("$sum", 1)));
