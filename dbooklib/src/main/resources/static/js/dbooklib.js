@@ -103,7 +103,7 @@ $(function () {
 
     var loadKindleLocally = () => {
         console.log("batch adding.")
-        url = meta.host + 'rest/read/load'
+        url = meta.host + 'rest/read/load/'+ 'dylan'
 
         $.ajax(url, {
             dataType: "html",

@@ -21,7 +21,7 @@ public class BookListServiceTest extends TestCase {
 	public void testLocalBookGet()
 	{
 		System.out.println(this.service.getBookFileList());
-		Document doc = this.service.loadBookInfos();
+		Document doc = this.service.loadBookInfos("dylan");
 		System.out.print(doc);
 	}
 }

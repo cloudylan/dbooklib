@@ -187,7 +187,7 @@ public class BookReadInfoProvider {
 		for (BookReadInfo info : readInfos) {
 			Document toInsert = new Document("type", info.getCategory()).append("name", info.getName())
 					.append("year", info.getDate()).append("source", info.getSource())
-					.append("author", info.getAuthor()).append("description", info.getDescription());
+					.append("author", info.getAuthor()).append("user", info.getUser()).append("description", info.getDescription());
 
 			if (isNew) {
 				toInsert.append("isNew", true);

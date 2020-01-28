@@ -89,10 +89,10 @@ public class BookRestController {
 	/**
 	 * This operation proceeds batch reading info for local kindle files.
 	 */
-	@RequestMapping(value = "/read/load", method = RequestMethod.GET)
+	@RequestMapping(value = "/read/load/{user}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Document> loadReadInfos() {
-		Document doc = this.bookService.loadBookInfos();
+	public ResponseEntity<Document> loadReadInfos(@PathVariable String user) {
+		Document doc = this.bookService.loadBookInfos(user);
 		return new ResponseEntity<Document>(doc,
 				doc.getBoolean("isSuccessful") ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
 	}

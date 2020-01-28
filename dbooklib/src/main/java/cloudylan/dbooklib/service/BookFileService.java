@@ -52,12 +52,12 @@ public class BookFileService {
 				.collect(Collectors.toList());
 	}
 
-	public Document loadBookInfos() {
+	public Document loadBookInfos(String user) {
 		List<String> fileNameList = this.getBookList();
 		Document doc = null;
 
 		if (!fileNameList.isEmpty()) {
-			doc = this.addReadInfos(fileNameList, KINDLE, true);
+			doc = this.addReadInfos(fileNameList, KINDLE, true, user);
 		} else {
 			doc = new Document("updateSuccessful", false);
 			doc.append("fileArchived", false).append("isSuccessful", true).append("updatedNumber", 0);
@@ -71,7 +71,7 @@ public class BookFileService {
 		return bookFileList.stream().map(nm -> new BookFile(nm)).collect(Collectors.toList());
 	}
 
-	public Document addReadInfos(List<String> bookNames, String source, boolean isNew) {
+	public Document addReadInfos(List<String> bookNames, String source, boolean isNew, String user) {
 		boolean isSuccessfull = false;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		List<BookReadInfo> infos = new ArrayList<BookReadInfo>();
@@ -82,6 +82,7 @@ public class BookFileService {
 			String newName = name.replaceFirst(REMOVE_NAME, "");
 			info.setName(newName.replaceFirst(REMOVE_MOBI, "").replaceFirst(REMOVE_AZW3, "").trim());
 			info.setSource(source);
+			info.setUser(user);
 			info.setDescription(
 					new StringBuffer("Kindle 添加日期").append(sdf.format(Calendar.getInstance().getTime())).toString());
 			infos.add(info);
